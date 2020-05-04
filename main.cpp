@@ -25,13 +25,55 @@ int getOption(int numOptions){
     return option;
 }
 
+void planeamentoRota(){
+    int option;
+
+    while(1){
+        cout << "#################################\n"
+             << "   MENU DE PLANEAMENTO DE ROTA "
+             << "\n#################################\n";
+
+        cout << "\n1) Entrega de uma Encomenda por um Estafeta;"
+             << "\n2) Entrega de varias Encomendas por um Estafeta;"
+             << "\n3) Entrega de varias Encomendas por varios Estafetas;"
+             << "\n4) Voltar ao Menu Anterior;"
+             << "\n0) Sair;";
+
+        option = getOption(4);
+
+        switch(option){
+            case 1:
+                cout << "\nEntrega de uma Encomenda por um Estafeta...\n\n";
+                break;
+            case 2:
+                cout << "\nEntrega de varias Encomendas por um Estafeta...\n\n";
+                break;
+            case 3:
+                cout << "\nEntrega de varias Encomendas por varios Estafetas...\n\n";
+                break;
+            case 4:
+                cout << "\nMenu Anterior...\n\n";
+                return;
+            case 0:
+                cout << "\nExiting...!\n\n";
+                exit(0);
+            default:
+                cout << "\nInvalid!\n\n";
+        }
+    }
+}
+
+void visualizacaoMapaMenu(){
+
+}
+
 void mainMenu(){
     int option;
 
     while(1){
-        cout << "########################\n"
-             << "       MAIN MENU       "
-             << "\n########################\n";
+        cout << "############################\n"
+             << "       MENU PRINCIPAL       "
+             << "\n############################\n";
 
         cout << "\n1) Planear Rota;"
              << "\n2) Visualizar Mapa;"
@@ -42,9 +84,11 @@ void mainMenu(){
         switch(option){
             case 1:
                 cout << "\nPlaneamento de Rota...\n\n";
+                planeamentoRota();
                 break;
             case 2:
                 cout << "\nVisualizacao Mapa...\n\n";
+                visualizacaoMapaMenu();
                 break;
             case 0:
                 cout << "\nExiting...!\n\n";
