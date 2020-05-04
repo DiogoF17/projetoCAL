@@ -7,6 +7,8 @@ CMakeFiles/projeto.dir/lib/connection.cpp.o: ../lib/connection.h
 CMakeFiles/projeto.dir/lib/graphviewer.cpp.o: ../lib/graphviewer.cpp
 CMakeFiles/projeto.dir/lib/graphviewer.cpp.o: ../lib/graphviewer.h
 
+CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/connection.h
+CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/edgetype.h
 CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/graphviewer.h
 CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/main.cpp
 

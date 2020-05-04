@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/diogo/Documentos/CAL/projeto/lib/connection.cpp
-connection.h
-/home/diogo/Documentos/CAL/projeto/lib/connection.h
-
 /home/diogo/Documentos/CAL/projeto/lib/connection.h
 cstdio
 -
@@ -30,5 +26,35 @@ winsock2.h
 string
 -
 iostream
+-
+
+/home/diogo/Documentos/CAL/projeto/lib/edgetype.h
+
+/home/diogo/Documentos/CAL/projeto/lib/graphviewer.h
+unistd.h
+-
+winsock2.h
+-
+Windows.h
+-
+stdlib.h
+-
+signal.h
+-
+string
+-
+edgetype.h
+/home/diogo/Documentos/CAL/projeto/lib/edgetype.h
+connection.h
+/home/diogo/Documentos/CAL/projeto/lib/connection.h
+
+/home/diogo/Documentos/CAL/projeto/lib/main.cpp
+iostream
+-
+fstream
+-
+graphviewer.h
+/home/diogo/Documentos/CAL/projeto/lib/graphviewer.h
+vector
 -
 

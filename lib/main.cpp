@@ -35,9 +35,35 @@ int getOption(int numOptions){
 //-------------------FUNCOES RELACIONADAS COM MAPA-------------------
 
 void carregarNovoMapa(int map){
-    /*ifstream entrada;
-    entrada.open("../resources/");*/
     cout << "\nCarregando Novo Mapa de " << mapas[map] << "...\n\n";
+
+    string fileName = "../resources/PortugalMaps/PortugalMaps/" + mapas[map] + "/nodes_x_y_" + mapas[map] + ".txt";
+
+    ifstream entrada;
+    entrada.open(fileName);
+
+    if(!entrada.is_open()){
+        cout << "Erro na Abertura do Ficheiro!\n\n";
+        return;
+    }
+
+    string aux;
+
+    getline(entrada, aux);
+    while(getline(entrada, aux, '(')){
+        getline(entrada, aux, ',');
+        int id = stoi(aux);
+
+        getline(entrada, aux, ',');
+        double x = stod(aux);
+
+        getline(entrada, aux, ')');
+        double y = stod(aux);
+
+        cout << "id: " << id << " / x: " << x << " / y: " << y << endl;
+    }
+
+    cout << endl;
 }
 
 void visualizacaoMapa(){
@@ -133,7 +159,7 @@ void carregarNovoMapaMenu(){
     }
 }
 
-void mainMenu(){
+void menuPrincipal(){
     int option;
 
     while(1){
@@ -174,7 +200,7 @@ void mainMenu(){
 
 int main(){
 
-    mainMenu();
+    menuPrincipal();
 
     return 0;
 }
