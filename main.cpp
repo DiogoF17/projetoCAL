@@ -41,15 +41,16 @@ void mainMenu(){
 
         switch(option){
             case 1:
-                cout << "Planeamento de Rota...\n";
+                cout << "\nPlaneamento de Rota...\n\n";
                 break;
             case 2:
-                cout << "Visualizacao Mapa...\n";
+                cout << "\nVisualizacao Mapa...\n\n";
                 break;
             case 0:
+                cout << "\nExiting...!\n\n";
                 return;
             default:
-                cout << "Invalid!\n";
+                cout << "\nInvalid!\n\n";
         }
     }
 }
