@@ -57,30 +57,60 @@ include CMakeFiles/projeto.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/projeto.dir/flags.make
 
-CMakeFiles/projeto.dir/main.cpp.o: CMakeFiles/projeto.dir/flags.make
-CMakeFiles/projeto.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/projeto.dir/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/projeto.dir/main.cpp.o -c /home/diogo/Documentos/CAL/projeto/main.cpp
+CMakeFiles/projeto.dir/lib/main.cpp.o: CMakeFiles/projeto.dir/flags.make
+CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/projeto.dir/lib/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/projeto.dir/lib/main.cpp.o -c /home/diogo/Documentos/CAL/projeto/lib/main.cpp
 
-CMakeFiles/projeto.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/projeto.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diogo/Documentos/CAL/projeto/main.cpp > CMakeFiles/projeto.dir/main.cpp.i
+CMakeFiles/projeto.dir/lib/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/projeto.dir/lib/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diogo/Documentos/CAL/projeto/lib/main.cpp > CMakeFiles/projeto.dir/lib/main.cpp.i
 
-CMakeFiles/projeto.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/projeto.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diogo/Documentos/CAL/projeto/main.cpp -o CMakeFiles/projeto.dir/main.cpp.s
+CMakeFiles/projeto.dir/lib/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/projeto.dir/lib/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diogo/Documentos/CAL/projeto/lib/main.cpp -o CMakeFiles/projeto.dir/lib/main.cpp.s
+
+CMakeFiles/projeto.dir/lib/graphviewer.cpp.o: CMakeFiles/projeto.dir/flags.make
+CMakeFiles/projeto.dir/lib/graphviewer.cpp.o: ../lib/graphviewer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/projeto.dir/lib/graphviewer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/projeto.dir/lib/graphviewer.cpp.o -c /home/diogo/Documentos/CAL/projeto/lib/graphviewer.cpp
+
+CMakeFiles/projeto.dir/lib/graphviewer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/projeto.dir/lib/graphviewer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diogo/Documentos/CAL/projeto/lib/graphviewer.cpp > CMakeFiles/projeto.dir/lib/graphviewer.cpp.i
+
+CMakeFiles/projeto.dir/lib/graphviewer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/projeto.dir/lib/graphviewer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diogo/Documentos/CAL/projeto/lib/graphviewer.cpp -o CMakeFiles/projeto.dir/lib/graphviewer.cpp.s
+
+CMakeFiles/projeto.dir/lib/connection.cpp.o: CMakeFiles/projeto.dir/flags.make
+CMakeFiles/projeto.dir/lib/connection.cpp.o: ../lib/connection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/projeto.dir/lib/connection.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/projeto.dir/lib/connection.cpp.o -c /home/diogo/Documentos/CAL/projeto/lib/connection.cpp
+
+CMakeFiles/projeto.dir/lib/connection.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/projeto.dir/lib/connection.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diogo/Documentos/CAL/projeto/lib/connection.cpp > CMakeFiles/projeto.dir/lib/connection.cpp.i
+
+CMakeFiles/projeto.dir/lib/connection.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/projeto.dir/lib/connection.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diogo/Documentos/CAL/projeto/lib/connection.cpp -o CMakeFiles/projeto.dir/lib/connection.cpp.s
 
 # Object files for target projeto
 projeto_OBJECTS = \
-"CMakeFiles/projeto.dir/main.cpp.o"
+"CMakeFiles/projeto.dir/lib/main.cpp.o" \
+"CMakeFiles/projeto.dir/lib/graphviewer.cpp.o" \
+"CMakeFiles/projeto.dir/lib/connection.cpp.o"
 
 # External object files for target projeto
 projeto_EXTERNAL_OBJECTS =
 
-projeto: CMakeFiles/projeto.dir/main.cpp.o
+projeto: CMakeFiles/projeto.dir/lib/main.cpp.o
+projeto: CMakeFiles/projeto.dir/lib/graphviewer.cpp.o
+projeto: CMakeFiles/projeto.dir/lib/connection.cpp.o
 projeto: CMakeFiles/projeto.dir/build.make
 projeto: CMakeFiles/projeto.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable projeto"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable projeto"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/projeto.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

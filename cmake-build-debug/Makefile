@@ -123,32 +123,86 @@ projeto/fast:
 	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/build
 .PHONY : projeto/fast
 
-main.o: main.cpp.o
+lib/connection.o: lib/connection.cpp.o
 
-.PHONY : main.o
+.PHONY : lib/connection.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/main.cpp.o
-.PHONY : main.cpp.o
+lib/connection.cpp.o:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/connection.cpp.o
+.PHONY : lib/connection.cpp.o
 
-main.i: main.cpp.i
+lib/connection.i: lib/connection.cpp.i
 
-.PHONY : main.i
+.PHONY : lib/connection.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/main.cpp.i
-.PHONY : main.cpp.i
+lib/connection.cpp.i:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/connection.cpp.i
+.PHONY : lib/connection.cpp.i
 
-main.s: main.cpp.s
+lib/connection.s: lib/connection.cpp.s
 
-.PHONY : main.s
+.PHONY : lib/connection.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/main.cpp.s
-.PHONY : main.cpp.s
+lib/connection.cpp.s:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/connection.cpp.s
+.PHONY : lib/connection.cpp.s
+
+lib/graphviewer.o: lib/graphviewer.cpp.o
+
+.PHONY : lib/graphviewer.o
+
+# target to build an object file
+lib/graphviewer.cpp.o:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/graphviewer.cpp.o
+.PHONY : lib/graphviewer.cpp.o
+
+lib/graphviewer.i: lib/graphviewer.cpp.i
+
+.PHONY : lib/graphviewer.i
+
+# target to preprocess a source file
+lib/graphviewer.cpp.i:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/graphviewer.cpp.i
+.PHONY : lib/graphviewer.cpp.i
+
+lib/graphviewer.s: lib/graphviewer.cpp.s
+
+.PHONY : lib/graphviewer.s
+
+# target to generate assembly for a file
+lib/graphviewer.cpp.s:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/graphviewer.cpp.s
+.PHONY : lib/graphviewer.cpp.s
+
+lib/main.o: lib/main.cpp.o
+
+.PHONY : lib/main.o
+
+# target to build an object file
+lib/main.cpp.o:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/main.cpp.o
+.PHONY : lib/main.cpp.o
+
+lib/main.i: lib/main.cpp.i
+
+.PHONY : lib/main.i
+
+# target to preprocess a source file
+lib/main.cpp.i:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/main.cpp.i
+.PHONY : lib/main.cpp.i
+
+lib/main.s: lib/main.cpp.s
+
+.PHONY : lib/main.s
+
+# target to generate assembly for a file
+lib/main.cpp.s:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/main.cpp.s
+.PHONY : lib/main.cpp.s
 
 # Help Target
 help:
@@ -159,9 +213,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... projeto"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... lib/connection.o"
+	@echo "... lib/connection.i"
+	@echo "... lib/connection.s"
+	@echo "... lib/graphviewer.o"
+	@echo "... lib/graphviewer.i"
+	@echo "... lib/graphviewer.s"
+	@echo "... lib/main.o"
+	@echo "... lib/main.i"
+	@echo "... lib/main.s"
 .PHONY : help
 
 

@@ -44,6 +44,8 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/home/diogo/Documentos/CAL/projeto/lib"/>
+					<Add directory="/home/diogo/Documentos/CAL/projeto/resources"/>
 					<Add directory="/usr/include/c++/9"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
 					<Add directory="/usr/include/c++/9/backward"/>
@@ -66,6 +68,8 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/home/diogo/Documentos/CAL/projeto/lib"/>
+					<Add directory="/home/diogo/Documentos/CAL/projeto/resources"/>
 					<Add directory="/usr/include/c++/9"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
 					<Add directory="/usr/include/c++/9/backward"/>
@@ -82,7 +86,19 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/diogo/Documentos/CAL/projeto/main.cpp">
+		<Unit filename="/home/diogo/Documentos/CAL/projeto/lib/connection.cpp">
+			<Option target="projeto"/>
+		</Unit>
+		<Unit filename="/home/diogo/Documentos/CAL/projeto/lib/connection.h">
+			<Option target="projeto"/>
+		</Unit>
+		<Unit filename="/home/diogo/Documentos/CAL/projeto/lib/graphviewer.cpp">
+			<Option target="projeto"/>
+		</Unit>
+		<Unit filename="/home/diogo/Documentos/CAL/projeto/lib/graphviewer.h">
+			<Option target="projeto"/>
+		</Unit>
+		<Unit filename="/home/diogo/Documentos/CAL/projeto/lib/main.cpp">
 			<Option target="projeto"/>
 		</Unit>
 		<Unit filename="/home/diogo/Documentos/CAL/projeto/CMakeLists.txt">

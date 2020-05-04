@@ -6,7 +6,29 @@
 
 #IncludeRegexTransform: 
 
-/home/diogo/Documentos/CAL/projeto/main.cpp
+/home/diogo/Documentos/CAL/projeto/lib/connection.cpp
+connection.h
+/home/diogo/Documentos/CAL/projeto/lib/connection.h
+
+/home/diogo/Documentos/CAL/projeto/lib/connection.h
+cstdio
+-
+cstdlib
+-
+cstring
+-
+arpa/inet.h
+-
+sys/socket.h
+-
+sys/types.h
+-
+netdb.h
+-
+winsock2.h
+-
+string
+-
 iostream
 -
 
