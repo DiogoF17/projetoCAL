@@ -2,6 +2,8 @@
 
 using namespace std;
 
+//-------------------FUNCOES DE VALIDACAO-------------------
+
 int getOption(int numOptions){
     int option;
 
@@ -24,6 +26,12 @@ int getOption(int numOptions){
 
     return option;
 }
+
+//-------------------FUNCOES DE VISUALIZACAO DE MAPA-------------------
+
+
+
+//-------------------MENUS-------------------
 
 void planeamentoRota(){
     int option;
@@ -64,7 +72,52 @@ void planeamentoRota(){
 }
 
 void visualizacaoMapaMenu(){
+    int option;
 
+    while(1) {
+        cout << "##################################\n"
+             << "   MENU DE VISUALIZACAO DE MAPA "
+             << "\n##################################\n";
+
+        cout << "\n1) Aveiro;"
+             << "\n2) Braga;"
+             << "\n3) Coimbra;"
+             << "\n4) Ermesinde;"
+             << "\n5) Fafe;"
+             << "\n6) Gondomar;"
+             << "\n7) Lisboa;"
+             << "\n8) Maia;"
+             << "\n9) Porto;"
+             << "\n10) Viseu;"
+             << "\n11) Voltar ao Menu Anterior;"
+             << "\n0) Sair;";
+
+        option = getOption(11);
+
+        switch (option) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+                cout << "\nProduzindo Mapa...\n\n";
+                break;
+            case 11:
+                cout << "\nMenu Anterior...\n\n";
+                return;
+            case 0:
+                cout << "\nExiting...!\n\n";
+                exit(0);
+            default:
+                cout << "\nInvalid!\n\n";
+
+        }
+    }
 }
 
 void mainMenu(){
@@ -98,6 +151,8 @@ void mainMenu(){
         }
     }
 }
+
+//-------------------MAIN-------------------
 
 int main(){
 
