@@ -43,10 +43,10 @@ RM = /snap/clion/112/bin/cmake/linux/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/diogo/Documentos/CAL/projeto
+CMAKE_SOURCE_DIR = /home/diogo/Documentos/CAL/projetoCAL
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/diogo/Documentos/CAL/projeto/cmake-build-debug
+CMAKE_BINARY_DIR = /home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/projeto.dir/depend.make
@@ -59,48 +59,62 @@ include CMakeFiles/projeto.dir/flags.make
 
 CMakeFiles/projeto.dir/lib/main.cpp.o: CMakeFiles/projeto.dir/flags.make
 CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/projeto.dir/lib/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/projeto.dir/lib/main.cpp.o -c /home/diogo/Documentos/CAL/projeto/lib/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/projeto.dir/lib/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/projeto.dir/lib/main.cpp.o -c /home/diogo/Documentos/CAL/projetoCAL/lib/main.cpp
 
 CMakeFiles/projeto.dir/lib/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/projeto.dir/lib/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diogo/Documentos/CAL/projeto/lib/main.cpp > CMakeFiles/projeto.dir/lib/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diogo/Documentos/CAL/projetoCAL/lib/main.cpp > CMakeFiles/projeto.dir/lib/main.cpp.i
 
 CMakeFiles/projeto.dir/lib/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/projeto.dir/lib/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diogo/Documentos/CAL/projeto/lib/main.cpp -o CMakeFiles/projeto.dir/lib/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diogo/Documentos/CAL/projetoCAL/lib/main.cpp -o CMakeFiles/projeto.dir/lib/main.cpp.s
 
 CMakeFiles/projeto.dir/lib/graphviewer.cpp.o: CMakeFiles/projeto.dir/flags.make
 CMakeFiles/projeto.dir/lib/graphviewer.cpp.o: ../lib/graphviewer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/projeto.dir/lib/graphviewer.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/projeto.dir/lib/graphviewer.cpp.o -c /home/diogo/Documentos/CAL/projeto/lib/graphviewer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/projeto.dir/lib/graphviewer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/projeto.dir/lib/graphviewer.cpp.o -c /home/diogo/Documentos/CAL/projetoCAL/lib/graphviewer.cpp
 
 CMakeFiles/projeto.dir/lib/graphviewer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/projeto.dir/lib/graphviewer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diogo/Documentos/CAL/projeto/lib/graphviewer.cpp > CMakeFiles/projeto.dir/lib/graphviewer.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diogo/Documentos/CAL/projetoCAL/lib/graphviewer.cpp > CMakeFiles/projeto.dir/lib/graphviewer.cpp.i
 
 CMakeFiles/projeto.dir/lib/graphviewer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/projeto.dir/lib/graphviewer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diogo/Documentos/CAL/projeto/lib/graphviewer.cpp -o CMakeFiles/projeto.dir/lib/graphviewer.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diogo/Documentos/CAL/projetoCAL/lib/graphviewer.cpp -o CMakeFiles/projeto.dir/lib/graphviewer.cpp.s
 
 CMakeFiles/projeto.dir/lib/connection.cpp.o: CMakeFiles/projeto.dir/flags.make
 CMakeFiles/projeto.dir/lib/connection.cpp.o: ../lib/connection.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/projeto.dir/lib/connection.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/projeto.dir/lib/connection.cpp.o -c /home/diogo/Documentos/CAL/projeto/lib/connection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/projeto.dir/lib/connection.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/projeto.dir/lib/connection.cpp.o -c /home/diogo/Documentos/CAL/projetoCAL/lib/connection.cpp
 
 CMakeFiles/projeto.dir/lib/connection.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/projeto.dir/lib/connection.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diogo/Documentos/CAL/projeto/lib/connection.cpp > CMakeFiles/projeto.dir/lib/connection.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diogo/Documentos/CAL/projetoCAL/lib/connection.cpp > CMakeFiles/projeto.dir/lib/connection.cpp.i
 
 CMakeFiles/projeto.dir/lib/connection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/projeto.dir/lib/connection.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diogo/Documentos/CAL/projeto/lib/connection.cpp -o CMakeFiles/projeto.dir/lib/connection.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diogo/Documentos/CAL/projetoCAL/lib/connection.cpp -o CMakeFiles/projeto.dir/lib/connection.cpp.s
+
+CMakeFiles/projeto.dir/lib/Vertice.cpp.o: CMakeFiles/projeto.dir/flags.make
+CMakeFiles/projeto.dir/lib/Vertice.cpp.o: ../lib/Vertice.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/projeto.dir/lib/Vertice.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/projeto.dir/lib/Vertice.cpp.o -c /home/diogo/Documentos/CAL/projetoCAL/lib/Vertice.cpp
+
+CMakeFiles/projeto.dir/lib/Vertice.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/projeto.dir/lib/Vertice.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/diogo/Documentos/CAL/projetoCAL/lib/Vertice.cpp > CMakeFiles/projeto.dir/lib/Vertice.cpp.i
+
+CMakeFiles/projeto.dir/lib/Vertice.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/projeto.dir/lib/Vertice.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/diogo/Documentos/CAL/projetoCAL/lib/Vertice.cpp -o CMakeFiles/projeto.dir/lib/Vertice.cpp.s
 
 # Object files for target projeto
 projeto_OBJECTS = \
 "CMakeFiles/projeto.dir/lib/main.cpp.o" \
 "CMakeFiles/projeto.dir/lib/graphviewer.cpp.o" \
-"CMakeFiles/projeto.dir/lib/connection.cpp.o"
+"CMakeFiles/projeto.dir/lib/connection.cpp.o" \
+"CMakeFiles/projeto.dir/lib/Vertice.cpp.o"
 
 # External object files for target projeto
 projeto_EXTERNAL_OBJECTS =
@@ -108,9 +122,10 @@ projeto_EXTERNAL_OBJECTS =
 projeto: CMakeFiles/projeto.dir/lib/main.cpp.o
 projeto: CMakeFiles/projeto.dir/lib/graphviewer.cpp.o
 projeto: CMakeFiles/projeto.dir/lib/connection.cpp.o
+projeto: CMakeFiles/projeto.dir/lib/Vertice.cpp.o
 projeto: CMakeFiles/projeto.dir/build.make
 projeto: CMakeFiles/projeto.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable projeto"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable projeto"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/projeto.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -123,6 +138,6 @@ CMakeFiles/projeto.dir/clean:
 .PHONY : CMakeFiles/projeto.dir/clean
 
 CMakeFiles/projeto.dir/depend:
-	cd /home/diogo/Documentos/CAL/projeto/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/diogo/Documentos/CAL/projeto /home/diogo/Documentos/CAL/projeto /home/diogo/Documentos/CAL/projeto/cmake-build-debug /home/diogo/Documentos/CAL/projeto/cmake-build-debug /home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles/projeto.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/diogo/Documentos/CAL/projetoCAL /home/diogo/Documentos/CAL/projetoCAL /home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug /home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug /home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/CMakeFiles/projeto.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/projeto.dir/depend
 
