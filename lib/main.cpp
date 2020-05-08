@@ -46,17 +46,36 @@ double calculateDist(Vertice orig, Vertice dest){
 
 GraphViewer* buildGraphViewer(Graph<Vertice> *graph){
     GraphViewer *graphViewer = new GraphViewer(1000, 1000, false);
+    graphViewer->createWindow(1000, 1000);
 
     vector<Vertex<Vertice>*> vertices = graph->getVertexSet();
 
-    for(int i = 0; i < vertices.size(); i++) {
-        int id = vertices.at(i)->getInfo().getId();
-        int x = vertices.at(i)->getInfo().getX();
-        int y = vertices.at(i)->getInfo().getY();
+    graphViewer->defineVertexColor("green");
 
-        graphViewer->addNode(id, x, y);
-        graphViewer->rearrange();
+    for(int i = 0; i < vertices.size(); i++) {
+        if(vertices.at(i)->getInfo().getTipo() == RESTAURANTE) {
+            graphViewer->addNode(vertices.at(i)->getInfo().getId(),
+                                 vertices.at(i)->getInfo().getDisplayX(),
+                                 vertices.at(i)->getInfo().getDisplayY());
+            cout << "x: " << vertices.at(i)->getInfo().getDisplayX() << " / y: " << vertices.at(i)->getInfo().getDisplayY() << endl;
+        }
     }
+
+    cout << endl;
+
+    graphViewer->defineVertexColor("red");
+
+    for(int i = 0; i < vertices.size(); i++) {
+        if(vertices.at(i)->getInfo().getTipo() == CLIENTE) {
+            graphViewer->addNode(vertices.at(i)->getInfo().getId(),
+                                 vertices.at(i)->getInfo().getDisplayX(),
+                                 vertices.at(i)->getInfo().getDisplayY());
+
+            cout << "x: " << vertices.at(i)->getInfo().getDisplayX() << " / y: " << vertices.at(i)->getInfo().getDisplayY() << endl;
+        }
+    }
+
+    graphViewer->rearrange();
 
     int id = 0;
 
@@ -72,11 +91,11 @@ GraphViewer* buildGraphViewer(Graph<Vertice> *graph){
         }
     }*/
 
-    graphViewer->createWindow(1000, 1000);
-
     sleep(5);
 
     cout << "Fechando...\n\n";
+
+    graphViewer->closeWindow();
 
     return graphViewer;
 }
@@ -99,7 +118,7 @@ void carregarNovoMapa(int map, Graph<Vertice> *graph){
     }
 
     string aux;
-    int numVertLidos = 0, numArestasLidas = 0;
+    int numVertLidos = 0, numArestasLidas = 0, numRestLidos = 0, numClienLidos = 0;
 
     cout << "Lendo Vertices...\n";
 
@@ -155,9 +174,57 @@ void carregarNovoMapa(int map, Graph<Vertice> *graph){
         numArestasLidas++;
     }
 
-    cout << "Arestas Lidas: " << numArestasLidas << "!\n";
+    entrada.close();
 
-    cout << endl;
+    cout << "Arestas Lidas: " << numArestasLidas << "!\n\n";
+
+    fileName = "../resources/PortugalMaps/PortugalMaps/" + mapas[map] + "/restaurantes_" + mapas[map] + ".txt";
+
+    entrada.open(fileName);
+
+    if(!entrada.is_open()){
+        cout << "Erro na Abertura do Ficheiro!\n\n";
+        return;
+    }
+
+    cout << "Lendo Restaurantes...\n";
+
+    while(getline(entrada, aux)){
+        int id = stoi(aux);
+
+        Vertex<Vertice> *vertice = graph->findVertex(Vertice(id));
+        vertice->getInfo().setTipo(RESTAURANTE),
+
+        numRestLidos++;
+    }
+
+    entrada.close();
+
+    cout << "Restaurantes Lidos: " << numRestLidos << "!\n\n";
+
+    fileName = "../resources/PortugalMaps/PortugalMaps/" + mapas[map] + "/clientes_" + mapas[map] + ".txt";
+
+    entrada.open(fileName);
+
+    if(!entrada.is_open()){
+        cout << "Erro na Abertura do Ficheiro!\n\n";
+        return;
+    }
+
+    cout << "Lendo Clientes...\n";
+
+    while(getline(entrada, aux)){
+        int id = stoi(aux);
+
+        Vertex<Vertice> *vertice = graph->findVertex(Vertice(id));
+        vertice->getInfo().setTipo(CLIENTE),
+
+        numClienLidos++;
+    }
+
+    entrada.close();
+
+    cout << "Clientes Lidos: " << numClienLidos << "!\n\n";
 }
 
 void visualizacaoMapa(Graph<Vertice> *graph){
@@ -169,8 +236,6 @@ void visualizacaoMapa(Graph<Vertice> *graph){
     cout << "Mapa de " << graph->getLugar() << "!\n\n";
 
     buildGraphViewer(graph);
-
-
 
 }
 

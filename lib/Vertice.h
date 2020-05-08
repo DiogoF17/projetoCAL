@@ -10,18 +10,24 @@ enum Tipo{RESTAURANTE, CLIENTE, INTERSECAO};
 class Vertice {
     int id;
 
-    int x;
-    int y;
+    double x;
+    double y;
+
+    double displayX;
+    double displayY;
 
     Tipo tipo;
 
 public:
     Vertice(int id); //so nos interessa usar este construtor no findVertex
-    Vertice(int id, int x, int y);
+    Vertice(int id, double x, double y);
 
     int getId() const;
-    int getX() const;
-    int getY() const;
+    double getX() const;
+    double getY() const;
+
+    double getDisplayX() const;
+    double getDisplayY() const;
 
     Tipo getTipo() const;
 
