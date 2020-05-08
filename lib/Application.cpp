@@ -11,6 +11,8 @@ Application::Application() {
     this->graphViewer = NULL;
 }
 
+//-------FUNCOES RELACIONADAS COM OS MAPAS-------
+
 double Application::calculateDist(Vertice orig, Vertice dest){
     int x1 = orig.getX(), x2 = dest.getY();
     int y1 = orig.getY(), y2 = dest.getY();
@@ -210,5 +212,42 @@ void Application::visualizacaoMapa() const {
     cout << "Mapa de " << graph->getLugar() << "!\n\n";
 
     graphViewer->createWindow(1000, 1000);
+
+}
+
+//-------FUNCOES RELACIONADAS COM OS ESTAFETAS----
+
+void Application::leEstafetas() {
+    string fileName = "../resources/estafetas.txt";
+
+    ifstream entrada;
+    entrada.open(fileName);
+
+    if(!entrada.is_open()){
+        cout << "Erro na Abertura do Ficheiro!\n\n";
+        return;
+    }
+
+    string aux;
+
+    while(getline(entrada, aux)){
+        string veiculo = aux;
+
+        getline(entrada, aux);
+        double alcance = stod(aux);
+
+        getline(entrada, aux);
+        int capacidade = stoi(aux);
+
+        getline(entrada, aux);
+
+        estafetas.push_back(new Estafeta(veiculo, alcance, capacidade));
+    }
+}
+
+void Application::visualizacaoEstafetas() const {
+    cout << "----------------------------\n"
+         << "       ESTAFETAS INFO      \n"
+         << "----------------------------\n";
 
 }

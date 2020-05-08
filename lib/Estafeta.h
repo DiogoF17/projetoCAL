@@ -5,6 +5,9 @@
 #ifndef UNTITLED_ESTAFETA_H
 #define UNTITLED_ESTAFETA_H
 
+#include <string>
+#include "Trajeto.h"
+
 enum Veiculo{NENHUM, BICICLETA, MOTA, CARRO};
 
 class Estafeta {
@@ -15,8 +18,10 @@ class Estafeta {
 
     bool disponibilidade;
 
+    vector<Trajeto*> trajetos;
+
 public:
-    Estafeta(Veiculo veiculo, double alcance, int capacidade);
+    Estafeta(string veiculo, double alcance, int capacidade);
 
     Veiculo getVeiculo() const;
     double getAlcance() const;

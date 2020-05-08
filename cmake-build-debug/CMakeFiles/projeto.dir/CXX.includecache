@@ -25,9 +25,15 @@ graphviewer.h
 /home/diogo/Documentos/CAL/projetoCAL/lib/graphviewer.h
 
 /home/diogo/Documentos/CAL/projetoCAL/lib/Estafeta.h
+string
+-
+Trajeto.h
+/home/diogo/Documentos/CAL/projetoCAL/lib/Trajeto.h
 
 /home/diogo/Documentos/CAL/projetoCAL/lib/Graph.h
 vector
+-
+string
 -
 queue
 -
@@ -45,6 +51,12 @@ Vertice.h
 /home/diogo/Documentos/CAL/projetoCAL/lib/MutablePriorityQueue.h
 vector
 -
+
+/home/diogo/Documentos/CAL/projetoCAL/lib/Trajeto.h
+Vertice.h
+/home/diogo/Documentos/CAL/projetoCAL/lib/Vertice.h
+Graph.h
+/home/diogo/Documentos/CAL/projetoCAL/lib/Graph.h
 
 /home/diogo/Documentos/CAL/projetoCAL/lib/Vertice.h
 
@@ -89,4 +101,20 @@ edgetype.h
 /home/diogo/Documentos/CAL/projetoCAL/lib/edgetype.h
 connection.h
 /home/diogo/Documentos/CAL/projetoCAL/lib/connection.h
+
+/home/diogo/Documentos/CAL/projetoCAL/lib/main.cpp
+iostream
+-
+fstream
+-
+vector
+-
+graphviewer.h
+/home/diogo/Documentos/CAL/projetoCAL/lib/graphviewer.h
+Graph.h
+/home/diogo/Documentos/CAL/projetoCAL/lib/Graph.h
+Vertice.h
+/home/diogo/Documentos/CAL/projetoCAL/lib/Vertice.h
+Application.h
+/home/diogo/Documentos/CAL/projetoCAL/lib/Application.h
 

@@ -28,6 +28,8 @@ public:
     void carregarNovoMapa(string map);
     void visualizacaoMapa() const;
 
+    void leEstafetas();
+    void visualizacaoEstafetas() const;
 };
 
 

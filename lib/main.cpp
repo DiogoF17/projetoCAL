@@ -35,6 +35,13 @@ int getOption(int numOptions){
 
     return option;
 }
+
+//-------------------FUNCOES RELACIONADAS COM ESTAFETAS-------------------
+
+void visualizacaoEstafetas(Application *application){
+    application->visualizacaoEstafetas();
+}
+
 //-------------------FUNCOES RELACIONADAS COM MAPA-------------------
 
 void carregarNovoMapa(int map, Application *application){
@@ -132,9 +139,10 @@ void menuPrincipal(Application *application){
         cout << "\n1) Carregar Novo Mapa;"
              << "\n2) Visualizar Mapa;"
              << "\n3) Planear Rota;"
+             << "\n4) Ver Estafetas Info;"
              << "\n0) Sair;";
 
-        option = getOption(3);
+        option = getOption(4);
 
         switch(option){
             case 1:
@@ -149,6 +157,10 @@ void menuPrincipal(Application *application){
                 cout << "\nPlaneamento de Rota...\n\n";
                 planeamentoRota(application);
                 break;
+            case 4:
+                cout << "\nVisualizacao de Estafetas...\n\n";
+                visualizacaoEstafetas(application);
+                break;
             case 0:
                 cout << "\nSaindo...!\n\n";
                 return;
@@ -162,9 +174,8 @@ void menuPrincipal(Application *application){
 
 int main(){
 
-    Graph<Vertice> *graph = new Graph<Vertice>();
-
     Application *application = new Application();
+    application->leEstafetas();
 
     menuPrincipal(application);
 

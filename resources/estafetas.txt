@@ -1,0 +1,16 @@
+nenhum
+10
+1
+---
+bicicleta
+20
+1
+---
+mota
+inf
+3
+---
+carro
+inf
+5
+---

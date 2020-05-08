@@ -177,6 +177,33 @@ lib/Estafeta.cpp.s:
 	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Estafeta.cpp.s
 .PHONY : lib/Estafeta.cpp.s
 
+lib/Trajeto.o: lib/Trajeto.cpp.o
+
+.PHONY : lib/Trajeto.o
+
+# target to build an object file
+lib/Trajeto.cpp.o:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Trajeto.cpp.o
+.PHONY : lib/Trajeto.cpp.o
+
+lib/Trajeto.i: lib/Trajeto.cpp.i
+
+.PHONY : lib/Trajeto.i
+
+# target to preprocess a source file
+lib/Trajeto.cpp.i:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Trajeto.cpp.i
+.PHONY : lib/Trajeto.cpp.i
+
+lib/Trajeto.s: lib/Trajeto.cpp.s
+
+.PHONY : lib/Trajeto.s
+
+# target to generate assembly for a file
+lib/Trajeto.cpp.s:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Trajeto.cpp.s
+.PHONY : lib/Trajeto.cpp.s
+
 lib/Vertice.o: lib/Vertice.cpp.o
 
 .PHONY : lib/Vertice.o
@@ -300,6 +327,9 @@ help:
 	@echo "... lib/Estafeta.o"
 	@echo "... lib/Estafeta.i"
 	@echo "... lib/Estafeta.s"
+	@echo "... lib/Trajeto.o"
+	@echo "... lib/Trajeto.i"
+	@echo "... lib/Trajeto.s"
 	@echo "... lib/Vertice.o"
 	@echo "... lib/Vertice.i"
 	@echo "... lib/Vertice.s"

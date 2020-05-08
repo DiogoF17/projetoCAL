@@ -101,6 +101,12 @@
 		<Unit filename="/home/diogo/Documentos/CAL/projetoCAL/lib/Graph.h">
 			<Option target="projeto"/>
 		</Unit>
+		<Unit filename="/home/diogo/Documentos/CAL/projetoCAL/lib/Trajeto.cpp">
+			<Option target="projeto"/>
+		</Unit>
+		<Unit filename="/home/diogo/Documentos/CAL/projetoCAL/lib/Trajeto.h">
+			<Option target="projeto"/>
+		</Unit>
 		<Unit filename="/home/diogo/Documentos/CAL/projetoCAL/lib/Vertice.cpp">
 			<Option target="projeto"/>
 		</Unit>

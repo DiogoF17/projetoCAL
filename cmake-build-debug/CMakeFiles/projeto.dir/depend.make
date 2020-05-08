@@ -6,6 +6,7 @@ CMakeFiles/projeto.dir/lib/Application.cpp.o: ../lib/Application.h
 CMakeFiles/projeto.dir/lib/Application.cpp.o: ../lib/Estafeta.h
 CMakeFiles/projeto.dir/lib/Application.cpp.o: ../lib/Graph.h
 CMakeFiles/projeto.dir/lib/Application.cpp.o: ../lib/MutablePriorityQueue.h
+CMakeFiles/projeto.dir/lib/Application.cpp.o: ../lib/Trajeto.h
 CMakeFiles/projeto.dir/lib/Application.cpp.o: ../lib/Vertice.h
 CMakeFiles/projeto.dir/lib/Application.cpp.o: ../lib/connection.h
 CMakeFiles/projeto.dir/lib/Application.cpp.o: ../lib/edgetype.h
@@ -13,6 +14,16 @@ CMakeFiles/projeto.dir/lib/Application.cpp.o: ../lib/graphviewer.h
 
 CMakeFiles/projeto.dir/lib/Estafeta.cpp.o: ../lib/Estafeta.cpp
 CMakeFiles/projeto.dir/lib/Estafeta.cpp.o: ../lib/Estafeta.h
+CMakeFiles/projeto.dir/lib/Estafeta.cpp.o: ../lib/Graph.h
+CMakeFiles/projeto.dir/lib/Estafeta.cpp.o: ../lib/MutablePriorityQueue.h
+CMakeFiles/projeto.dir/lib/Estafeta.cpp.o: ../lib/Trajeto.h
+CMakeFiles/projeto.dir/lib/Estafeta.cpp.o: ../lib/Vertice.h
+
+CMakeFiles/projeto.dir/lib/Trajeto.cpp.o: ../lib/Graph.h
+CMakeFiles/projeto.dir/lib/Trajeto.cpp.o: ../lib/MutablePriorityQueue.h
+CMakeFiles/projeto.dir/lib/Trajeto.cpp.o: ../lib/Trajeto.cpp
+CMakeFiles/projeto.dir/lib/Trajeto.cpp.o: ../lib/Trajeto.h
+CMakeFiles/projeto.dir/lib/Trajeto.cpp.o: ../lib/Vertice.h
 
 CMakeFiles/projeto.dir/lib/Vertice.cpp.o: ../lib/Vertice.cpp
 CMakeFiles/projeto.dir/lib/Vertice.cpp.o: ../lib/Vertice.h
@@ -29,6 +40,7 @@ CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/Application.h
 CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/Estafeta.h
 CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/Graph.h
 CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/MutablePriorityQueue.h
+CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/Trajeto.h
 CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/Vertice.h
 CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/connection.h
 CMakeFiles/projeto.dir/lib/main.cpp.o: ../lib/edgetype.h
