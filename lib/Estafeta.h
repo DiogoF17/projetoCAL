@@ -12,6 +12,8 @@ enum Veiculo{NENHUM, BICICLETA, MOTA, CARRO};
 
 class Estafeta {
 
+    int id;
+
     Veiculo veiculo;
     double alcance;
     int capacidade;
@@ -21,13 +23,14 @@ class Estafeta {
     vector<Trajeto*> trajetos;
 
 public:
-    Estafeta(string veiculo, double alcance, int capacidade);
+    Estafeta(int id, string veiculo, double alcance, int capacidade);
 
+    int getId() const;
     Veiculo getVeiculo() const;
     double getAlcance() const;
     int getCapacidade() const;
     bool getDisponibilidade() const;
-
+    vector<Trajeto*> getTrajetos() const;
 };
 
 

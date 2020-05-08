@@ -3,6 +3,7 @@
 //
 
 #include <fstream>
+#include <iomanip>
 
 #include "Application.h"
 
@@ -230,6 +231,8 @@ void Application::leEstafetas() {
 
     string aux;
 
+    int id = 0;
+
     while(getline(entrada, aux)){
         string veiculo = aux;
 
@@ -241,13 +244,40 @@ void Application::leEstafetas() {
 
         getline(entrada, aux);
 
-        estafetas.push_back(new Estafeta(veiculo, alcance, capacidade));
+        estafetas.push_back(new Estafeta(id, veiculo, alcance, capacidade));
+
+        id++;
     }
 }
 
 void Application::visualizacaoEstafetas() const {
-    cout << "----------------------------\n"
-         << "       ESTAFETAS INFO      \n"
-         << "----------------------------\n";
+    cout << "-----------------------------------------------\n"
+         << "               ESTAFETAS INFO      \n"
+         << "-----------------------------------------------\n";
+    cout << left << setw(5) << "Id" << setw(10) << "Veiculo"<< setw(10) << "Alcance" << setw(12) << "Capacidade" << setw(10) << "Trajetos" << endl;
+    cout << "-----------------------------------------------\n";
 
+    for(int i = 0; i< estafetas.size(); i++){
+        string veiculo, trajetos;
+        if(estafetas.at(i)->getVeiculo() == NENHUM)
+            veiculo = "nenhum";
+        else if(estafetas.at(i)->getVeiculo() == BICICLETA)
+            veiculo = "bicicleta";
+        else if(estafetas.at(i)->getVeiculo() == MOTA)
+            veiculo = "mota";
+        else
+            veiculo = "carro";
+
+        if(estafetas.at(i)->getTrajetos().size() == 0)
+            trajetos = "nenhum";
+        else
+            trajetos = "...";
+        cout << left << setw(5) << estafetas.at(i)->getId()
+                     << setw(10) << veiculo
+                     << setw(10) << estafetas.at(i)->getAlcance()
+                     << setw(12) << estafetas.at(i)->getCapacidade()
+                     << setw(10) << trajetos << endl;
+    }
+
+    cout << "-----------------------------------------------\n\n";
 }

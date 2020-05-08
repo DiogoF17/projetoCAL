@@ -9,6 +9,8 @@
 /home/diogo/Documentos/CAL/projetoCAL/lib/Application.cpp
 fstream
 -
+iomanip
+-
 Application.h
 /home/diogo/Documentos/CAL/projetoCAL/lib/Application.h
 
@@ -101,20 +103,4 @@ edgetype.h
 /home/diogo/Documentos/CAL/projetoCAL/lib/edgetype.h
 connection.h
 /home/diogo/Documentos/CAL/projetoCAL/lib/connection.h
-
-/home/diogo/Documentos/CAL/projetoCAL/lib/main.cpp
-iostream
--
-fstream
--
-vector
--
-graphviewer.h
-/home/diogo/Documentos/CAL/projetoCAL/lib/graphviewer.h
-Graph.h
-/home/diogo/Documentos/CAL/projetoCAL/lib/Graph.h
-Vertice.h
-/home/diogo/Documentos/CAL/projetoCAL/lib/Vertice.h
-Application.h
-/home/diogo/Documentos/CAL/projetoCAL/lib/Application.h
 
