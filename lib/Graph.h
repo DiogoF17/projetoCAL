@@ -10,6 +10,7 @@
 #include <limits>
 #include <cmath>
 #include "MutablePriorityQueue.h"
+#include "Vertice.h"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ template <class T> class Vertex;
 
 template <class T>
 class Vertex {
-	T info;						// content of the vertex
+	T* info;						// content of the vertex
 	vector<Edge<T> > adj;		// outgoing edges
 	
 	double dist = 0;
@@ -36,8 +37,8 @@ class Vertex {
 	void addEdge(Vertex<T> *dest, double w);
 
 public:
-	Vertex(T in);
-	T getInfo() const;
+	Vertex(T* in);
+	T* getInfo() const;
 	double getDist() const;
 	Vertex *getPath() const;
 
@@ -46,12 +47,11 @@ public:
 	bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 	friend class Graph<T>;
 	friend class MutablePriorityQueue<Vertex<T>>;
-
 };
 
 
 template <class T>
-Vertex<T>::Vertex(T in): info(in) {}
+Vertex<T>::Vertex(T* in): info(in) {}
 
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
@@ -68,7 +68,7 @@ bool Vertex<T>::operator<(Vertex<T> & vertex) const {
 }
 
 template <class T>
-T Vertex<T>::getInfo() const {
+T* Vertex<T>::getInfo() const {
 	return this->info;
 }
 
@@ -113,7 +113,7 @@ public:
     Graph<T>(){this->lugar = "Nenhum";}
 
 	Vertex<T> *findVertex(const T &in) const;
-	bool addVertex(const T &in);
+	bool addVertex(T *in);
 	bool addEdge(const T &sourc, const T &dest, double w);
 	int getNumVertex() const;
 	vector<Vertex<T> *> getVertexSet() const;
@@ -150,7 +150,7 @@ vector<Vertex<T> *> Graph<T>::getVertexSet() const {
 template <class T>
 Vertex<T> * Graph<T>::findVertex(const T &in) const {
 	for (auto v : vertexSet)
-		if (v->info == in)
+		if (*(v->info) == in)
 			return v;
 	return NULL;
 }
@@ -160,8 +160,8 @@ Vertex<T> * Graph<T>::findVertex(const T &in) const {
  *  Returns true if successful, and false if a vertex with that content already exists.
  */
 template <class T>
-bool Graph<T>::addVertex(const T &in) {
-	if ( findVertex(in) != NULL)
+bool Graph<T>::addVertex(T *in) {
+	if ( findVertex(*in) != NULL)
 		return false;
 	vertexSet.push_back(new Vertex<T>(in));
 	return true;

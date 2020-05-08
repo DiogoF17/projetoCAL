@@ -18,6 +18,7 @@ class Vertice {
 public:
     Vertice(int id); //so nos interessa usar este construtor no findVertex
     Vertice(int id, double x, double y);
+    Vertice(int id, double x, double y, Tipo tipo);
 
     int getId() const;
     double getX() const;

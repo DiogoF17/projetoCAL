@@ -22,6 +22,14 @@ Vertice::Vertice(int id, double x, double y){
     this->tipo = INTERSECAO;
 }
 
+Vertice::Vertice(int id, double x, double y, Tipo tipo){
+    this->id = id;
+    this->x = x;
+    this->y = y;
+
+    this->tipo = tipo;
+}
+
 int Vertice::getId() const {return this->id;}
 double Vertice::getX() const {return this->x;}
 double Vertice::getY() const {return this->y;}
