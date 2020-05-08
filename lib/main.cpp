@@ -77,15 +77,16 @@ GraphViewer* buildGraphViewer(Graph<Vertice> *graph){
         vector<Edge<Vertice>> arestas = vertices.at(i)->getEdges();
         for(int j = 0; j < arestas.size(); j++){
             int id1 = vertices.at(i)->getInfo()->getId();
-            int id2 = arestas.at(i).getDest()->getInfo()->getId();
+            int id2 = arestas.at(j).getDest()->getInfo()->getId();
 
             graphViewer->addEdge(id, id1, id2, EdgeType::DIRECTED);
 
+            graphViewer->rearrange();
+
             id++;
+            cout << id << endl;
         }
     }
-
-    graphViewer->rearrange();
 
     sleep(5);
 
@@ -124,10 +125,10 @@ void carregarNovoMapa(int map, Graph<Vertice> *graph){
         int id = stoi(aux);
 
         getline(entrada, aux, ',');
-        double x = stod(aux);
+        double x = stod(aux) + 5;
 
         getline(entrada, aux, ')');
-        double y = stod(aux);
+        double y = stod(aux) + 5;
 
         graph->addVertex(new Vertice(id, x, y));
 
