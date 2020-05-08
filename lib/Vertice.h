@@ -13,9 +13,6 @@ class Vertice {
     double x;
     double y;
 
-    double displayX;
-    double displayY;
-
     Tipo tipo;
 
 public:
@@ -25,9 +22,6 @@ public:
     int getId() const;
     double getX() const;
     double getY() const;
-
-    double getDisplayX() const;
-    double getDisplayY() const;
 
     Tipo getTipo() const;
 

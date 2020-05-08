@@ -8,7 +8,7 @@
 
 using namespace std;
 
-vector<string> mapas = {"Aveiro", "Braga", "Coimbra", "Ermesinde", "Fafe", "Gondomar", "Lisboa", "Gaia", "Porto"};
+vector<string> mapas = {"4x4", "8x8", "16x16"};
 
 //-------------------FUNCOES DE VALIDACAO-------------------
 
@@ -50,22 +50,22 @@ GraphViewer* buildGraphViewer(Graph<Vertice> *graph){
 
     vector<Vertex<Vertice>*> vertices = graph->getVertexSet();
 
-    graphViewer->defineVertexColor("green");
+    //graphViewer->defineVertexColor("green");
 
     for(int i = 0; i < vertices.size(); i++) {
         if(vertices.at(i)->getInfo().getTipo() == RESTAURANTE) {
             graphViewer->addNode(vertices.at(i)->getInfo().getId(),
-                                 vertices.at(i)->getInfo().getDisplayX(),
-                                 vertices.at(i)->getInfo().getDisplayY());
-            cout << "x: " << vertices.at(i)->getInfo().getDisplayX() << " / y: " << vertices.at(i)->getInfo().getDisplayY() << endl;
+                                 vertices.at(i)->getInfo().getX(),
+                                 vertices.at(i)->getInfo().getY());
+
         }
+
+        cout << "x: " << vertices.at(i)->getInfo().getX() << " / y: " << vertices.at(i)->getInfo().getY() << endl;
     }
 
-    cout << endl;
+    //graphViewer->defineVertexColor("red");
 
-    graphViewer->defineVertexColor("red");
-
-    for(int i = 0; i < vertices.size(); i++) {
+    /*for(int i = 0; i < vertices.size(); i++) {
         if(vertices.at(i)->getInfo().getTipo() == CLIENTE) {
             graphViewer->addNode(vertices.at(i)->getInfo().getId(),
                                  vertices.at(i)->getInfo().getDisplayX(),
@@ -73,7 +73,7 @@ GraphViewer* buildGraphViewer(Graph<Vertice> *graph){
 
             cout << "x: " << vertices.at(i)->getInfo().getDisplayX() << " / y: " << vertices.at(i)->getInfo().getDisplayY() << endl;
         }
-    }
+    }*/
 
     graphViewer->rearrange();
 
@@ -103,11 +103,11 @@ GraphViewer* buildGraphViewer(Graph<Vertice> *graph){
 void carregarNovoMapa(int map, Graph<Vertice> *graph){
     graph->clearGraph();
 
-    cout << "\nCarregando Novo Mapa de " << mapas[map] << "...\n\n";
+    cout << "\nCarregando Novo Mapa " << mapas[map] << "...\n\n";
 
     graph->setLugar(mapas[map]);
 
-    string fileName = "../resources/PortugalMaps/PortugalMaps/" + mapas[map] + "/nodes_x_y_" + mapas[map] + ".txt";
+    string fileName = "../resources/GridGraphs/" + mapas[map] + "/nodes.txt";
 
     ifstream entrada;
     entrada.open(fileName);
@@ -125,12 +125,15 @@ void carregarNovoMapa(int map, Graph<Vertice> *graph){
     getline(entrada, aux);
     while(getline(entrada, aux, '(')){
         getline(entrada, aux, ',');
+        cout << aux << endl;
         int id = stoi(aux);
 
         getline(entrada, aux, ',');
+        cout << aux << endl;
         double x = stod(aux);
 
         getline(entrada, aux, ')');
+        cout << aux << endl;
         double y = stod(aux);
 
         graph->addVertex(Vertice(id, x, y));
@@ -142,7 +145,7 @@ void carregarNovoMapa(int map, Graph<Vertice> *graph){
 
     cout << "Vertices Lidos: " << numVertLidos << "!\n";
 
-    fileName = "../resources/PortugalMaps/PortugalMaps/" + mapas[map] + "/edges_" + mapas[map] + ".txt";
+    fileName = "../resources/GridGraphs/" + mapas[map] + "/edges.txt";
 
     entrada.open(fileName);
 
@@ -159,7 +162,7 @@ void carregarNovoMapa(int map, Graph<Vertice> *graph){
         int id1 = stoi(aux);
 
         getline(entrada, aux, ')');
-        double id2 = stod(aux);
+        int id2 = stoi(aux);
 
         Vertex<Vertice> *orig = graph->findVertex(Vertice(id1));
         Vertex<Vertice> *dest = graph->findVertex(Vertice(id2));
@@ -178,7 +181,7 @@ void carregarNovoMapa(int map, Graph<Vertice> *graph){
 
     cout << "Arestas Lidas: " << numArestasLidas << "!\n\n";
 
-    fileName = "../resources/PortugalMaps/PortugalMaps/" + mapas[map] + "/restaurantes_" + mapas[map] + ".txt";
+    fileName = "../resources/GridGraphs/" + mapas[map] + "/restaurantes.txt";
 
     entrada.open(fileName);
 
@@ -193,7 +196,7 @@ void carregarNovoMapa(int map, Graph<Vertice> *graph){
         int id = stoi(aux);
 
         Vertex<Vertice> *vertice = graph->findVertex(Vertice(id));
-        vertice->getInfo().setTipo(RESTAURANTE),
+        vertice->getInfo().setTipo(RESTAURANTE);
 
         numRestLidos++;
     }
@@ -202,7 +205,7 @@ void carregarNovoMapa(int map, Graph<Vertice> *graph){
 
     cout << "Restaurantes Lidos: " << numRestLidos << "!\n\n";
 
-    fileName = "../resources/PortugalMaps/PortugalMaps/" + mapas[map] + "/clientes_" + mapas[map] + ".txt";
+    fileName = "../resources/GridGraphs/" + mapas[map] + "/clientes.txt";
 
     entrada.open(fileName);
 
@@ -217,7 +220,7 @@ void carregarNovoMapa(int map, Graph<Vertice> *graph){
         int id = stoi(aux);
 
         Vertex<Vertice> *vertice = graph->findVertex(Vertice(id));
-        vertice->getInfo().setTipo(CLIENTE),
+        vertice->getInfo().setTipo(CLIENTE);
 
         numClienLidos++;
     }
@@ -287,36 +290,22 @@ void carregarNovoMapaMenu(Graph<Vertice> *graph){
              << "   MENU DE IMPORTACAO DE NOVO MAPA "
              << "\n#####################################\n";
 
-        cout << "\n1) Aveiro;"
-             << "\n2) Braga;"
-             << "\n3) Coimbra;"
-             << "\n4) Ermesinde;"
-             << "\n5) Fafe;"
-             << "\n6) Gondomar;"
-             << "\n7) Lisboa;"
-             << "\n8) Maia;"
-             << "\n9) Porto;"
-             << "\n10) Viseu;"
-             << "\n11) Voltar ao Menu Anterior;"
+        cout << "\n1) 4x4;"
+             << "\n2) 8x8;"
+             << "\n3) 16x16;"
+             << "\n4) Voltar ao Menu Anterior;"
              << "\n0) Sair;";
 
-        option = getOption(11);
+        option = getOption(4);
 
         switch (option) {
             case 1:
             case 2:
             case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
                 cout << "\nCarregando Novo Mapa...\n\n";
                 carregarNovoMapa(option-1, graph);
                 break;
-            case 11:
+            case 4:
                 cout << "\nMenu Anterior...\n\n";
                 return;
             case 0:
