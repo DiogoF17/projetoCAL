@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/projeto.dir/lib/Application.cpp.o"
+  "CMakeFiles/projeto.dir/lib/Estafeta.cpp.o"
   "CMakeFiles/projeto.dir/lib/Vertice.cpp.o"
   "CMakeFiles/projeto.dir/lib/connection.cpp.o"
   "CMakeFiles/projeto.dir/lib/graphviewer.cpp.o"

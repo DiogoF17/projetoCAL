@@ -123,6 +123,60 @@ projeto/fast:
 	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/build
 .PHONY : projeto/fast
 
+lib/Application.o: lib/Application.cpp.o
+
+.PHONY : lib/Application.o
+
+# target to build an object file
+lib/Application.cpp.o:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Application.cpp.o
+.PHONY : lib/Application.cpp.o
+
+lib/Application.i: lib/Application.cpp.i
+
+.PHONY : lib/Application.i
+
+# target to preprocess a source file
+lib/Application.cpp.i:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Application.cpp.i
+.PHONY : lib/Application.cpp.i
+
+lib/Application.s: lib/Application.cpp.s
+
+.PHONY : lib/Application.s
+
+# target to generate assembly for a file
+lib/Application.cpp.s:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Application.cpp.s
+.PHONY : lib/Application.cpp.s
+
+lib/Estafeta.o: lib/Estafeta.cpp.o
+
+.PHONY : lib/Estafeta.o
+
+# target to build an object file
+lib/Estafeta.cpp.o:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Estafeta.cpp.o
+.PHONY : lib/Estafeta.cpp.o
+
+lib/Estafeta.i: lib/Estafeta.cpp.i
+
+.PHONY : lib/Estafeta.i
+
+# target to preprocess a source file
+lib/Estafeta.cpp.i:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Estafeta.cpp.i
+.PHONY : lib/Estafeta.cpp.i
+
+lib/Estafeta.s: lib/Estafeta.cpp.s
+
+.PHONY : lib/Estafeta.s
+
+# target to generate assembly for a file
+lib/Estafeta.cpp.s:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Estafeta.cpp.s
+.PHONY : lib/Estafeta.cpp.s
+
 lib/Vertice.o: lib/Vertice.cpp.o
 
 .PHONY : lib/Vertice.o
@@ -240,6 +294,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... projeto"
+	@echo "... lib/Application.o"
+	@echo "... lib/Application.i"
+	@echo "... lib/Application.s"
+	@echo "... lib/Estafeta.o"
+	@echo "... lib/Estafeta.i"
+	@echo "... lib/Estafeta.s"
 	@echo "... lib/Vertice.o"
 	@echo "... lib/Vertice.i"
 	@echo "... lib/Vertice.s"

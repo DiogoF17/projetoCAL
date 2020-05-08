@@ -86,6 +86,18 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/diogo/Documentos/CAL/projetoCAL/lib/Application.cpp">
+			<Option target="projeto"/>
+		</Unit>
+		<Unit filename="/home/diogo/Documentos/CAL/projetoCAL/lib/Application.h">
+			<Option target="projeto"/>
+		</Unit>
+		<Unit filename="/home/diogo/Documentos/CAL/projetoCAL/lib/Estafeta.cpp">
+			<Option target="projeto"/>
+		</Unit>
+		<Unit filename="/home/diogo/Documentos/CAL/projetoCAL/lib/Estafeta.h">
+			<Option target="projeto"/>
+		</Unit>
 		<Unit filename="/home/diogo/Documentos/CAL/projetoCAL/lib/Graph.h">
 			<Option target="projeto"/>
 		</Unit>
