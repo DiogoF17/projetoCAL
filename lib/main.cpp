@@ -1,7 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include "graphviewer.h"
 #include <vector>
+
+#include "graphviewer.h"
+#include "Graph.h"
+#include "Vertice.h"
 
 using namespace std;
 
@@ -32,10 +35,58 @@ int getOption(int numOptions){
     return option;
 }
 
+double calculateDist(Vertice orig, Vertice dest){
+    int x1 = orig.getX(), x2 = dest.getY();
+    int y1 = orig.getY(), y2 = dest.getY();
+
+    return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+}
+
 //-------------------FUNCOES RELACIONADAS COM MAPA-------------------
 
-void carregarNovoMapa(int map){
+GraphViewer* buildGraphViewer(Graph<Vertice> *graph){
+    GraphViewer *graphViewer = new GraphViewer(1000, 1000, false);
+
+    vector<Vertex<Vertice>*> vertices = graph->getVertexSet();
+
+    for(int i = 0; i < vertices.size(); i++) {
+        int id = vertices.at(i)->getInfo().getId();
+        int x = vertices.at(i)->getInfo().getX();
+        int y = vertices.at(i)->getInfo().getY();
+
+        graphViewer->addNode(id, x, y);
+        graphViewer->rearrange();
+    }
+
+    int id = 0;
+
+    /*for(int i = 0; i < vertices.size(); i++){
+        vector<Edge<Vertice>> arestas = vertices.at(i)->getEdges();
+        for(int j = 0; j < arestas.size(); j++){
+            int id1 = vertices.at(i)->getInfo().getId();
+            int id2 = arestas.at(i).getDest()->getInfo().getId();
+
+            graphViewer->addEdge(id, id1, id2, EdgeType::DIRECTED);
+
+            id++;
+        }
+    }*/
+
+    graphViewer->createWindow(1000, 1000);
+
+    sleep(5);
+
+    cout << "Fechando...\n\n";
+
+    return graphViewer;
+}
+
+void carregarNovoMapa(int map, Graph<Vertice> *graph){
+    graph->clearGraph();
+
     cout << "\nCarregando Novo Mapa de " << mapas[map] << "...\n\n";
+
+    graph->setLugar(mapas[map]);
 
     string fileName = "../resources/PortugalMaps/PortugalMaps/" + mapas[map] + "/nodes_x_y_" + mapas[map] + ".txt";
 
@@ -48,6 +99,9 @@ void carregarNovoMapa(int map){
     }
 
     string aux;
+    int numVertLidos = 0, numArestasLidas = 0;
+
+    cout << "Lendo Vertices...\n";
 
     getline(entrada, aux);
     while(getline(entrada, aux, '(')){
@@ -60,18 +114,69 @@ void carregarNovoMapa(int map){
         getline(entrada, aux, ')');
         double y = stod(aux);
 
-        cout << "id: " << id << " / x: " << x << " / y: " << y << endl;
+        graph->addVertex(Vertice(id, x, y));
+
+        numVertLidos++;
     }
+
+    entrada.close();
+
+    cout << "Vertices Lidos: " << numVertLidos << "!\n";
+
+    fileName = "../resources/PortugalMaps/PortugalMaps/" + mapas[map] + "/edges_" + mapas[map] + ".txt";
+
+    entrada.open(fileName);
+
+    if(!entrada.is_open()){
+        cout << "Erro na Abertura do Ficheiro!\n\n";
+        return;
+    }
+
+    cout << "Lendo Arestas...\n";
+
+    getline(entrada, aux);
+    while(getline(entrada, aux, '(')){
+        getline(entrada, aux, ',');
+        int id1 = stoi(aux);
+
+        getline(entrada, aux, ')');
+        double id2 = stod(aux);
+
+        Vertex<Vertice> *orig = graph->findVertex(Vertice(id1));
+        Vertex<Vertice> *dest = graph->findVertex(Vertice(id2));
+
+        if(orig == NULL || dest == NULL)
+            continue;
+
+        double weight = calculateDist(orig->getInfo(), dest->getInfo());
+
+        graph->addEdge(Vertice(id1), Vertice(id2), weight);
+
+        numArestasLidas++;
+    }
+
+    cout << "Arestas Lidas: " << numArestasLidas << "!\n";
 
     cout << endl;
 }
 
-void visualizacaoMapa(){
+void visualizacaoMapa(Graph<Vertice> *graph){
+    if(graph->getNumVertex() == 0){
+        cout << "Ainda nao foi carregado nenhum Mapa!\n\n";
+        return;
+    }
+
+    cout << "Mapa de " << graph->getLugar() << "!\n\n";
+
+    buildGraphViewer(graph);
+
+
+
 }
 
 //-------------------MENUS-------------------
 
-void planeamentoRota(){
+void planeamentoRota(Graph<Vertice> *graph){
     int option;
 
     while(1){
@@ -101,15 +206,15 @@ void planeamentoRota(){
                 cout << "\nMenu Anterior...\n\n";
                 return;
             case 0:
-                cout << "\nExiting...!\n\n";
+                cout << "\nSaindo...!\n\n";
                 exit(0);
             default:
-                cout << "\nInvalid!\n\n";
+                cout << "\nInvalido!\n\n";
         }
     }
 }
 
-void carregarNovoMapaMenu(){
+void carregarNovoMapaMenu(Graph<Vertice> *graph){
     int option;
 
     while(1) {
@@ -144,22 +249,22 @@ void carregarNovoMapaMenu(){
             case 9:
             case 10:
                 cout << "\nCarregando Novo Mapa...\n\n";
-                carregarNovoMapa(option-1);
+                carregarNovoMapa(option-1, graph);
                 break;
             case 11:
                 cout << "\nMenu Anterior...\n\n";
                 return;
             case 0:
-                cout << "\nExiting...!\n\n";
+                cout << "\nSaindo...!\n\n";
                 exit(0);
             default:
-                cout << "\nInvalid!\n\n";
+                cout << "\nInvalido!\n\n";
 
         }
     }
 }
 
-void menuPrincipal(){
+void menuPrincipal(Graph<Vertice> *graph){
     int option;
 
     while(1){
@@ -177,21 +282,21 @@ void menuPrincipal(){
         switch(option){
             case 1:
                 cout << "\nCarregar Mapa...\n\n";
-                carregarNovoMapaMenu();
+                carregarNovoMapaMenu(graph);
                 break;
             case 2:
                 cout << "\nVisualizacao Mapa...\n\n";
-                visualizacaoMapa();
+                visualizacaoMapa(graph);
                 break;
             case 3:
                 cout << "\nPlaneamento de Rota...\n\n";
-                planeamentoRota();
+                planeamentoRota(graph);
                 break;
             case 0:
-                cout << "\nExiting...!\n\n";
+                cout << "\nSaindo...!\n\n";
                 return;
             default:
-                cout << "\nInvalid!\n\n";
+                cout << "\nInvalido!\n\n";
         }
     }
 }
@@ -200,7 +305,9 @@ void menuPrincipal(){
 
 int main(){
 
-    menuPrincipal();
+    Graph<Vertice> *graph = new Graph<Vertice>();
+
+    menuPrincipal(graph);
 
     return 0;
 }

@@ -6,5 +6,5 @@ CXX_FLAGS = -g   -std=gnu++14
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/diogo/Documentos/CAL/projeto/lib -I/home/diogo/Documentos/CAL/projeto/resources 
+CXX_INCLUDES = -I/home/diogo/Documentos/CAL/projetoCAL/lib -I/home/diogo/Documentos/CAL/projetoCAL/resources 
 

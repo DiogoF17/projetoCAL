@@ -1,4 +1,4 @@
-# Install script for directory: /home/diogo/Documentos/CAL/projeto
+# Install script for directory: /home/diogo/Documentos/CAL/projetoCAL
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/diogo/Documentos/CAL/projeto/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -48,10 +48,10 @@ RM = /snap/clion/112/bin/cmake/linux/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/diogo/Documentos/CAL/projeto
+CMAKE_SOURCE_DIR = /home/diogo/Documentos/CAL/projetoCAL
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/diogo/Documentos/CAL/projeto/cmake-build-debug
+CMAKE_BINARY_DIR = /home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles /home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/CMakeFiles /home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/diogo/Documentos/CAL/projeto/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -122,6 +122,33 @@ projeto: cmake_check_build_system
 projeto/fast:
 	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/build
 .PHONY : projeto/fast
+
+lib/Vertice.o: lib/Vertice.cpp.o
+
+.PHONY : lib/Vertice.o
+
+# target to build an object file
+lib/Vertice.cpp.o:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Vertice.cpp.o
+.PHONY : lib/Vertice.cpp.o
+
+lib/Vertice.i: lib/Vertice.cpp.i
+
+.PHONY : lib/Vertice.i
+
+# target to preprocess a source file
+lib/Vertice.cpp.i:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Vertice.cpp.i
+.PHONY : lib/Vertice.cpp.i
+
+lib/Vertice.s: lib/Vertice.cpp.s
+
+.PHONY : lib/Vertice.s
+
+# target to generate assembly for a file
+lib/Vertice.cpp.s:
+	$(MAKE) -f CMakeFiles/projeto.dir/build.make CMakeFiles/projeto.dir/lib/Vertice.cpp.s
+.PHONY : lib/Vertice.cpp.s
 
 lib/connection.o: lib/connection.cpp.o
 
@@ -213,6 +240,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... projeto"
+	@echo "... lib/Vertice.o"
+	@echo "... lib/Vertice.i"
+	@echo "... lib/Vertice.s"
 	@echo "... lib/connection.o"
 	@echo "... lib/connection.i"
 	@echo "... lib/connection.s"
