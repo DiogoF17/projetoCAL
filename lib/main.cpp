@@ -125,15 +125,12 @@ void carregarNovoMapa(int map, Graph<Vertice> *graph){
     getline(entrada, aux);
     while(getline(entrada, aux, '(')){
         getline(entrada, aux, ',');
-        cout << aux << endl;
         int id = stoi(aux);
 
         getline(entrada, aux, ',');
-        cout << aux << endl;
         double x = stod(aux);
 
         getline(entrada, aux, ')');
-        cout << aux << endl;
         double y = stod(aux);
 
         graph->addVertex(Vertice(id, x, y));
@@ -159,9 +156,11 @@ void carregarNovoMapa(int map, Graph<Vertice> *graph){
     getline(entrada, aux);
     while(getline(entrada, aux, '(')){
         getline(entrada, aux, ',');
+        cout << aux << endl;
         int id1 = stoi(aux);
 
         getline(entrada, aux, ')');
+        cout << aux << endl;
         int id2 = stoi(aux);
 
         Vertex<Vertice> *orig = graph->findVertex(Vertice(id1));
