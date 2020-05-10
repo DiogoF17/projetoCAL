@@ -279,21 +279,6 @@ void Application::visualizacaoEstafetas() const {
     cout << "-------------------------------------------------------------------\n\n";
 }
 
-void Application::visualizacaoRestaurantes() const {
-    cout << "-------------------------------------------------------------------\n"
-         << "                          RESTAURANTES INFO      \n"
-         << "-------------------------------------------------------------------\n";
-    if (restaurantes.size() == 0){
-        cout << "Nao existem restaurantes!\n";
-        return;
-    }
-    cout << "Os restaurantes presentes tem os seguintes IDs:\n";
-    for (auto pair: restaurantes){
-        cout << "ID: " << pair.second << endl;
-    }
-
-
-}
 
 void Application::visualizacaoTrajetoEspecifico(int option) const{
     Estafeta *estafeta = estafetas.at(option);
@@ -326,3 +311,22 @@ void Application::visualizacaoTodosTrajetos(int todos) const{
 
     cout << "-------------------------------------------------------------------\n\n";
 }
+
+//-----FUNCOES RELACIONADAS COM OS RESTAURANTES
+
+void Application::visualizacaoRestaurantes() const {
+    cout << "-------------------------------------------------------------------\n"
+         << "                          RESTAURANTES INFO      \n"
+         << "-------------------------------------------------------------------\n";
+    if (restaurantes.size() == 0) {
+        cout << "Nao existem restaurantes!\n";
+        return;
+    }
+    cout << "Os restaurantes presentes tem os seguintes IDs:\n";
+    for (auto pair: restaurantes) {
+        cout << "ID: " << pair.second << endl;
+    }
+
+
+}
+
