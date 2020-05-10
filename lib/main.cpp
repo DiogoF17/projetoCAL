@@ -54,6 +54,46 @@ void visualizacaoMapa(Application *application){
 
 //-------------------MENUS-------------------
 
+void visualizacaoTrajetosEstafetas(Application *application){
+    int option;
+
+    while(1){
+        cout << "######################################\n"
+             << "   MENU DE VISUALIZACAO DE TRAJETOS "
+             << "\n######################################\n";
+
+        vector<Estafeta*> estafetas = application->getEstfetas();
+
+        int i = 0;
+
+        for(i; i < estafetas.size(); i++)
+            cout << endl << i + 1 << ") " << estafetas.at(i)->getId() << " -> " << estafetas.at(i)->getNome();
+
+        cout << endl << i + 1 << ") Todos os Trajetos;"
+             << endl << i + 2 << ") Voltar ao Menu Anterior;"
+             << "\n0) Sair;";
+
+        option = getOption(i+2);
+
+        if(option > 0 && option < (i + 1)){
+            cout << "\nVisualizacao dos Trajetos de " << estafetas.at(option-1)->getNome() << "...\n\n";
+            application->visualizacaoTodosTrajetos(option - 1);
+        }
+        else if(option == i + 1){
+            cout << "\nVisualizacao de Todos os Trajetos...\n\n";
+            application->visualizacaoTodosTrajetos(-1);
+        }
+        else if(option == i + 2){
+            cout << "\nMenu Anterior...\n\n";
+            return;
+        }
+        else if(option == 0){
+            cout << "\nSaindo...!\n\n";
+            exit(0);
+        }
+    }
+}
+
 void planeamentoRota(Application *application){
     int option;
 
@@ -140,9 +180,10 @@ void menuPrincipal(Application *application){
              << "\n2) Visualizar Mapa;"
              << "\n3) Planear Rota;"
              << "\n4) Ver Estafetas Info;"
+             << "\n5) Ver Trajetos dos Estafetas"
              << "\n0) Sair;";
 
-        option = getOption(4);
+        option = getOption(5);
 
         switch(option){
             case 1:
@@ -160,6 +201,10 @@ void menuPrincipal(Application *application){
             case 4:
                 cout << "\nVisualizacao de Estafetas...\n\n";
                 visualizacaoEstafetas(application);
+                break;
+            case 5:
+                cout << "\nVisualizacao de Trajetos dos Estafetas...\n\n";
+                visualizacaoTrajetosEstafetas(application);
                 break;
             case 0:
                 cout << "\nSaindo...!\n\n";

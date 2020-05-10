@@ -15,7 +15,10 @@ class Trajeto {
 public:
     Trajeto();
 
+    vector<Vertex<Vertice>*> getTrajeto() const;
 };
+
+ostream& operator<<(ostream& out, const Trajeto& trajeto);
 
 
 #endif //UNTITLED_TRAJETO_H

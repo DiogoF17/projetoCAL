@@ -18,18 +18,22 @@ class Application {
     std::vector<Estafeta*> estafetas;
 
     Graph<Vertice> *graph;
-    GraphViewer *graphViewer;
 
     double calculateDist(Vertice orig, Vertice dest);
     void buildGraphViewer();
+
+    void visualizacaoTrajetoEspecifico(int option) const;
 public:
     Application();
 
+    vector<Estafeta*> getEstfetas() const{return this->estafetas;}
+
     void carregarNovoMapa(string map);
-    void visualizacaoMapa() const;
+    void visualizacaoMapa();
 
     void leEstafetas();
     void visualizacaoEstafetas() const;
+    void visualizacaoTodosTrajetos(int todos) const;
 };
 
 

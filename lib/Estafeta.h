@@ -14,6 +14,8 @@ class Estafeta {
 
     int id;
 
+    string nome;
+
     Veiculo veiculo;
     double alcance;
     int capacidade;
@@ -23,9 +25,10 @@ class Estafeta {
     vector<Trajeto*> trajetos;
 
 public:
-    Estafeta(int id, string veiculo, double alcance, int capacidade);
+    Estafeta(int id, string nome, string veiculo, double alcance, int capacidade);
 
     int getId() const;
+    string getNome() const;
     Veiculo getVeiculo() const;
     double getAlcance() const;
     int getCapacidade() const;

@@ -9,7 +9,6 @@
 
 Application::Application() {
     this->graph = new Graph<Vertice>();
-    this->graphViewer = NULL;
 }
 
 //-------FUNCOES RELACIONADAS COM OS MAPAS-------
@@ -21,29 +20,30 @@ double Application::calculateDist(Vertice orig, Vertice dest){
     return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
 }
 
-void Application::buildGraphViewer(){
-    this->graphViewer = new GraphViewer(1000, 1000, false);
+void Application::buildGraphViewer() {
+    GraphViewer *graphViewer = new GraphViewer(1000, 1000, false);
+    graphViewer->createWindow(1000, 1000);
 
     vector<Vertex<Vertice>*> vertices = graph->getVertexSet();
 
     for(int i = 0; i < vertices.size(); i++) {
         if(vertices.at(i)->getInfo()->getTipo() == RESTAURANTE) {
-            this->graphViewer->addNode(vertices.at(i)->getInfo()->getId(),
+            graphViewer->addNode(vertices.at(i)->getInfo()->getId(),
                                  vertices.at(i)->getInfo()->getX(),
                                  vertices.at(i)->getInfo()->getY());
-            this->graphViewer->setVertexColor(vertices.at(i)->getInfo()->getId(), "green");
+            graphViewer->setVertexColor(vertices.at(i)->getInfo()->getId(), "green");
         }
         else if(vertices.at(i)->getInfo()->getTipo() == CLIENTE) {
-            this->graphViewer->addNode(vertices.at(i)->getInfo()->getId(),
+            graphViewer->addNode(vertices.at(i)->getInfo()->getId(),
                                  vertices.at(i)->getInfo()->getX(),
                                  vertices.at(i)->getInfo()->getY());
-            this->graphViewer->setVertexColor(vertices.at(i)->getInfo()->getId(), "red");
+            graphViewer->setVertexColor(vertices.at(i)->getInfo()->getId(), "red");
         }
         else{
-            this->graphViewer->addNode(vertices.at(i)->getInfo()->getId(),
+            graphViewer->addNode(vertices.at(i)->getInfo()->getId(),
                                  vertices.at(i)->getInfo()->getX(),
                                  vertices.at(i)->getInfo()->getY());
-            this->graphViewer->setVertexColor(vertices.at(i)->getInfo()->getId(), "yellow");
+            graphViewer->setVertexColor(vertices.at(i)->getInfo()->getId(), "yellow");
         }
     }
 
@@ -55,23 +55,13 @@ void Application::buildGraphViewer(){
             int id1 = vertices.at(i)->getInfo()->getId();
             int id2 = arestas.at(j).getDest()->getInfo()->getId();
 
-            this->graphViewer->addEdge(id, id1, id2, EdgeType::DIRECTED);
+            graphViewer->addEdge(id, id1, id2, EdgeType::DIRECTED);
 
-            this->graphViewer->rearrange();
+            graphViewer->rearrange();
 
             id++;
         }
     }
-
-    /*graphViewer->createWindow(1000, 1000);
-
-    sleep(5);
-
-    cout << "Fechando...\n\n";
-
-    graphViewer->closeWindow();
-
-    return graphViewer;*/
 }
 
 void Application::carregarNovoMapa(string map){
@@ -200,11 +190,9 @@ void Application::carregarNovoMapa(string map){
 
     cout << "Arestas Lidas: " << numArestasLidas << "!\n\n";
 
-    buildGraphViewer();
-
 }
 
-void Application::visualizacaoMapa() const {
+void Application::visualizacaoMapa() {
     if(graph->getNumVertex() == 0){
         cout << "Ainda nao foi carregado nenhum Mapa!\n\n";
         return;
@@ -212,7 +200,7 @@ void Application::visualizacaoMapa() const {
 
     cout << "Mapa de " << graph->getLugar() << "!\n\n";
 
-    graphViewer->createWindow(1000, 1000);
+    buildGraphViewer();
 
 }
 
@@ -237,6 +225,9 @@ void Application::leEstafetas() {
         string veiculo = aux;
 
         getline(entrada, aux);
+        string nome = aux;
+
+        getline(entrada, aux);
         double alcance = stod(aux);
 
         getline(entrada, aux);
@@ -244,18 +235,18 @@ void Application::leEstafetas() {
 
         getline(entrada, aux);
 
-        estafetas.push_back(new Estafeta(id, veiculo, alcance, capacidade));
+        estafetas.push_back(new Estafeta(id, nome, veiculo, alcance, capacidade));
 
         id++;
     }
 }
 
 void Application::visualizacaoEstafetas() const {
-    cout << "-----------------------------------------------\n"
-         << "               ESTAFETAS INFO      \n"
-         << "-----------------------------------------------\n";
-    cout << left << setw(5) << "Id" << setw(10) << "Veiculo"<< setw(10) << "Alcance" << setw(12) << "Capacidade" << setw(10) << "Trajetos" << endl;
-    cout << "-----------------------------------------------\n";
+    cout << "-------------------------------------------------------------------\n"
+         << "                          ESTAFETAS INFO      \n"
+         << "-------------------------------------------------------------------\n";
+    cout << left << setw(5) << "Id" << setw(15) << "Nome" << setw(15) << "Veiculo"<< setw(10) << "Alcance" << setw(12) << "Capacidade" << setw(10) << "Trajetos" << endl;
+    cout << "-------------------------------------------------------------------\n";
 
     for(int i = 0; i< estafetas.size(); i++){
         string veiculo, trajetos;
@@ -273,11 +264,45 @@ void Application::visualizacaoEstafetas() const {
         else
             trajetos = "...";
         cout << left << setw(5) << estafetas.at(i)->getId()
-                     << setw(10) << veiculo
-                     << setw(10) << estafetas.at(i)->getAlcance()
-                     << setw(12) << estafetas.at(i)->getCapacidade()
-                     << setw(10) << trajetos << endl;
+             << setw(15) << estafetas.at(i)->getNome()
+             << setw(15) << veiculo
+             << setw(10) << estafetas.at(i)->getAlcance()
+             << setw(12) << estafetas.at(i)->getCapacidade()
+             << setw(10) << trajetos << endl;
     }
 
-    cout << "-----------------------------------------------\n\n";
+    cout << "-------------------------------------------------------------------\n\n";
+}
+
+void Application::visualizacaoTrajetoEspecifico(int option) const{
+    Estafeta *estafeta = estafetas.at(option);
+    vector<Trajeto*> trajetos = estafeta->getTrajetos();
+
+    cout << estafeta->getId() << " -> " << estafeta->getNome() << ":\n";
+
+    if(trajetos.size() == 0){
+        cout << "\tNenhum trajeto foi feito por este Estafeta!\n";
+        return;
+    }
+
+    for(int i = 0; i < trajetos.size(); i++)
+        cout << trajetos.at(i);
+
+    cout << endl;
+}
+
+
+void Application::visualizacaoTodosTrajetos(int todos) const{
+    cout << "-------------------------------------------------------------------\n"
+         << "                          TRAJETOS INFO      \n"
+         << "-------------------------------------------------------------------\n";
+
+    if(todos == -1) {
+        for (int i = 0; i < estafetas.size(); i++)
+            visualizacaoTrajetoEspecifico(i);
+    }
+    else
+        visualizacaoTrajetoEspecifico(todos);
+
+    cout << "-------------------------------------------------------------------\n\n";
 }

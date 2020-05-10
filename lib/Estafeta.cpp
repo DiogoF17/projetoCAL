@@ -4,8 +4,10 @@
 
 #include "Estafeta.h"
 
-Estafeta::Estafeta(int id, string veiculo, double alcance, int capacidade) {
+Estafeta::Estafeta(int id, string nome, string veiculo, double alcance, int capacidade) {
     this->id = id;
+
+    this->nome = nome;
 
     this->alcance = alcance;
     this->capacidade = capacidade;
@@ -23,9 +25,9 @@ Estafeta::Estafeta(int id, string veiculo, double alcance, int capacidade) {
 }
 
 int Estafeta::getId() const{return this->id;}
+string Estafeta::getNome() const{return this->nome;}
 Veiculo Estafeta::getVeiculo() const {return this->veiculo;}
 double Estafeta::getAlcance() const {return this->alcance;}
 int Estafeta::getCapacidade() const {return this->capacidade;}
 bool Estafeta::getDisponibilidade() const {return this->disponibilidade;}
 vector<Trajeto*> Estafeta::getTrajetos() const {return this->trajetos;}
-
