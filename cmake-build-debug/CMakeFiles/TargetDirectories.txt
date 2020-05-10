@@ -1,3 +1,0 @@
-/home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/diogo/Documentos/CAL/projetoCAL/cmake-build-debug/CMakeFiles/projeto.dir

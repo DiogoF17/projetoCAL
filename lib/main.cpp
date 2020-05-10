@@ -224,10 +224,11 @@ void menuPrincipal(Application *application){
              << "\n2) Visualizar Mapa;"
              << "\n3) Planear Rota;"
              << "\n4) Ver Estafetas Info;"
-             << "\n5) Ver Trajetos dos Estafetas"
+             << "\n5) Ver Restaurantes Info"
+             << "\n6) Ver Trajetos dos Estafetas"
              << "\n0) Sair;";
 
-        option = getOption(5);
+        option = getOption(6);
 
         switch(option){
             case 1:
@@ -247,9 +248,14 @@ void menuPrincipal(Application *application){
                 application->visualizacaoEstafetas();
                 break;
             case 5:
+                cout << "\nVisualizacao de Restaurantes...\n\n";
+                application->visualizacaoRestaurantes();
+                break;
+            case 6:
                 cout << "\nVisualizacao de Trajetos dos Estafetas...\n\n";
                 visualizacaoTrajetosEstafetas(application);
                 break;
+
             case 0:
                 cout << "\nSaindo...!\n\n";
                 return;

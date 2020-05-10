@@ -32,18 +32,21 @@ void Application::buildGraphViewer() {
                                  vertices.at(i)->getInfo()->getX(),
                                  vertices.at(i)->getInfo()->getY());
             graphViewer->setVertexColor(vertices.at(i)->getInfo()->getId(), "green");
+            graphViewer->setVertexLabel(i, to_string(vertices.at(i)->getInfo()->getId()));
         }
         else if(vertices.at(i)->getInfo()->getTipo() == CLIENTE) {
             graphViewer->addNode(vertices.at(i)->getInfo()->getId(),
                                  vertices.at(i)->getInfo()->getX(),
                                  vertices.at(i)->getInfo()->getY());
             graphViewer->setVertexColor(vertices.at(i)->getInfo()->getId(), "red");
+            graphViewer->setVertexLabel(i, to_string(vertices.at(i)->getInfo()->getId()));
         }
         else{
             graphViewer->addNode(vertices.at(i)->getInfo()->getId(),
                                  vertices.at(i)->getInfo()->getX(),
                                  vertices.at(i)->getInfo()->getY());
             graphViewer->setVertexColor(vertices.at(i)->getInfo()->getId(), "yellow");
+            graphViewer->setVertexLabel(i, to_string(vertices.at(i)->getInfo()->getId()));
         }
     }
 
@@ -274,6 +277,22 @@ void Application::visualizacaoEstafetas() const {
     }
 
     cout << "-------------------------------------------------------------------\n\n";
+}
+
+void Application::visualizacaoRestaurantes() const {
+    cout << "-------------------------------------------------------------------\n"
+         << "                          RESTAURANTES INFO      \n"
+         << "-------------------------------------------------------------------\n";
+    if (restaurantes.size() == 0){
+        cout << "Nao existem restaurantes!\n";
+        return;
+    }
+    cout << "Os restaurantes presentes tem os seguintes IDs:\n";
+    for (auto pair: restaurantes){
+        cout << "ID: " << pair.second << endl;
+    }
+
+
 }
 
 void Application::visualizacaoTrajetoEspecifico(int option) const{

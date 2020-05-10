@@ -39,7 +39,9 @@ public:
 
     void leEstafetas();
     void visualizacaoEstafetas() const;
+    void visualizacaoRestaurantes() const;
     void visualizacaoTodosTrajetos(int todos) const;
+
 };
 
 
