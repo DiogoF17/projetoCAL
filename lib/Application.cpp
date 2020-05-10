@@ -122,6 +122,7 @@ void Application::carregarNovoMapa(string map){
 
         Vertex<Vertice> *vertice = graph->findVertex(Vertice(id));
         vertice->getInfo()->setTipo(RESTAURANTE);
+        restaurantes.insert(pair<int, int>(numRestLidos, vertice->getInfo()->getId()));
 
         numRestLidos++;
     }
@@ -146,6 +147,7 @@ void Application::carregarNovoMapa(string map){
 
         Vertex<Vertice> *vertice = graph->findVertex(Vertice(id));
         vertice->getInfo()->setTipo(CLIENTE);
+        clientes.insert(pair<int, int>(numClienLidos, vertice->getInfo()->getId()));
 
         numClienLidos++;
     }
@@ -290,7 +292,6 @@ void Application::visualizacaoTrajetoEspecifico(int option) const{
 
     cout << endl;
 }
-
 
 void Application::visualizacaoTodosTrajetos(int todos) const{
     cout << "-------------------------------------------------------------------\n"
