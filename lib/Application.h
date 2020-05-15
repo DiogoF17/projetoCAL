@@ -46,6 +46,7 @@ public:
     void visualizacaoEstafetas() const;
     void visualizacaoRestaurantes() const;
     void visualizacaoTodosTrajetos(int todos) const;
+    void decrTimeOfEstafetas();
 
     void findPath(int orig, int dest);
 

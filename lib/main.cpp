@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <thread>
+#include <zconf.h>
 
 #include "Application.h"
 
@@ -121,11 +123,11 @@ void entregaUmaEncomendaUmEstafeta(Application *application){
 
     optionCliente = getOption(j+1);
 
-    if(optionCliente > 0 && optionCliente < (i + 1)){
+    if(optionCliente > 0 && optionCliente < (j + 1)){
         cout << "\n\nCliente Selecionado: " << clientes.at(optionCliente-1) << "\n\n";
         application->findPath(restaurantes.at(optionRestaurante-1), clientes.at(optionCliente-1));
     }
-    else if(optionCliente == i + 1){
+    else if(optionCliente == j + 1){
         cout << "\nMenu Anterior...\n\n";
         return;
     }
@@ -263,6 +265,15 @@ void menuPrincipal(Application *application){
     }
 }
 
+//----------THREAD CONTA O TEMPO--------
+
+void countTime(Application *application){
+    while(1){
+        application->decrTimeOfEstafetas();
+        sleep(1);
+    }
+}
+
 //-------------------MAIN-------------------
 
 int main(){
@@ -270,7 +281,11 @@ int main(){
     Application *application = new Application();
     application->leEstafetas();
 
+    thread th1(countTime, application);
+
     menuPrincipal(application);
+
+    th1.join();
 
     return 0;
 }

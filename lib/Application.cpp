@@ -206,6 +206,8 @@ void Application::carregarNovoMapa(string map){
 
     cout << "Arestas Lidas: " << numArestasLidas << "!\n\n";
 
+    graph->buildReachable();
+
 }
 
 void Application::visualizacaoMapa() {
@@ -261,11 +263,11 @@ void Application::leEstafetas() {
 }
 
 void Application::visualizacaoEstafetas() const {
-    cout << "-----------------------------------------------------------------------------\n"
+    cout << "---------------------------------------------------------------------------------------\n"
          << "                               ESTAFETAS INFO      \n"
-         << "-----------------------------------------------------------------------------\n";
-    cout << left << setw(5) << "Id" << setw(15) << "Nome" << setw(15) << "Veiculo"<< setw(10) << "VelMedia" << setw(10) << "Alcance" << setw(12) << "Capacidade" << setw(10) << "Trajetos" << endl;
-    cout << "-----------------------------------------------------------------------------\n";
+         << "---------------------------------------------------------------------------------------\n";
+    cout << left << setw(5) << "Id" << setw(15) << "Nome" << setw(15) << "Veiculo"<< setw(10) << "VelMedia" << setw(10) << "Alcance" << setw(12) << "Capacidade" << setw(10) << "Trajetos" << setw(5) << "Disp" << setw(5) << "Tempo" << endl;
+    cout << "---------------------------------------------------------------------------------------\n";
 
     for(int i = 0; i< estafetas.size(); i++){
         string veiculo, trajetos;
@@ -288,10 +290,12 @@ void Application::visualizacaoEstafetas() const {
              << setw(10) << estafetas.at(i)->getVelocidadeMedia()
              << setw(10) << estafetas.at(i)->getAlcance()
              << setw(12) << estafetas.at(i)->getCapacidade()
-             << setw(10) << trajetos << endl;
+             << setw(10) << trajetos
+             << setw(5) << estafetas.at(i)->getDisponibilidade()
+             << setw(5) << estafetas.at(i)->getTime() << endl;
     }
 
-    cout << "-----------------------------------------------------------------------------\n\n";
+    cout << "---------------------------------------------------------------------------------------\n\n";
 }
 
 
@@ -299,15 +303,14 @@ void Application::visualizacaoTrajetoEspecifico(int option) const{
     Estafeta *estafeta = estafetas.at(option);
     vector<Trajeto*> trajetos = estafeta->getTrajetos();
 
-    cout << estafeta->getId() << " -> " << estafeta->getNome() << ":\n";
+    cout << estafeta->getId() << " -> " << estafeta->getNome() << ":";
 
     if(trajetos.size() == 0){
-        cout << "\tNenhum trajeto foi feito por este Estafeta!\n";
+        cout << "\n\tNenhum trajeto foi feito por este Estafeta!\n";
         return;
     }
 
-    for(int i = 0; i < trajetos.size(); i++)
-        cout << trajetos.at(i);
+    estafeta->imprimeTrajetos();
 
     cout << endl;
 }
@@ -335,6 +338,11 @@ Estafeta* Application::selectEstafeta(int dist) {
     return NULL;
 }
 
+void Application::decrTimeOfEstafetas(){
+    for(int i = 0; i < estafetas.size(); i++)
+        estafetas.at(i)->decrTime();
+}
+
 //-----FUNCOES RELACIONADAS COM OS RESTAURANTES----
 
 void Application::visualizacaoRestaurantes() const {
@@ -357,6 +365,10 @@ void Application::visualizacaoRestaurantes() const {
 //-------------------FUNCOES RELACIONADAS COM OS CAMINHOS--------------
 
 void Application::findPath(int orig, int dest) {
+    if(!graph->canReach1(orig, dest)){
+        cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dest << "!\n\n";
+        return;
+    }
     graph->dijkstraShortestPath(Vertice(orig));
     vector<int> path = checkSinglePath(dest);
     double dist = calculateDistAccordingToPath(path);
@@ -368,6 +380,7 @@ void Application::findPath(int orig, int dest) {
     estafeta->setDisponibilidade(false);
     estafeta->addTrajeto(path);
     double time = dist / estafeta->getVelocidadeMedia();
+    estafeta->setTime(time);
 
     cout << "O estafeta selecionado tem o ID: " << estafeta->getId()
          << "\nO trajeto que tera de fazer e o seguinte: "

@@ -21,6 +21,8 @@ class Estafeta {
     double alcance;
     int capacidade;
 
+    double time;
+
     bool disponibilidade;
 
     vector<Trajeto*> trajetos;
@@ -35,11 +37,16 @@ public:
     double getAlcance() const;
     int getCapacidade() const;
     bool getDisponibilidade() const;
+    double getTime() const;
     vector<Trajeto*> getTrajetos() const;
 
     void setDisponibilidade(bool disponibilidade);
+    void setTime(double time);
 
     void addTrajeto(vector<int> path);
+    void imprimeTrajetos();
+
+    void decrTime();
 };
 
 

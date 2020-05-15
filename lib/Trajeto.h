@@ -17,9 +17,9 @@ public:
 
     vector<int> getTrajeto() const;
     void addVertex(int vertice);
+    void imprime() const;
 };
 
-ostream& operator<<(ostream& out, const Trajeto& trajeto);
 
 
 #endif //UNTITLED_TRAJETO_H

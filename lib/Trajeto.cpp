@@ -12,16 +12,11 @@ vector<int> Trajeto::getTrajeto() const{return this->trajeto;}
 
 void Trajeto::addVertex(int vertice){trajeto.push_back(vertice);}
 
-ostream& operator<<(ostream& out, const Trajeto& trajeto) {
-    vector<int> percurso = trajeto.getTrajeto();
+void Trajeto::imprime() const {
+    cout << "\n\t" << trajeto.at(0);
 
-    out << percurso.at(0);
-
-    for(int i = 1; i < percurso.size(); i++)
-        out << " -> " << percurso.at(i);
-
-    out << endl;
-
-    return out;
+    for(int i = 1; i < trajeto.size(); i++)
+        cout << " -> " << trajeto.at(i);
 }
+
 

@@ -5,6 +5,7 @@
 #define GRAPH_H_
 
 #include <vector>
+#include <map>
 #include <string>
 #include <queue>
 #include <list>
@@ -13,6 +14,7 @@
 #include "MutablePriorityQueue.h"
 #include "Vertice.h"
 #include <algorithm>
+#include <iostream>
 
 using namespace std;
 
@@ -120,6 +122,8 @@ class Graph {
 
 	vector<Vertex<T> *> vertexSet;    // vertex set
 
+	map<int, vector<int>> reachable;
+
 public:
     Graph<T>(){this->lugar = "Nenhum";}
 
@@ -129,13 +133,21 @@ public:
 	int getNumVertex() const;
 	vector<Vertex<T> *> getVertexSet() const;
 
-	// Fp05 - single source
+	void buildReachable();
+	bool canReach1(int orig, int dest);
+
+	void resetVisited();
+
+    vector<T> dfs() const;
+    void dfsVisit(Vertex<T> *v, vector<T> & res) const;
+    void myDfsVisit(Vertex<T> *v, vector<int> & res) const;
+    vector<T> bfs(const T &source) const;
+    vector<T> topsort() const;
 	void unweightedShortestPath(const T &s);    //TODO...
 	void dijkstraShortestPath(const T &s);      //TODO...
 	void bellmanFordShortestPath(const T &s);   //TODO...
 	vector<T> getPathTo(const T &dest) const;   //TODO...
 
-	// Fp05 - all pairs
 	void floydWarshallShortestPath();   //TODO...
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest) const;   //TODO...
 
@@ -193,6 +205,38 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
 	return true;
 }
 
+template <class T>
+void Graph<T>::buildReachable() {
+    for(int i = 0; i < vertexSet.size(); i++){
+        vector<int> aux;
+        resetVisited();
+        myDfsVisit(vertexSet.at(i), aux);
+        reachable.insert(pair<int, vector<int>>(vertexSet.at(i)->getInfo()->getId(), aux));
+    }
+}
+
+template <class T>
+void Graph<T>::myDfsVisit(Vertex<T> *v, vector<int> & res) const {
+    v->visited = true;
+    res.push_back(v->info->getId());
+    for (auto & e : v->adj) {
+        auto w = e.dest;
+        if ( ! w->visited)
+            myDfsVisit(w, res);
+    }
+}
+
+template <class T>
+bool Graph<T>::canReach1(int orig, int dest){
+    vector<int> reach = reachable.at(orig);
+    for(int i = 0; i < reach.size(); i++) {
+        if (dest == reach.at(i))
+            return true;
+    }
+    return false;
+
+}
+
 
 /**************** Single Source Shortest Path algorithms ************/
 
@@ -225,6 +269,120 @@ void Graph<T>::unweightedShortestPath(const T &orig) {
             }
         }
     }
+}
+
+/*
+ * Performs a depth-first search (dfs) in a graph (this).
+ * Returns a vector with the contents of the vertices by dfs order.
+ * Follows the algorithm described in theoretical classes.
+ */
+template <class T>
+vector<T> Graph<T>::dfs() const {
+    vector<T> res;
+    for (auto v : vertexSet)
+        v->visited = false;
+    for (auto v : vertexSet)
+        if (! v->visited)
+            dfsVisit(v, res);
+    return res;
+}
+
+/*
+ * Auxiliary function that visits a vertex (v) and its adjacent, recursively.
+ * Updates a parameter with the list of visited node contents.
+ */
+template <class T>
+void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) const {
+    v->visited = true;
+    res.push_back(v->info);
+    for (auto & e : v->adj) {
+        auto w = e.dest;
+        if ( ! w->visited)
+            dfsVisit(w, res);
+    }
+}
+
+template<class T>
+void Graph<T>::resetVisited(){
+    for (auto v : vertexSet)
+        v->visited = false;
+}
+
+
+/*
+ * Performs a breadth-first search (bfs) in a graph (this), starting
+ * from the vertex with the given source contents (source).
+ * Returns a vector with the contents of the vertices by dfs order.
+ * Follows the algorithm described in theoretical classes.
+ */
+template <class T>
+vector<T> Graph<T>::bfs(const T & source) const {
+    vector<T> res;
+    auto s = findVertex(source);
+    if (s == NULL)
+        return res;
+    queue<Vertex<T> *> q;
+    for (auto v : vertexSet)
+        v->visited = false;
+    q.push(s);
+    s->visited = true;
+    while (!q.empty()) {
+        auto v = q.front();
+        q.pop();
+        res.push_back(v->info);
+        for (auto & e : v->adj) {
+            auto w = e.dest;
+            if ( ! w->visited ) {
+                q.push(w);
+                w->visited = true;
+            }
+        }
+    }
+    return res;
+}
+
+
+/*
+ * Performs a topological sorting of the vertices of a graph (this).
+ * Returns a vector with the contents of the vertices by topological order.
+ * If the graph has cycles, returns an empty vector.
+ * Follows the algorithm described in theoretical classes.
+ */
+
+template<class T>
+vector<T> Graph<T>::topsort() const {
+    vector<T> res;
+
+    for (auto v : vertexSet)
+        v->indegree = 0;
+    for (auto v : vertexSet)
+        for (auto & e : v->adj)
+            e.dest->indegree++;
+
+    queue<Vertex<T>*> q;
+    for (auto v : vertexSet)
+        if (v->indegree == 0)
+            q.push(v);
+
+    while( !q.empty() ) {
+        Vertex<T>* v = q.front();
+        q.pop();
+        res.push_back(v->info);
+        for(auto & e : v->adj) {
+            auto w = e.dest;
+            w->indegree--;
+            if(w->indegree == 0)
+                q.push(w);
+        }
+    }
+
+    if ( res.size() != vertexSet.size() ) {
+        cout << "Ordenacao Impossivel!" << endl;
+        res.clear();
+        return res;
+    }
+
+    return res;
 }
 
 
