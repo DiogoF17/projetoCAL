@@ -10,13 +10,13 @@
 
 class Trajeto {
 
-    vector<Vertex<Vertice>*> trajeto;
+    vector<int> trajeto;
 
 public:
     Trajeto();
 
-    vector<Vertex<Vertice>*> getTrajeto() const;
-    void addVertex(Vertex<Vertice> *vertice);
+    vector<int> getTrajeto() const;
+    void addVertex(int vertice);
 };
 
 ostream& operator<<(ostream& out, const Trajeto& trajeto);

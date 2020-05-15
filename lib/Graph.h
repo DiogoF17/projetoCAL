@@ -234,7 +234,7 @@ void Graph<T>::dijkstraShortestPath(const T &origin) {
     Vertex<T> *v;
     typename std::vector<Vertex<T> *>::iterator it= vertexSet.begin();
     for (it; it != vertexSet.end() ; it++) {
-        if((*it)->getInfo() == origin){
+        if(*((*it)->getInfo()) == origin){
             (*it)->dist=0;
             (*it)->path= NULL;
             v=(*it);

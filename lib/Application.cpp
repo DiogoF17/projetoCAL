@@ -261,11 +261,11 @@ void Application::leEstafetas() {
 }
 
 void Application::visualizacaoEstafetas() const {
-    cout << "-------------------------------------------------------------------\n"
-         << "                          ESTAFETAS INFO      \n"
-         << "-------------------------------------------------------------------\n";
+    cout << "-----------------------------------------------------------------------------\n"
+         << "                               ESTAFETAS INFO      \n"
+         << "-----------------------------------------------------------------------------\n";
     cout << left << setw(5) << "Id" << setw(15) << "Nome" << setw(15) << "Veiculo"<< setw(10) << "VelMedia" << setw(10) << "Alcance" << setw(12) << "Capacidade" << setw(10) << "Trajetos" << endl;
-    cout << "-------------------------------------------------------------------\n";
+    cout << "-----------------------------------------------------------------------------\n";
 
     for(int i = 0; i< estafetas.size(); i++){
         string veiculo, trajetos;
@@ -291,7 +291,7 @@ void Application::visualizacaoEstafetas() const {
              << setw(10) << trajetos << endl;
     }
 
-    cout << "-------------------------------------------------------------------\n\n";
+    cout << "-----------------------------------------------------------------------------\n\n";
 }
 
 
@@ -357,7 +357,7 @@ void Application::visualizacaoRestaurantes() const {
 //-------------------FUNCOES RELACIONADAS COM OS CAMINHOS--------------
 
 void Application::findPath(int orig, int dest) {
-    Vertex<Vertice> *vertice = graph->findVertex(Vertice(orig));
+    graph->dijkstraShortestPath(Vertice(orig));
     vector<int> path = checkSinglePath(dest);
     double dist = calculateDistAccordingToPath(path);
     Estafeta* estafeta = selectEstafeta(dist);
@@ -366,8 +366,8 @@ void Application::findPath(int orig, int dest) {
         return;
     }
     estafeta->setDisponibilidade(false);
-    estafeta->addTrajeto(graph, path);
-    double time = estafeta->getVelocidadeMedia() / dist;
+    estafeta->addTrajeto(path);
+    double time = dist / estafeta->getVelocidadeMedia();
 
     cout << "O estafeta selecionado tem o ID: " << estafeta->getId()
          << "\nO trajeto que tera de fazer e o seguinte: "
@@ -375,7 +375,7 @@ void Application::findPath(int orig, int dest) {
     for(int i = 1; i < path.size(); i++)
         cout << " -> " << path.at(i);
 
-    cout << "\nO tempo estimado de entrega e de: " << time << " segundos!\n\n";
+    cout << "\nO tempo estimado de entrega e de: " << time << " segundos numa distancia de: " << dist << "!\n\n";
 
 }
 

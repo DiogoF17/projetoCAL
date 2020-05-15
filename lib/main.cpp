@@ -122,8 +122,8 @@ void entregaUmaEncomendaUmEstafeta(Application *application){
     optionCliente = getOption(j+1);
 
     if(optionCliente > 0 && optionCliente < (i + 1)){
-        cout << "\n\nCliente Selecionado: " << restaurantes.at(optionCliente-1) << "\n\n";
-        application->findPath(optionRestaurante, optionCliente);
+        cout << "\n\nCliente Selecionado: " << clientes.at(optionCliente-1) << "\n\n";
+        application->findPath(restaurantes.at(optionRestaurante-1), clientes.at(optionCliente-1));
     }
     else if(optionCliente == i + 1){
         cout << "\nMenu Anterior...\n\n";

@@ -36,10 +36,10 @@ vector<Trajeto*> Estafeta::getTrajetos() const {return this->trajetos;}
 
 void Estafeta::setDisponibilidade(bool disponibilidade){this->disponibilidade = disponibilidade;}
 
-void Estafeta::addTrajeto(Graph<Vertice> *graph, vector<int> path){
+void Estafeta::addTrajeto(vector<int> path){
     Trajeto *trajeto = new Trajeto();
     for(int i = 0; i < path.size(); i++)
-        trajeto->addVertex(graph->findVertex(Vertice(path.at(i))));
+        trajeto->addVertex(path.at(i));
     trajetos.push_back(trajeto);
 
 }

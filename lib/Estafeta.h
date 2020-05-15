@@ -39,7 +39,7 @@ public:
 
     void setDisponibilidade(bool disponibilidade);
 
-    void addTrajeto(Graph<Vertice> *graph, vector<int> path);
+    void addTrajeto(vector<int> path);
 };
 
 

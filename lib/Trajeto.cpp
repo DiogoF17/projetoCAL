@@ -8,19 +8,20 @@
 
 Trajeto::Trajeto() {}
 
-vector<Vertex<Vertice>*> Trajeto::getTrajeto() const{return this->trajeto;}
+vector<int> Trajeto::getTrajeto() const{return this->trajeto;}
+
+void Trajeto::addVertex(int vertice){trajeto.push_back(vertice);}
 
 ostream& operator<<(ostream& out, const Trajeto& trajeto) {
-    vector<Vertex<Vertice>*> percurso = trajeto.getTrajeto();
+    vector<int> percurso = trajeto.getTrajeto();
 
-    out << percurso.at(0)->getInfo()->getId();
+    out << percurso.at(0);
 
     for(int i = 1; i < percurso.size(); i++)
-        out << " -> " << percurso.at(i)->getInfo()->getId();
+        out << " -> " << percurso.at(i);
 
     out << endl;
 
     return out;
 }
 
-void Trajeto::addVertex(Vertex<Vertice> *vertice){trajeto.push_back(vertice);}
