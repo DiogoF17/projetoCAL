@@ -98,10 +98,8 @@ void entregaUmaEncomendaUmEstafeta(Application *application){
 
     optionRestaurante = getOption(i+1);
 
-    if(optionRestaurante > 0 && optionRestaurante < (i + 1)){
+    if(optionRestaurante > 0 && optionRestaurante < (i + 1))
         cout << "\n\nRestaurante Selecionado: " << restaurantes.at(optionRestaurante-1) << "\n\n";
-        application->visualizacaoTodosTrajetos(optionRestaurante - 1);
-    }
     else if(optionRestaurante == i + 1){
         cout << "\nMenu Anterior...\n\n";
         return;
@@ -125,7 +123,7 @@ void entregaUmaEncomendaUmEstafeta(Application *application){
 
     if(optionCliente > 0 && optionCliente < (i + 1)){
         cout << "\n\nCliente Selecionado: " << restaurantes.at(optionCliente-1) << "\n\n";
-        application->visualizacaoTodosTrajetos(optionCliente - 1);
+        application->findPath(optionRestaurante, optionCliente);
     }
     else if(optionCliente == i + 1){
         cout << "\nMenu Anterior...\n\n";

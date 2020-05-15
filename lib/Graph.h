@@ -12,6 +12,7 @@
 #include <cmath>
 #include "MutablePriorityQueue.h"
 #include "Vertice.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -44,6 +45,14 @@ public:
 	Vertex *getPath() const;
 
 	vector<Edge<T>> getEdges() const {return this->adj;}
+
+	double getWeighTo(int dest){
+	    for(int i = 0; i < adj.size(); i++){
+	        if(adj.at(i).getDest()->getInfo()->getId() == dest)
+	            return adj.at(i).getWeight();
+	    }
+	    return -1;
+	}
 
 	bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 	friend class Graph<T>;
@@ -95,6 +104,7 @@ public:
 	friend class Vertex<T>;
 
 	Vertex<T>* getDest() const{return dest;}
+	double getWeight() const {return weight;}
 };
 
 template <class T>
@@ -293,8 +303,8 @@ vector<T> Graph<T>::getPathTo(const T &dest) const{
 	res.push_back(dest);
 	destino = findVertex(dest);
 	while (destino->getPath()!=NULL){
-	    res.push_back(destino->getPath()->getInfo());
-	    destino = findVertex(destino->getPath()->getInfo());
+	    res.push_back(*(destino->getPath()->getInfo()));
+	    destino = findVertex(*(destino->getPath()->getInfo()));
 	}
 	reverse(res.begin(),res.end());
 	return res;

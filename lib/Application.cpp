@@ -13,11 +13,22 @@ Application::Application() {
 
 //-------FUNCOES RELACIONADAS COM OS MAPAS-------
 
-double Application::calculateDist(Vertice orig, Vertice dest){
+double Application::calculateDistConsecVertices(Vertice orig, Vertice dest) const {
     int x1 = orig.getX(), x2 = dest.getY();
     int y1 = orig.getY(), y2 = dest.getY();
 
     return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+}
+
+double Application::calculateDistAccordingToPath(vector<int> path) const {
+    double dist = 0;
+
+    for(int i = 0; i < path.size() - 1; i++){
+        Vertex<Vertice> *vertice = graph->findVertex(Vertice(path.at(i)));
+        dist += vertice->getWeighTo(path.at(i+1));
+    }
+
+    return dist;
 }
 
 void Application::buildGraphViewer() {
@@ -184,7 +195,7 @@ void Application::carregarNovoMapa(string map){
         if(orig == NULL || dest == NULL)
             continue;
 
-        double weight = calculateDist(*(orig->getInfo()), *(dest->getInfo()));
+        double weight = calculateDistConsecVertices(*(orig->getInfo()), *(dest->getInfo()));
 
         graph->addEdge(Vertice(id1), Vertice(id2), weight);
 
@@ -233,6 +244,9 @@ void Application::leEstafetas() {
         string nome = aux;
 
         getline(entrada, aux);
+        double velocidadeMedia = stod(aux);
+
+        getline(entrada, aux);
         double alcance = stod(aux);
 
         getline(entrada, aux);
@@ -240,7 +254,7 @@ void Application::leEstafetas() {
 
         getline(entrada, aux);
 
-        estafetas.push_back(new Estafeta(id, nome, veiculo, alcance, capacidade));
+        estafetas.push_back(new Estafeta(id, nome, veiculo, alcance, capacidade, velocidadeMedia));
 
         id++;
     }
@@ -250,7 +264,7 @@ void Application::visualizacaoEstafetas() const {
     cout << "-------------------------------------------------------------------\n"
          << "                          ESTAFETAS INFO      \n"
          << "-------------------------------------------------------------------\n";
-    cout << left << setw(5) << "Id" << setw(15) << "Nome" << setw(15) << "Veiculo"<< setw(10) << "Alcance" << setw(12) << "Capacidade" << setw(10) << "Trajetos" << endl;
+    cout << left << setw(5) << "Id" << setw(15) << "Nome" << setw(15) << "Veiculo"<< setw(10) << "VelMedia" << setw(10) << "Alcance" << setw(12) << "Capacidade" << setw(10) << "Trajetos" << endl;
     cout << "-------------------------------------------------------------------\n";
 
     for(int i = 0; i< estafetas.size(); i++){
@@ -271,6 +285,7 @@ void Application::visualizacaoEstafetas() const {
         cout << left << setw(5) << estafetas.at(i)->getId()
              << setw(15) << estafetas.at(i)->getNome()
              << setw(15) << veiculo
+             << setw(10) << estafetas.at(i)->getVelocidadeMedia()
              << setw(10) << estafetas.at(i)->getAlcance()
              << setw(12) << estafetas.at(i)->getCapacidade()
              << setw(10) << trajetos << endl;
@@ -312,21 +327,63 @@ void Application::visualizacaoTodosTrajetos(int todos) const{
     cout << "-------------------------------------------------------------------\n\n";
 }
 
-//-----FUNCOES RELACIONADAS COM OS RESTAURANTES
+Estafeta* Application::selectEstafeta(int dist) {
+    for(int i = 0; i < estafetas.size(); i++){
+        if(estafetas.at(i)->getDisponibilidade() == true && estafetas.at(i)->getAlcance() >= dist)
+            return estafetas.at(i);
+    }
+    return NULL;
+}
+
+//-----FUNCOES RELACIONADAS COM OS RESTAURANTES----
 
 void Application::visualizacaoRestaurantes() const {
+    if (restaurantes.size() == 0) {
+        cout << "Nao foram carregados restaurantes!\n\n";
+        return;
+    }
+
     cout << "-------------------------------------------------------------------\n"
          << "                          RESTAURANTES INFO      \n"
          << "-------------------------------------------------------------------\n";
-    if (restaurantes.size() == 0) {
-        cout << "Nao existem restaurantes!\n";
+    cout << "Os restaurantes presentes tem os seguintes IDs:\n";
+
+    for (auto pair: restaurantes)
+        cout << "ID: " << pair.second << endl;
+
+    cout << "-------------------------------------------------------------------\n\n";
+}
+
+//-------------------FUNCOES RELACIONADAS COM OS CAMINHOS--------------
+
+void Application::findPath(int orig, int dest) {
+    Vertex<Vertice> *vertice = graph->findVertex(Vertice(orig));
+    vector<int> path = checkSinglePath(dest);
+    double dist = calculateDistAccordingToPath(path);
+    Estafeta* estafeta = selectEstafeta(dist);
+    if(estafeta == NULL){
+        cout << "Nao ha Estafetas disponiveis!\n\n";
         return;
     }
-    cout << "Os restaurantes presentes tem os seguintes IDs:\n";
-    for (auto pair: restaurantes) {
-        cout << "ID: " << pair.second << endl;
-    }
+    estafeta->setDisponibilidade(false);
+    estafeta->addTrajeto(graph, path);
+    double time = estafeta->getVelocidadeMedia() / dist;
 
+    cout << "O estafeta selecionado tem o ID: " << estafeta->getId()
+         << "\nO trajeto que tera de fazer e o seguinte: "
+         << "\n\t" << path.at(0);
+    for(int i = 1; i < path.size(); i++)
+        cout << " -> " << path.at(i);
 
+    cout << "\nO tempo estimado de entrega e de: " << time << " segundos!\n\n";
+
+}
+
+vector<int> Application::checkSinglePath(int dest) {
+    vector<int> ind;
+    vector<Vertice> path = graph->getPathTo(dest);
+    for(unsigned int i = 0; i < path.size(); i++)
+        ind.push_back(path.at(i).getId());
+    return ind;
 }
 

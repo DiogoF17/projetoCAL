@@ -22,10 +22,15 @@ class Application {
 
     Graph<Vertice> *graph;
 
-    double calculateDist(Vertice orig, Vertice dest);
+    double calculateDistConsecVertices(Vertice orig, Vertice dest) const;
+    double calculateDistAccordingToPath(vector<int> path) const;
     void buildGraphViewer();
 
     void visualizacaoTrajetoEspecifico(int option) const;
+
+    Estafeta* selectEstafeta(int dist);
+
+    vector<int> checkSinglePath(int dest);
 public:
     Application();
 
@@ -41,6 +46,8 @@ public:
     void visualizacaoEstafetas() const;
     void visualizacaoRestaurantes() const;
     void visualizacaoTodosTrajetos(int todos) const;
+
+    void findPath(int orig, int dest);
 
 };
 

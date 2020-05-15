@@ -22,3 +22,5 @@ ostream& operator<<(ostream& out, const Trajeto& trajeto) {
 
     return out;
 }
+
+void Trajeto::addVertex(Vertex<Vertice> *vertice){trajeto.push_back(vertice);}

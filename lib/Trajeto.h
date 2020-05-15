@@ -16,6 +16,7 @@ public:
     Trajeto();
 
     vector<Vertex<Vertice>*> getTrajeto() const;
+    void addVertex(Vertex<Vertice> *vertice);
 };
 
 ostream& operator<<(ostream& out, const Trajeto& trajeto);
