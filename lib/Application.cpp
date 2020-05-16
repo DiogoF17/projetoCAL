@@ -404,9 +404,18 @@ void Application::findPath2(int orig, vector<int> dests) {
     double dist = calculateDistAccordingToPath(path);
 
     vector<int> finalPath;
-    Estafeta* estafeta = selectEstafeta(dist);
-    if(estafeta == NULL){
-        cout << "Nao ha Estafetas disponiveis!\n\n";
+    bool found = false;
+    Estafeta* estafeta;
+    for (Estafeta* estafeta1: this->estafetas){
+        if (estafeta1->getCapacidade() >= dests.size() && estafeta1->getDisponibilidade()){
+            estafeta = estafeta1;
+            found = true;
+            break;
+        }
+    }
+
+    if(!found){
+        cout << "Nao ha estafetas disponiveis que consigam transportar " << dests.size() << " encomendas!\n\n";
         return ;
     }
     estafeta->setDisponibilidade(false);
@@ -456,7 +465,7 @@ void Application::findPath2(int orig, vector<int> dests) {
         cout << " -> " << finalPath.at(i);
     cout << endl;
 
-
+    estafeta->addTrajeto(finalPath);
 
     cout << "\nO tempo estimado de entrega e de: " << estafeta->getTime() << " segundos numa distancia de: " << totalDist << "!\n\n";
 
