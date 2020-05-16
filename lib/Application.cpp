@@ -364,6 +364,7 @@ void Application::visualizacaoRestaurantes() const {
 
 //-------------------FUNCOES RELACIONADAS COM OS CAMINHOS--------------
 
+
 void Application::findPath(int orig, int dest) {
     if(!graph->canReach1(orig, dest)){
         cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dest << "!\n\n";
@@ -382,6 +383,7 @@ void Application::findPath(int orig, int dest) {
     double time = dist / estafeta->getVelocidadeMedia();
     estafeta->setTime(time);
 
+
     cout << "O estafeta selecionado tem o ID: " << estafeta->getId()
          << "\nO trajeto que tera de fazer e o seguinte: "
          << "\n\t" << path.at(0);
@@ -392,6 +394,75 @@ void Application::findPath(int orig, int dest) {
 
 }
 
+void Application::findPath(int orig, vector<int> dests) {
+
+    double totalDist;
+
+    graph->dijkstraShortestPath(Vertice(orig));
+    vector<int> path = checkSinglePath(dests[dests.size()-1]);
+    //Get estafeta that can go that far
+    double dist = calculateDistAccordingToPath(path);
+
+    vector<int> finalPath;
+    Estafeta* estafeta = selectEstafeta(dist);
+    if(estafeta == NULL){
+        cout << "Nao ha Estafetas disponiveis!\n\n";
+        return pair<Estafeta*, vector<int>>(estafeta, finalPath);
+    }
+    estafeta->setDisponibilidade(false);
+
+    //==============================================================
+    //Get the path from the restaurant to the first client
+    if(!graph->canReach1(orig, dests.at(0))){
+        cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dests.at(0) << "!\n\n";
+        return pair<Estafeta*, vector<int>>(NULL, finalPath);
+    }
+
+    graph->dijkstraShortestPath(Vertice(orig));
+    path = checkSinglePath(dests.at(0));
+
+    dist = calculateDistAccordingToPath(path);
+    totalDist+=dist;
+    //estafeta->addTrajeto(path);
+    double time = dist / estafeta->getVelocidadeMedia();
+    estafeta->setTime(time);
+    for (int x: path){
+        finalPath.push_back(x);
+    }
+
+    for (int k = 1; k < dests.size(); k++) {
+        if (!graph->canReach1(dests.at(k - 1), dests.at(k))) {
+            cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << dests.at(k - 1) << " e "
+                 << dests.at(k) << "!\n\n";
+            return pair<Estafeta *, vector<int>>(NULL, finalPath);
+        }
+        graph->dijkstraShortestPath(Vertice(dests.at(k-1)));
+        path = checkSinglePath(dests.at(k));
+        dist = calculateDistAccordingToPath(path);
+        totalDist+=dist;
+        time = dist / estafeta->getVelocidadeMedia();
+        estafeta->setTime(estafeta->getTime()+time);
+        for (int m = 1; m < path.size(); m++){
+            finalPath.push_back(path[m]);
+        }
+    }
+
+
+
+    cout << "O estafeta selecionado tem o ID: " << estafeta->getId()
+         << "\nO trajeto que tera de fazer e o seguinte: "
+         << "\n\t" << finalPath.at(0);
+    for(int i = 1; i < finalPath.size(); i++)
+        cout << " -> " << finalPath.at(i);
+    cout << endl;
+
+
+
+    cout << "\nO tempo estimado de entrega e de: " << estafeta->getTime() << " segundos numa distancia de: " << totalDist << "!\n\n";
+
+    return pair<Estafeta *, vector<int>>(estafeta, finalPath);
+}
+
 vector<int> Application::checkSinglePath(int dest) {
     vector<int> ind;
     vector<Vertice> path = graph->getPathTo(dest);
@@ -399,4 +470,6 @@ vector<int> Application::checkSinglePath(int dest) {
         ind.push_back(path.at(i).getId());
     return ind;
 }
+
+
 

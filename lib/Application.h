@@ -49,6 +49,7 @@ public:
     void decrTimeOfEstafetas();
 
     void findPath(int orig, int dest);
+    void findPath(int orig, vector<int> dests);
 
 };
 
