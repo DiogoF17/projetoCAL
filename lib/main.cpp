@@ -9,6 +9,9 @@ using namespace std;
 
 vector<string> mapas = {"4x4", "8x8", "16x16"};
 
+//mantem a thread em funcionamento
+bool ON = true;
+
 //-------------------FUNCOES DE VALIDACAO-------------------
 
 int getOption(int numOptions){
@@ -156,10 +159,11 @@ void entregaVariasEncomendasUmEstafeta(Application *application){
         }
     }
 
-    cout << "Clientes Selecionados:";
+    cout << "Clientes Selecionados";
     sort(clientesSelecionados.begin(), clientesSelecionados.end());
-    for (int id: clientesSelecionados){
-        cout << id << " \t";
+    cout << clientesSelecionados.at(0);
+    for (int i = 1; i < clientesSelecionados.size(); i++){
+        cout << " / " << clientesSelecionados.at(i);
     }
     cout << endl << endl;
 
@@ -373,7 +377,7 @@ void menuPrincipal(Application *application){
 //----------THREAD CONTA O TEMPO--------
 
 void countTime(Application *application){
-    while(1){
+    while(ON){
         application->decrTimeOfEstafetas();
         sleep(1);
     }
@@ -390,6 +394,7 @@ int main(){
 
     menuPrincipal(application);
 
+    ON = false;
     th1.join();
 
     return 0;
