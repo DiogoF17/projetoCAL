@@ -156,25 +156,25 @@ void entregaVariasEncomendasUmEstafeta(Application *application){
         }
     }
 
-    cout << "The selected clients were the following:";
+    cout << "Clientes Selecionados:";
     sort(clientesSelecionados.begin(), clientesSelecionados.end());
     for (int id: clientesSelecionados){
         cout << id << " \t";
     }
-    cout << endl;
+    cout << endl << endl;
 
     if (clientesSelecionados.empty()){
-        cout << "Nenhum cliente foi selecionado!\n";
+        cout << "Nenhum cliente foi selecionado!\n\n";
 
     }
     else if (clientesSelecionados.size() == 1){
         cout << "Option restaurante - 1: " << optionRestaurante-1 << endl;
         cout << "Option cliente -1: " << optionCliente-1 << endl;
-        application->findPath(restaurantes.at(optionRestaurante-1), clientesSelecionados.at(0));
+        application->findPath1(restaurantes.at(optionRestaurante-1), clientesSelecionados.at(0));
 
     }
     else {
-        application->findPath(restaurantes.at(optionRestaurante-1), clientesSelecionados);
+        application->findPath2(restaurantes.at(optionRestaurante-1), clientesSelecionados);
 
         //application->findPath(restaurantes.at(optionRestaurante-1), clientesSelecionados);
     }
@@ -229,7 +229,7 @@ void entregaUmaEncomendaUmEstafeta(Application *application){
     if(optionCliente > 0 && optionCliente < (j + 1)){
         cout << "\n\nCliente Selecionado: " << clientes.at(optionCliente-1) << "\n\n";
 
-        application->findPath(restaurantes.at(optionRestaurante-1), clientes.at(optionCliente-1));
+        application->findPath1(restaurantes.at(optionRestaurante-1), clientes.at(optionCliente-1));
     }
     else if(optionCliente == j + 1){
         cout << "\nMenu Anterior...\n\n";

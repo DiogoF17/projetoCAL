@@ -365,7 +365,7 @@ void Application::visualizacaoRestaurantes() const {
 //-------------------FUNCOES RELACIONADAS COM OS CAMINHOS--------------
 
 
-void Application::findPath(int orig, int dest) {
+void Application::findPath1(int orig, int dest) {
     if(!graph->canReach1(orig, dest)){
         cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dest << "!\n\n";
         return;
@@ -394,7 +394,7 @@ void Application::findPath(int orig, int dest) {
 
 }
 
-void Application::findPath(int orig, vector<int> dests) {
+void Application::findPath2(int orig, vector<int> dests) {
 
     double totalDist;
 
