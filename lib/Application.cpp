@@ -407,7 +407,7 @@ void Application::findPath(int orig, vector<int> dests) {
     Estafeta* estafeta = selectEstafeta(dist);
     if(estafeta == NULL){
         cout << "Nao ha Estafetas disponiveis!\n\n";
-        return pair<Estafeta*, vector<int>>(estafeta, finalPath);
+        return ;
     }
     estafeta->setDisponibilidade(false);
 
@@ -415,7 +415,7 @@ void Application::findPath(int orig, vector<int> dests) {
     //Get the path from the restaurant to the first client
     if(!graph->canReach1(orig, dests.at(0))){
         cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dests.at(0) << "!\n\n";
-        return pair<Estafeta*, vector<int>>(NULL, finalPath);
+        return ;
     }
 
     graph->dijkstraShortestPath(Vertice(orig));
@@ -434,7 +434,7 @@ void Application::findPath(int orig, vector<int> dests) {
         if (!graph->canReach1(dests.at(k - 1), dests.at(k))) {
             cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << dests.at(k - 1) << " e "
                  << dests.at(k) << "!\n\n";
-            return pair<Estafeta *, vector<int>>(NULL, finalPath);
+            return;
         }
         graph->dijkstraShortestPath(Vertice(dests.at(k-1)));
         path = checkSinglePath(dests.at(k));
@@ -460,7 +460,7 @@ void Application::findPath(int orig, vector<int> dests) {
 
     cout << "\nO tempo estimado de entrega e de: " << estafeta->getTime() << " segundos numa distancia de: " << totalDist << "!\n\n";
 
-    return pair<Estafeta *, vector<int>>(estafeta, finalPath);
+   
 }
 
 vector<int> Application::checkSinglePath(int dest) {
