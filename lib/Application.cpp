@@ -394,14 +394,54 @@ void Application::findPath1(int orig, int dest) {
 
 }
 
+/**
+ * Function to get the id of the client that's closest to the restaurant
+ * @param orig -> id of the restaurant
+ * @param dests -> vector of ids of the clients
+ * @return the id of the closest client. -1 if error
+ */
+int Application::getClosestClientId(int orig, vector<int> dests){
+    if (dests.empty()) return -1;
+    if (dests.size() == 1){
+        return dests[0];
+    }
+    vector<double> distances;
+    graph->dijkstraShortestPath(Vertice(orig));
+    vector<int> path;
+    double dist;
+    for (int dest : dests){
+        path = checkSinglePath(dest);
+        dist = calculateDistAccordingToPath(path);
+        distances.push_back(dist);
+    }
+    int position_minimum = -1;
+    double minimum = 999;
+    for (int i = 0 ; i < distances.size(); i++){
+        if (distances[i] < minimum){
+            position_minimum = i;
+            minimum = distances[i];
+        }
+    }
+    return dests[position_minimum];
+}
 void Application::findPath2(int orig, vector<int> dests) {
 
     double totalDist;
 
     graph->dijkstraShortestPath(Vertice(orig));
-    vector<int> path = checkSinglePath(dests[dests.size()-1]);
-    //Get estafeta that can go that far
-    double dist = calculateDistAccordingToPath(path);
+    int closest_client = getClosestClientId(orig, dests);
+    //remove the processed client from the destinations
+    for(auto it = dests.begin(); it != dests.end(); it++ ){
+        if ((*it)== closest_client){
+            dests.erase(it);
+            break;
+        }
+    }
+
+    //Ignore this
+    /*vector<int> path = checkSinglePath(dests[dests.size()-1]);
+    Get estafeta that can go that far
+    double dist = calculateDistAccordingToPath(path);*/
 
     vector<int> finalPath;
     bool found = false;
@@ -422,13 +462,15 @@ void Application::findPath2(int orig, vector<int> dests) {
 
     //==============================================================
     //Get the path from the restaurant to the first client
-    if(!graph->canReach1(orig, dests.at(0))){
+    if(!graph->canReach1(orig, closest_client)){
         cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dests.at(0) << "!\n\n";
         return ;
     }
 
     graph->dijkstraShortestPath(Vertice(orig));
-    path = checkSinglePath(dests.at(0));
+    vector<int> path;
+    path = checkSinglePath(closest_client);
+    double dist;
 
     dist = calculateDistAccordingToPath(path);
     totalDist+=dist;
@@ -438,15 +480,17 @@ void Application::findPath2(int orig, vector<int> dests) {
     for (int x: path){
         finalPath.push_back(x);
     }
-
-    for (int k = 1; k < dests.size(); k++) {
-        if (!graph->canReach1(dests.at(k - 1), dests.at(k))) {
-            cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << dests.at(k - 1) << " e "
-                 << dests.at(k) << "!\n\n";
-            return;
+    while (!dests.empty()){
+        //the current client becomes the origin for the next client to have a delivery
+        graph->dijkstraShortestPath(Vertice(closest_client));
+        closest_client = getClosestClientId(closest_client, dests);
+        for (auto it = dests.begin(); it != dests.end(); it++){
+            if ((*it) == closest_client){
+                dests.erase(it);
+                break;
+            }
         }
-        graph->dijkstraShortestPath(Vertice(dests.at(k-1)));
-        path = checkSinglePath(dests.at(k));
+        path = checkSinglePath(closest_client);
         dist = calculateDistAccordingToPath(path);
         totalDist+=dist;
         time = dist / estafeta->getVelocidadeMedia();
@@ -455,6 +499,7 @@ void Application::findPath2(int orig, vector<int> dests) {
             finalPath.push_back(path[m]);
         }
     }
+
 
 
 

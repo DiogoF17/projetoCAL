@@ -48,6 +48,8 @@ public:
     void visualizacaoTodosTrajetos(int todos) const;
     void decrTimeOfEstafetas();
 
+    int getClosestClientId(int orig, vector<int> dests);
+
     void findPath1(int orig, int dest);
     void findPath2(int orig, vector<int> dests);
 
