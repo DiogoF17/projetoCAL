@@ -474,7 +474,6 @@ void Application::findPath2(int orig, vector<int> dests) {
 
     dist = calculateDistAccordingToPath(path);
     totalDist+=dist;
-    //estafeta->addTrajeto(path);
     double time = dist / estafeta->getVelocidadeMedia();
     estafeta->setTime(time);
     for (int x: path){

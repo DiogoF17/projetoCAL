@@ -9,6 +9,9 @@ using namespace std;
 
 vector<string> mapas = {"4x4", "8x8", "16x16"};
 
+//mantem a thread em funcionamento
+bool ON = true;
+
 //-------------------FUNCOES DE VALIDACAO-------------------
 
 int getOption(int numOptions){
@@ -135,12 +138,10 @@ void entregaVariasEncomendasUmEstafeta(Application *application){
                     break;
                 }
             }
-            if (!duplicate){
+            if (!duplicate)
                 clientesSelecionados.push_back(clientes.at(optionCliente-1));
-            }
-            else{
+            else
                 continue;
-            }
             cout << "\n\nCliente Selecionado: " << clientes.at(optionCliente - 1) << "\n\n";
 
 
@@ -156,28 +157,24 @@ void entregaVariasEncomendasUmEstafeta(Application *application){
         }
     }
 
-    cout << "Clientes Selecionados:";
+    cout << "Clientes Selecionados: ";
     sort(clientesSelecionados.begin(), clientesSelecionados.end());
-    for (int id: clientesSelecionados){
-        cout << id << " \t";
-    }
+    cout << clientesSelecionados.at(0);
+    for (int i = 1; i < clientesSelecionados.size(); i++)
+        cout << " / " << clientesSelecionados.at(i);
+
     cout << endl << endl;
 
-    if (clientesSelecionados.empty()){
+    if (clientesSelecionados.empty())
         cout << "Nenhum cliente foi selecionado!\n\n";
-
-    }
     else if (clientesSelecionados.size() == 1){
-        cout << "Option restaurante - 1: " << optionRestaurante-1 << endl;
-        cout << "Option cliente -1: " << optionCliente-1 << endl;
+        //cout << "Option restaurante - 1: " << optionRestaurante-1 << endl;
+        //cout << "Option cliente -1: " << optionCliente-1 << endl;
         application->findPath1(restaurantes.at(optionRestaurante-1), clientesSelecionados.at(0));
 
     }
-    else {
+    else
         application->findPath2(restaurantes.at(optionRestaurante-1), clientesSelecionados);
-
-        //application->findPath(restaurantes.at(optionRestaurante-1), clientesSelecionados);
-    }
 }
 void entregaUmaEncomendaUmEstafeta(Application *application){
 
@@ -373,7 +370,7 @@ void menuPrincipal(Application *application){
 //----------THREAD CONTA O TEMPO--------
 
 void countTime(Application *application){
-    while(1){
+    while(ON){
         application->decrTimeOfEstafetas();
         sleep(1);
     }
@@ -390,6 +387,7 @@ int main(){
 
     menuPrincipal(application);
 
+    ON = false;
     th1.join();
 
     return 0;
