@@ -377,19 +377,20 @@ void Application::visualizacaoRestaurantes() const {
          << "   MENU DE VISUALIZACAO DE RESTAURANTES "
          << "\n##########################################\n";
     if (restaurantes.size() == 0) {
-        cout << "Nao foram carregados restaurantes!\n\n";
+        cout << "\nNao foram carregados restaurantes!\n\n";
         return;
     }
 
-    cout << "\n-------------------------------------------------------------------\n"
-         << "                          RESTAURANTES INFO      \n"
-         << "-------------------------------------------------------------------\n";
-    cout << "Os restaurantes presentes tem os seguintes IDs:\n";
+    cout << "\n-----------------------\n"
+         << "     RESTAURANTES INFO      \n"
+         << "-----------------------\n"
+         << "ID\n"
+         << "-----------------------\n";
 
     for (auto pair: restaurantes)
-        cout << "ID: " << pair.second << endl;
+        cout <<  pair.second << endl;
 
-    cout << "-------------------------------------------------------------------\n\n";
+    cout << "-----------------------\n\n";
 }
 
 //-------------------FUNCOES RELACIONADAS COM OS CAMINHOS--------------
