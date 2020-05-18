@@ -275,7 +275,7 @@ void Application::leEstafetas() {
 
         id++;
     }
-    cout << endl;
+    cout << "Estafetas Lidos: " << id << endl << endl;
 }
 
 void Application::visualizacaoEstafetas() const {
@@ -381,16 +381,16 @@ void Application::visualizacaoRestaurantes() const {
         return;
     }
 
-    cout << "\n-----------------------\n"
-         << "     RESTAURANTES INFO      \n"
-         << "-----------------------\n"
+    cout << "\n-------------------\n"
+         << " RESTAURANTES INFO      \n"
+         << "-------------------\n"
          << "ID\n"
-         << "-----------------------\n";
+         << "-------------------\n";
 
     for (auto pair: restaurantes)
         cout <<  pair.second << endl;
 
-    cout << "-----------------------\n\n";
+    cout << "-------------------\n\n";
 }
 
 //-------------------FUNCOES RELACIONADAS COM OS CAMINHOS--------------
