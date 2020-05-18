@@ -217,6 +217,7 @@ void Application::visualizacaoMapa() {
     }
 
     cout << "Mapa de " << graph->getLugar() << "!\n\n";
+    cout << "Verde -> Restaurantes\nVermelho -> Clientes\nAmarelo -> Intersecoes\n\n";
 
     buildGraphViewer();
 

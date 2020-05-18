@@ -326,8 +326,8 @@ void menuPrincipal(Application *application){
              << "\n2) Visualizar Mapa;"
              << "\n3) Planear Rota;"
              << "\n4) Ver Estafetas Info;"
-             << "\n5) Ver Restaurantes Info"
-             << "\n6) Ver Trajetos dos Estafetas"
+             << "\n5) Ver Restaurantes Info;"
+             << "\n6) Ver Trajetos dos Estafetas;"
              << "\n0) Sair;";
 
         option = getOption(6);
