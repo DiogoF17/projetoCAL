@@ -211,12 +211,15 @@ void Application::carregarNovoMapa(string map){
 }
 
 void Application::visualizacaoMapa() {
+    cout << "###################################\n"
+         << "   MENU DE VISUALIZACAO DE MAPAS "
+         << "\n###################################\n";
     if(graph->getNumVertex() == 0){
-        cout << "Ainda nao foi carregado nenhum Mapa!\n\n";
+        cout << "\nAinda nao foi carregado nenhum Mapa!\n\n";
         return;
     }
 
-    cout << "Mapa de " << graph->getLugar() << "!\n\n";
+    cout << "\nMapa de " << graph->getLugar() << "!\n\n";
     cout << "Verde -> Restaurantes\nVermelho -> Clientes\nAmarelo -> Intersecoes\n\n";
 
     buildGraphViewer();
@@ -226,19 +229,30 @@ void Application::visualizacaoMapa() {
 //-------FUNCOES RELACIONADAS COM OS ESTAFETAS----
 
 void Application::leEstafetas() {
-    string fileName = "../resources/estafetas.txt";
+    cout << "##################################\n"
+         << "   MENU DE IMPORTACAO ESTAFETAS "
+         << "\n##################################\n";
+    string fileName;
+    cin.ignore(1000, '\n');
+    cout << "\nIntroduza o nome do ficheiro: ";
+    getline(cin, fileName);
+    string filePath = "../resources/" + fileName;
 
     ifstream entrada;
-    entrada.open(fileName);
+    entrada.open(filePath);
 
     if(!entrada.is_open()){
         cout << "Erro na Abertura do Ficheiro!\n\n";
         return;
     }
 
+    estafetas.clear();
+
     string aux;
 
     int id = 0;
+
+    cout << "\nLendo Estafetas...\n";
 
     while(getline(entrada, aux)){
         string veiculo = aux;
@@ -261,10 +275,19 @@ void Application::leEstafetas() {
 
         id++;
     }
+    cout << endl;
 }
 
 void Application::visualizacaoEstafetas() const {
-    cout << "---------------------------------------------------------------------------------------\n"
+    cout << "#######################################\n"
+         << "   MENU DE VISUALIZACAO DE ESTAFETAS "
+         << "\n#######################################\n";
+    if(estafetas.size() == 0){
+        cout << "\nAinda nao foram carregados Estafetas!\n\n";
+        return;
+    }
+
+    cout << "\n---------------------------------------------------------------------------------------\n"
          << "                               ESTAFETAS INFO      \n"
          << "---------------------------------------------------------------------------------------\n";
     cout << left << setw(5) << "Id" << setw(15) << "Nome" << setw(15) << "Veiculo"<< setw(10) << "VelMedia" << setw(10) << "Alcance" << setw(12) << "Capacidade" << setw(10) << "Trajetos" << setw(5) << "Disp" << setw(5) << "Tempo" << endl;
@@ -317,7 +340,10 @@ void Application::visualizacaoTrajetoEspecifico(int option) const{
 }
 
 void Application::visualizacaoTodosTrajetos(int todos) const{
-    cout << "-------------------------------------------------------------------\n"
+    cout << "######################################\n"
+         << "   MENU DE VISUALIZACAO DE TRAJETOS "
+         << "\n######################################\n";
+    cout << "\n-------------------------------------------------------------------\n"
          << "                          TRAJETOS INFO      \n"
          << "-------------------------------------------------------------------\n";
 
@@ -347,12 +373,15 @@ void Application::decrTimeOfEstafetas(){
 //-----FUNCOES RELACIONADAS COM OS RESTAURANTES----
 
 void Application::visualizacaoRestaurantes() const {
+    cout << "##########################################\n"
+         << "   MENU DE VISUALIZACAO DE RESTAURANTES "
+         << "\n##########################################\n";
     if (restaurantes.size() == 0) {
         cout << "Nao foram carregados restaurantes!\n\n";
         return;
     }
 
-    cout << "-------------------------------------------------------------------\n"
+    cout << "\n-------------------------------------------------------------------\n"
          << "                          RESTAURANTES INFO      \n"
          << "-------------------------------------------------------------------\n";
     cout << "Os restaurantes presentes tem os seguintes IDs:\n";

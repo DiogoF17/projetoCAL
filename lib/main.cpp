@@ -49,6 +49,11 @@ void visualizacaoTrajetosEstafetas(Application *application){
 
         vector<Estafeta*> estafetas = application->getEstfetas();
 
+        if(estafetas.size() == 0){
+            cout << "\nAinda nao foram carregados Estafetas!\n\n";
+            return;
+        }
+
         int i = 0;
 
         for(i; i < estafetas.size(); i++)
@@ -79,8 +84,12 @@ void visualizacaoTrajetosEstafetas(Application *application){
     }
 }
 void entregaVariasEncomendasUmEstafeta(Application *application){
+    cout << "#########################################\n"
+         << "   MENU DE PLANEAMENTO +1 ENC -> 1 EST "
+         << "\n#########################################\n";
+
     if(application->getGraphSize() == 0){
-        cout << "Ainda nao foi carregado nenhum Mapa!\n\n";
+        cout << "\nAinda nao foi carregado nenhum Mapa!\n\n";
         return;
     }
 
@@ -90,7 +99,7 @@ void entregaVariasEncomendasUmEstafeta(Application *application){
     int optionRestaurante, optionCliente;
 
     //Selecting restaurant
-    cout << "Selecione um Restaurante!\n";
+    cout << "\nSelecione um Restaurante!\n";
 
     int i = 0;
 
@@ -178,8 +187,12 @@ void entregaVariasEncomendasUmEstafeta(Application *application){
 }
 void entregaUmaEncomendaUmEstafeta(Application *application){
 
+    cout << "########################################\n"
+         << "   MENU DE PLANEAMENTO 1 ENC -> 1 EST "
+         << "\n########################################\n";
+
     if(application->getGraphSize() == 0){
-        cout << "Ainda nao foi carregado nenhum Mapa!\n\n";
+        cout << "\nAinda nao foi carregado nenhum Mapa!\n\n";
         return;
     }
 
@@ -188,7 +201,7 @@ void entregaUmaEncomendaUmEstafeta(Application *application){
 
     int optionRestaurante, optionCliente;
 
-    cout << "Selecione um Restaurante!\n";
+    cout << "\nSelecione um Restaurante!\n";
 
     int i = 0;
 
@@ -323,14 +336,15 @@ void menuPrincipal(Application *application){
              << "\n############################\n";
 
         cout << "\n1) Carregar Novo Mapa;"
-             << "\n2) Visualizar Mapa;"
-             << "\n3) Planear Rota;"
-             << "\n4) Ver Estafetas Info;"
-             << "\n5) Ver Restaurantes Info;"
-             << "\n6) Ver Trajetos dos Estafetas;"
+             << "\n2) Carregar Estafetas;"
+             << "\n3) Visualizar Mapa;"
+             << "\n4) Planear Rota;"
+             << "\n5) Ver Estafetas Info;"
+             << "\n6) Ver Restaurantes Info;"
+             << "\n7) Ver Trajetos dos Estafetas;"
              << "\n0) Sair;";
 
-        option = getOption(6);
+        option = getOption(7);
 
         switch(option){
             case 1:
@@ -338,22 +352,26 @@ void menuPrincipal(Application *application){
                 carregarNovoMapaMenu(application);
                 break;
             case 2:
+                cout << "\nCarregar Estafetas...\n\n";
+                application->leEstafetas();
+                break;
+            case 3:
                 cout << "\nVisualizacao Mapa...\n\n";
                 application->visualizacaoMapa();
                 break;
-            case 3:
+            case 4:
                 cout << "\nPlaneamento de Rota...\n\n";
                 planeamentoRota(application);
                 break;
-            case 4:
+            case 5:
                 cout << "\nVisualizacao de Estafetas...\n\n";
                 application->visualizacaoEstafetas();
                 break;
-            case 5:
+            case 6:
                 cout << "\nVisualizacao de Restaurantes...\n\n";
                 application->visualizacaoRestaurantes();
                 break;
-            case 6:
+            case 7:
                 cout << "\nVisualizacao de Trajetos dos Estafetas...\n\n";
                 visualizacaoTrajetosEstafetas(application);
                 break;
@@ -381,7 +399,6 @@ void countTime(Application *application){
 int main(){
 
     Application *application = new Application();
-    application->leEstafetas();
 
     thread th1(countTime, application);
 
