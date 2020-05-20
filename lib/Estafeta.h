@@ -13,16 +13,12 @@ enum Veiculo{NENHUM, BICICLETA, MOTA, CARRO};
 class Estafeta {
 
     int id;
-
     string nome;
-
     Veiculo veiculo;
     double velocidadeMedia;
     double alcance;
     int capacidade;
-
     double time;
-
     bool disponibilidade;
 
     vector<Trajeto*> trajetos;
