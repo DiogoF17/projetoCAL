@@ -29,7 +29,7 @@ class Application {
     void visualizacaoTrajetoEspecifico(int option) const;
 
     Estafeta* selectEstafeta(int dist);
-
+    Estafeta* selectEstafeta(int dist, int qtde);
     vector<int> checkSinglePath(int dest);
 public:
     Application();

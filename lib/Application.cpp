@@ -338,6 +338,14 @@ Estafeta* Application::selectEstafeta(int dist) {
     return NULL;
 }
 
+Estafeta* Application::selectEstafeta(int dist, int qtde){
+    for(int i = 0; i < estafetas.size(); i++){
+        if(estafetas.at(i)->getDisponibilidade() == true && estafetas.at(i)->getAlcance() >= dist && estafetas.at(i)->getCapacidade() >= qtde)
+            return estafetas.at(i);
+    }
+    return NULL;
+}
+
 void Application::decrTimeOfEstafetas(){
     for(int i = 0; i < estafetas.size(); i++)
         estafetas.at(i)->decrTime();
@@ -405,14 +413,14 @@ int Application::getClosestClientId(int orig, vector<int> dests){
     if (dests.size() == 1){
         return dests[0];
     }
-    vector<double> distances;
+    vector<int> distances;
     graph->dijkstraShortestPath(Vertice(orig));
     vector<int> path;
     double dist;
     for (int dest : dests){
         path = checkSinglePath(dest);
-        dist = calculateDistAccordingToPath(path);
-        distances.push_back(dist);
+
+        distances.push_back(path.size());
     }
     int position_minimum = -1;
     double minimum = 999;
@@ -425,11 +433,16 @@ int Application::getClosestClientId(int orig, vector<int> dests){
     return dests[position_minimum];
 }
 void Application::findPath2(int orig, vector<int> dests) {
-
-    double totalDist;
-
+    if (dests.empty()){
+        cout << "Nao foi escolhido nenhum cliente!\n";
+        return;
+    }
+    double totalDist = 0;
+    double totalTime = 0;
     graph->dijkstraShortestPath(Vertice(orig));
     int closest_client = getClosestClientId(orig, dests);
+    cout << dests.size() << endl;
+    cout << "The closest client has id " << closest_client << endl;
     //remove the processed client from the destinations
     for(auto it = dests.begin(); it != dests.end(); it++ ){
         if ((*it)== closest_client){
@@ -444,21 +457,8 @@ void Application::findPath2(int orig, vector<int> dests) {
     double dist = calculateDistAccordingToPath(path);*/
 
     vector<int> finalPath;
-    bool found = false;
-    Estafeta* estafeta;
-    for (Estafeta* estafeta1: this->estafetas){
-        if (estafeta1->getCapacidade() >= dests.size() && estafeta1->getDisponibilidade()){
-            estafeta = estafeta1;
-            found = true;
-            break;
-        }
-    }
 
-    if(!found){
-        cout << "Nao ha estafetas disponiveis que consigam transportar " << dests.size() << " encomendas!\n\n";
-        return ;
-    }
-    estafeta->setDisponibilidade(false);
+
 
     //==============================================================
     //Get the path from the restaurant to the first client
@@ -474,8 +474,7 @@ void Application::findPath2(int orig, vector<int> dests) {
 
     dist = calculateDistAccordingToPath(path);
     totalDist+=dist;
-    double time = dist / estafeta->getVelocidadeMedia();
-    estafeta->setTime(time);
+
     for (int x: path){
         finalPath.push_back(x);
     }
@@ -492,15 +491,21 @@ void Application::findPath2(int orig, vector<int> dests) {
         path = checkSinglePath(closest_client);
         dist = calculateDistAccordingToPath(path);
         totalDist+=dist;
-        time = dist / estafeta->getVelocidadeMedia();
-        estafeta->setTime(estafeta->getTime()+time);
+
         for (int m = 1; m < path.size(); m++){
             finalPath.push_back(path[m]);
         }
     }
 
+    Estafeta* estafeta = selectEstafeta(totalDist, dests.size()+1);
+    if(estafeta == NULL){
+        cout << "Nao ha Estafetas disponiveis que consigam transportar as encomendas necessarias!\n\n";
+        return;
+    }
+    estafeta->setDisponibilidade(false);
 
-
+    double time = totalDist / estafeta->getVelocidadeMedia();
+    estafeta->setTime(time);
 
     cout << "O estafeta selecionado tem o ID: " << estafeta->getId()
          << "\nO trajeto que tera de fazer e o seguinte: "
