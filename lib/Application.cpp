@@ -515,17 +515,15 @@ void Application::findPath1(int orig, int dest) {
  */
 int Application::getClosestClientId(int orig, vector<int> dests){
     if (dests.empty()) return -1;
-    if (dests.size() == 1){
-        return dests[0];
-    }
+    if (dests.size() == 1) return dests[0];
     vector<int> distances;
-    graph->dijkstraShortestPath(Vertice(orig));
+    //graph->dijkstraShortestPath(Vertice(orig));
     vector<int> path;
     double dist;
     for (int dest : dests){
         path = checkSinglePath(dest);
-
-        distances.push_back(path.size());
+        distances.push_back(calculateDistAccordingToPath(path));
+        //distances.push_back(path.size());
     }
     int position_minimum = -1;
     double minimum = 999;
@@ -563,8 +561,6 @@ int Application::findPath2(int orig, vector<int> dests) {
     double dist = calculateDistAccordingToPath(path);*/
 
     vector<int> finalPath;
-
-
 
     //==============================================================
     //Get the path from the restaurant to the first client
