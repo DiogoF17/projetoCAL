@@ -555,16 +555,19 @@ boolean ordemCrescenteCapacidade( Estafeta* e1,Estafeta* e2){
 
 
 void Application::findPath3(int orig, vector<int> dests) {
-    if(findPath2(orig,dests)!=-3){
+    /*if(findPath2(orig,dests)!=-3){
         return;
-    }
+    }*/
 
-    for (int dest : dests){
-        if(!graph->canReach1(orig, dest)){
-            cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dest << "!\n\n";
-            return;
+    typename vector<int>::iterator it= dests.begin();
+    for( it ;it != dests.end(); it++){
+        if(!graph->canReach1(orig, (*it))){
+            cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << (*it) << "!\n\n";
+            dests.erase(it);
+            it--;
         }
     }
+
     double totalDist=0;
     double time = 0;
     int pedidosAAtribuir=dests.size()-1;
@@ -604,7 +607,7 @@ void Application::findPath3(int orig, vector<int> dests) {
 
         while (pedidosAAtribuir){
             graph->dijkstraShortestPath(Vertice(closest_client));
-            closest_client = getClosestClientId(closest_client, dests);
+            closest_client = getClosestClientId(closest_client, destsCopy);
             for (auto it = destsCopy.begin(); it != destsCopy.end(); it++){
                 if ((*it) == closest_client){
                     destsCopy.erase(it);
