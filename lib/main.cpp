@@ -14,6 +14,11 @@ bool ON = true;
 
 //-------------------FUNCOES DE VALIDACAO-------------------
 
+/**
+ * Função que valida a opção do utilizador.
+ * @param numOptions numero de opções possiveis.
+ * @return opção escolhida.
+ */
 int getOption(int numOptions){
     int option;
 
@@ -39,6 +44,10 @@ int getOption(int numOptions){
 
 //-------------------MENUS-------------------
 
+/**
+ * Menu de visualização dos trajetos.
+ * @param application aplicação.
+ */
 void visualizacaoTrajetosEstafetas(Application *application){
     int option;
 
@@ -84,6 +93,10 @@ void visualizacaoTrajetosEstafetas(Application *application){
     }
 }
 
+/**
+ * Menu de +1 enc -> +1 est.
+ * @param application aplicação.
+ */
 void entregaVariasEncomandasVariasEstafeta(Application * application){
     cout << "#########################################\n"
          << "   MENU DE PLANEAMENTO +1 ENC -> +1 EST "
@@ -187,6 +200,10 @@ void entregaVariasEncomandasVariasEstafeta(Application * application){
         application->findPath3(restaurantes.at(optionRestaurante-1), clientesSelecionados);
 }
 
+/**
+ * Menu de +1 enc -> 1 est.
+ * @param application aplicação.
+ */
 void entregaVariasEncomendasUmEstafeta(Application *application){
     cout << "#########################################\n"
          << "   MENU DE PLANEAMENTO +1 ENC -> 1 EST "
@@ -289,6 +306,11 @@ void entregaVariasEncomendasUmEstafeta(Application *application){
     else
         application->findPath2(restaurantes.at(optionRestaurante-1), clientesSelecionados);
 }
+
+/**
+ * Menu de 1 enc -> 1 est.
+ * @param application aplicação.
+ */
 void entregaUmaEncomendaUmEstafeta(Application *application){
 
     cout << "########################################\n"
@@ -355,6 +377,10 @@ void entregaUmaEncomendaUmEstafeta(Application *application){
     }
 }
 
+/**
+ * Menu de planeamneto de uma rota.
+ * @param application aplicação.
+ */
 void planeamentoRota(Application *application){
     int option;
 
@@ -396,6 +422,10 @@ void planeamentoRota(Application *application){
     }
 }
 
+/**
+ * Menu de importação de um novo mapa.
+ * @param application apliacção.
+ */
 void carregarNovoMapaMenu(Application *application){
     int option;
 
@@ -432,6 +462,10 @@ void carregarNovoMapaMenu(Application *application){
     }
 }
 
+/**
+ * Menu Principal.
+ * @param application apliacção.
+ */
 void menuPrincipal(Application *application){
     int option;
 
@@ -492,6 +526,10 @@ void menuPrincipal(Application *application){
 
 //----------THREAD CONTA O TEMPO--------
 
+/**
+ * Responsável por decrementar o tempo dos estfetas a cada segundo.
+ * @param application aplicação onde estão contidos os estafetas.
+ */
 void countTime(Application *application){
     while(ON){
         application->decrTimeOfEstafetas();

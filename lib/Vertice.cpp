@@ -4,6 +4,10 @@
 
 #include "Vertice.h"
 
+/**
+ * Construtor.
+ * @param id id do vértice.
+ */
 Vertice::Vertice(int id) {
     this->id = id;
 
@@ -14,6 +18,12 @@ Vertice::Vertice(int id) {
     this->tipo = INTERSECAO;
 }
 
+/**
+ * Construtor.
+ * @param id id do vértice.
+ * @param x x do vértice.
+ * @param y y do vértice.
+ */
 Vertice::Vertice(int id, double x, double y){
     this->id = id;
     this->x = x;
@@ -22,6 +32,13 @@ Vertice::Vertice(int id, double x, double y){
     this->tipo = INTERSECAO;
 }
 
+/**
+ * Construtor.
+ * @param id id do vértice.
+ * @param x x do vértice.
+ * @param y y do vértice.
+ * @param tipo tipo do vértice(restaurante, cliente, interseção)
+ */
 Vertice::Vertice(int id, double x, double y, Tipo tipo){
     this->id = id;
     this->x = x;
@@ -35,10 +52,6 @@ double Vertice::getX() const {return this->x;}
 double Vertice::getY() const {return this->y;}
 
 Tipo Vertice::getTipo() const {return this->tipo;}
-
-void Vertice::setId(int id){this->id = id;}
-void Vertice::setX(int x){this->x = x;}
-void Vertice::setY(int y){this->y = y;}
 
 void Vertice::setTipo(Tipo tipo){this->tipo = tipo;}
 

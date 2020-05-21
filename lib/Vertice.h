@@ -26,10 +26,6 @@ public:
 
     Tipo getTipo() const;
 
-    void setId(int id);
-    void setX(int x);
-    void setY(int y);
-
     void setTipo(Tipo tipo);
 
     bool operator==(const Vertice& vertice) const;

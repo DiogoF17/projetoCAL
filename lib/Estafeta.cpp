@@ -8,6 +8,9 @@
 
 using namespace std;
 
+/*
+ * Construtor.
+ */
 Estafeta::Estafeta(int id, string nome, string veiculo, double alcance, int capacidade, double velocidadeMedia) {
     this->id = id;
 
@@ -43,6 +46,10 @@ vector<Trajeto*> Estafeta::getTrajetos() const {return this->trajetos;}
 void Estafeta::setDisponibilidade(bool disponibilidade){this->disponibilidade = disponibilidade;}
 void Estafeta::setTime(double time){this->time = time;}
 
+/**
+ * Adiciona o trajeto ao estafeta.
+ * @param path trajeto a adicionar.
+ */
 void Estafeta::addTrajeto(vector<int> path){
     Trajeto *trajeto = new Trajeto();
     for(int i = 0; i < path.size(); i++)
@@ -51,11 +58,17 @@ void Estafeta::addTrajeto(vector<int> path){
 
 }
 
+/*
+ * Imprime os trajetos do estfeta.
+ */
 void Estafeta::imprimeTrajetos() {
     for(int i = 0; i < trajetos.size(); i++)
         trajetos.at(i)->imprime();
 }
 
+/*
+ * Decrementa o tempo do estafeta.
+ */
 void Estafeta::decrTime(){
     if(time > 0)
         time--;

@@ -15,11 +15,23 @@
 
 class Application {
 
+    /*
+     * Estafetas da Aplicação.
+     */
     std::vector<Estafeta*> estafetas;
 
+    /*
+     * Contém os ids dos rstaurantes.
+     */
     std::map<int, int> restaurantes;
+    /*
+     * Contém os ids dos clientes.
+     */
     std::map<int, int> clientes;
 
+    /*
+     *Grafo.
+     */
     Graph<Vertice> *graph;
 
     double calculateDistConsecVertices(Vertice orig, Vertice dest) const;
