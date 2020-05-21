@@ -514,9 +514,16 @@ void Application::findPath1(int orig, int dest) {
  * @return the id of the closest client. -1 if error
  */
 int Application::getClosestClientId(int orig, vector<int> dests){
+    typename vector<int>::iterator it= dests.begin();
+    for( it ;it != dests.end(); it++){
+        if(!graph->canReach1(orig, (*it))){
+            dests.erase(it);
+            it--;
+        }
+    }
     if (dests.empty()) return -1;
     if (dests.size() == 1) return dests[0];
-    vector<int> distances;
+    vector<double> distances;
     //graph->dijkstraShortestPath(Vertice(orig));
     vector<int> path;
     double dist;
@@ -526,7 +533,7 @@ int Application::getClosestClientId(int orig, vector<int> dests){
         //distances.push_back(path.size());
     }
     int position_minimum = -1;
-    double minimum = 999;
+    double minimum =INF;
     for (int i = 0 ; i < distances.size(); i++){
         if (distances[i] < minimum){
             position_minimum = i;
@@ -653,14 +660,13 @@ void Application::findPath3(int orig, vector<int> dests) {
 
     sort(this->estafetas.begin(),this->estafetas.end(),ordemCrescenteCapacidade);
 
-    graph->dijkstraShortestPath(Vertice(orig));
-
     while(!destsCopy.empty()){
         if (pedidosAAtribuir == 0){
-            cout << "Nao ha estafetas disponiveis que consigam transportar " << dests.size() << " encomendas!\n\n";
+            cout << "Nao ha estafetas disponiveis que consigam transportar " << dests.size() << " encomenda(s)!\n\n";
             return ;
         }
         capacidade=0;
+        graph->dijkstraShortestPath(Vertice(orig));
         closest_client = getClosestClientId(orig, destsCopy);
         path = checkSinglePath(closest_client);
         dist = calculateDistAccordingToPath(path);
@@ -680,7 +686,8 @@ void Application::findPath3(int orig, vector<int> dests) {
 
         while (pedidosAAtribuir){
             graph->dijkstraShortestPath(Vertice(closest_client));
-            closest_client = getClosestClientId(closest_client, destsCopy);
+            if((closest_client = getClosestClientId(closest_client, destsCopy))==-1)
+                break;
             for (auto it = destsCopy.begin(); it != destsCopy.end(); it++){
                 if ((*it) == closest_client){
                     destsCopy.erase(it);
