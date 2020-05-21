@@ -214,6 +214,11 @@ void entregaVariasEncomendasUmEstafeta(Application *application){
         return;
     }
 
+    if(application->getEstafetasSize() == 0){
+        cout << "\nAinda nao foram carregados estafetas!\n\n";
+        return;
+    }
+
     map<int, int> restaurantes = application->getRestaurantes();
     map<int, int> clientes = application->getClientes();
 
@@ -304,7 +309,7 @@ void entregaVariasEncomendasUmEstafeta(Application *application){
 
     }
     else
-        application->findPath2(restaurantes.at(optionRestaurante-1), clientesSelecionados);
+        application->findPath21(restaurantes.at(optionRestaurante-1), clientesSelecionados);
 }
 
 /**

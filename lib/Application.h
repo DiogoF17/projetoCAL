@@ -59,11 +59,14 @@ public:
     void visualizacaoRestaurantes() const;
     void visualizacaoTodosTrajetos(int todos) const;
     void decrTimeOfEstafetas();
+    int getEstafetasSize() const;
 
     int getClosestClientId(int orig, vector<int> dests);
+    int getClosestClientPath(int orig, vector<int> &dests, vector<int> &path);
 
     void findPath1(int orig, int dest);
     int findPath2(int orig, vector<int> dests);
+    void findPath21(int orig, vector<int> dests);
     void findPath3(int orig, vector<int> dests);
 
 };

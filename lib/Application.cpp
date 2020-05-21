@@ -430,6 +430,10 @@ void Application::decrTimeOfEstafetas(){
         estafetas.at(i)->decrTime();
 }
 
+int Application::getEstafetasSize() const {
+    return estafetas.size();
+}
+
 //-----FUNCOES RELACIONADAS COM OS RESTAURANTES----
 
 /**
@@ -549,12 +553,15 @@ int Application::findPath2(int orig, vector<int> dests) {
         return -1;
     }
     double totalDist = 0;
-    double totalTime = 0;
+    //double totalTime = 0;
     graph->dijkstraShortestPath(Vertice(orig));
     int closest_client = getClosestClientId(orig, dests);
     //cout << dests.size() << endl;
-    cout << "The closest client has id " << closest_client << endl;
+    //cout << "The closest client has id " << closest_client << endl;
     //remove the processed client from the destinations
+    /*
+     * Passar para funcao.
+     */
     for(auto it = dests.begin(); it != dests.end(); it++ ){
         if ((*it)== closest_client){
             dests.erase(it);
@@ -584,10 +591,12 @@ int Application::findPath2(int orig, vector<int> dests) {
     dist = calculateDistAccordingToPath(path);
     totalDist+=dist;
 
-    for (int x: path){
-        finalPath.push_back(x);
-    }
+    for (int x: path) finalPath.push_back(x);
+
     while (!dests.empty()){
+        /*
+         * Adicionar canReach.
+         */
         //the current client becomes the origin for the next client to have a delivery
         graph->dijkstraShortestPath(Vertice(closest_client));
         closest_client = getClosestClientId(closest_client, dests);
@@ -629,6 +638,101 @@ int Application::findPath2(int orig, vector<int> dests) {
 
    return 0;
 }
+
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//       2ª Versão
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+int Application::getClosestClientPath(int orig, vector<int> &dests, vector<int> &path){
+    vector<double> distances;
+    vector<vector<int>> paths;
+    int indice = -1;
+    double minDist = INF;
+
+    for (int dest : dests){
+        path = checkSinglePath(dest);
+        paths.push_back(path);
+        distances.push_back(calculateDistAccordingToPath(path));
+    }
+
+    for (int i = 0; i < distances.size(); i++){
+        if (distances.at(i) < minDist){
+            indice = i;
+            minDist = distances.at(i);
+        }
+    }
+
+    int id = dests.at(indice);
+    dests.erase(dests.begin() + indice);
+    path = paths.at(indice);
+
+    return id;
+}
+
+void Application::findPath21(int orig, vector<int> dests) {
+
+    vector<int> unreachable, path;
+    int inicial_cap = dests.size();
+    double totalDist = 0;
+    vector<int> finalPath;
+    int primeiro = true;
+
+    do {
+
+        /*
+         * Para cada novo vertice origem efetua a verificação
+         * se todos os vértices são alcançáveis.
+         */
+        for (auto it = dests.begin(); it != dests.end(); it++) {
+            if (!graph->canReach1(orig, (*it))) {
+                unreachable.push_back((*it)); //vetices nao alcancaevis.
+                it = dests.erase(it); //apagar o cliente não alcançável.
+                it--;
+            }
+        }
+
+        if (dests.size() == 0) break;
+
+        graph->dijkstraShortestPath(Vertice(orig));
+        orig = getClosestClientPath(orig, dests, path);
+
+        totalDist += calculateDistAccordingToPath(path);
+
+        if(primeiro){
+            finalPath.push_back(path.at(0));
+            primeiro = false;
+        }
+        for (int i = 1; i < path.size(); i++) finalPath.push_back(path.at(i)); //adiciona o caminho.
+
+    }while(dests.size() != 0);
+
+    if(finalPath.size() != 0) {
+        Estafeta *estafeta = selectEstafeta(totalDist, inicial_cap - unreachable.size());
+        double time = totalDist / estafeta->getVelocidadeMedia();
+
+        if (estafeta == NULL) cout << "Nao ha Estafetas disponiveis que consigam transportar as encomendas necessarias!";
+        else {
+            double time = totalDist / estafeta->getVelocidadeMedia();
+            estafeta->setDisponibilidade(false);
+            estafeta->setTime(time);
+            estafeta->addTrajeto(finalPath);
+
+            cout << "O estafeta selecionado tem o ID: " << estafeta->getId();
+            cout << "\nO tempo estimado de entrega e de: " << estafeta->getTime() << " segundos numa distancia de: "
+                 << totalDist << "!";
+        }
+        cout << "\nVertices inatingiveis: " << unreachable.at(0);
+        for (int i = 1; i < unreachable.size(); i++ ) cout << " -> " << unreachable.at(i) ;
+        cout << "\nCaminho: \n\t" << finalPath.at(0);
+        for (int i = 1; i < finalPath.size(); i++) cout << " -> " << finalPath.at(i);
+        cout << endl << endl;
+    }
+    else
+        cout << "Nao foi possivel estabelecer caminho algum, uma vez que nao e possivel atingir nenhum dos destinos a partir desse restaurante!\n\n";
+}
+
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 boolean ordemCrescenteCapacidade( Estafeta* e1,Estafeta* e2){
     return e1->getCapacidade()<e2->getCapacidade();
