@@ -487,7 +487,7 @@ int Application::findPath2(int orig, vector<int> dests) {
     //Get the path from the restaurant to the first client
     if(!graph->canReach1(orig, closest_client)){
         cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dests.at(0) << "!\n\n";
-        return -1;
+        return -2;
     }
 
     graph->dijkstraShortestPath(Vertice(orig));
@@ -523,7 +523,7 @@ int Application::findPath2(int orig, vector<int> dests) {
     Estafeta* estafeta = selectEstafeta(totalDist, dests.size()+1);
     if(estafeta == NULL){
         cout << "Nao ha Estafetas disponiveis que consigam transportar as encomendas necessarias!\n\n";
-        return -1;
+        return -3;
     }
     estafeta->setDisponibilidade(false);
 
@@ -550,7 +550,7 @@ boolean ordemCrescenteCapacidade( Estafeta* e1,Estafeta* e2){
 
 
 void Application::findPath3(int orig, vector<int> dests) {
-    if(findPath2(orig,dests)==0){
+    if(findPath2(orig,dests)!=-3){
         return;
     }
 
