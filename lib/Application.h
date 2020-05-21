@@ -51,7 +51,7 @@ public:
     int getClosestClientId(int orig, vector<int> dests);
 
     void findPath1(int orig, int dest);
-    void findPath2(int orig, vector<int> dests);
+    int findPath2(int orig, vector<int> dests);
     void findPath3(int orig, vector<int> dests);
 
 };
