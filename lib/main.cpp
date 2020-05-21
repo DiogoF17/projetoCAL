@@ -83,6 +83,110 @@ void visualizacaoTrajetosEstafetas(Application *application){
         }
     }
 }
+
+void entregaVariasEncomandasVariasEstafeta(Application * application){
+    cout << "#########################################\n"
+         << "   MENU DE PLANEAMENTO +1 ENC -> +1 EST "
+         << "\n#########################################\n";
+
+
+    if(application->getGraphSize() == 0){
+        cout << "\nAinda nao foi carregado nenhum Mapa!\n\n";
+        return;
+    }
+
+    map<int, int> restaurantes = application->getRestaurantes();
+    map<int, int> clientes = application->getClientes();
+
+    int optionRestaurante, optionCliente;
+
+    //Selecting restaurant
+    cout << "\nSelecione um Restaurante!\n";
+
+    int i = 0;
+
+    for(i; i < restaurantes.size(); i++)
+        cout << endl << i + 1 << ") " << restaurantes.at(i) << ";";
+
+    cout << endl << i + 1 << ") Voltar ao Menu Anterior;"
+         << "\n0) Sair;";
+
+    optionRestaurante = getOption(i+1);
+
+    if(optionRestaurante > 0 && optionRestaurante < (i + 1))
+        cout << "\n\nRestaurante Selecionado: " << restaurantes.at(optionRestaurante-1) << "\n\n";
+    else if(optionRestaurante == i + 1){
+        cout << "\nMenu Anterior...\n\n";
+        return;
+    }
+    else if(optionRestaurante == 0){
+        cout << "\nSaindo...!\n\n";
+        exit(0);
+    }
+
+    //=========================================================
+
+    //Selecting clients
+    vector<int> clientesSelecionados;
+    cout << "Selecione um Cliente!\n";
+
+    while (true) {
+        int j = 0;
+
+        for (j; j < clientes.size(); j++)
+            cout << endl << j + 1 << ") " << clientes.at(j) << ";";
+
+        cout << endl << j + 1 << ") Voltar ao Menu Anterior;"
+             << "\n" << j+2 << ") Produzir rota com os clientes selecionados"
+             << "\n0) Sair;";
+
+        optionCliente = getOption(j + 2);
+        bool duplicate = false;
+        if (optionCliente > 0 && optionCliente < (j + 1)) {
+            for (int id : clientesSelecionados){
+                if (id == clientes.at(optionCliente-1)){
+                    cout << "Esse cliente ja foi selecionado!\n";
+                    duplicate = true;
+                    break;
+                }
+            }
+            if (!duplicate)
+                clientesSelecionados.push_back(clientes.at(optionCliente-1));
+            else
+                continue;
+            cout << "\n\nCliente Selecionado: " << clientes.at(optionCliente - 1) << "\n\n";
+
+
+        } else if (optionCliente == j + 1) {
+            cout << "\nMenu Anterior...\n\n";
+            return;
+        } else if (optionCliente == j+2){
+            cout << "Produzindo rota... \n\n";
+            break;
+        } else if (optionCliente == 0) {
+            cout << "\nSaindo...!\n\n";
+            exit(0);
+        }
+    }
+
+    cout << "Clientes Selecionados: ";
+    sort(clientesSelecionados.begin(), clientesSelecionados.end());
+    cout << clientesSelecionados.at(0);
+    for (int i = 1; i < clientesSelecionados.size(); i++)
+        cout << " / " << clientesSelecionados.at(i);
+
+    cout << endl << endl;
+
+    if (clientesSelecionados.empty())
+        cout << "Nenhum cliente foi selecionado!\n\n";
+    else if (clientesSelecionados.size() == 1){
+        application->findPath1(restaurantes.at(optionRestaurante-1), clientesSelecionados.at(0));
+
+    }
+    else
+        application->findPath3(restaurantes.at(optionRestaurante-1), clientesSelecionados);
+}
+
 void entregaVariasEncomendasUmEstafeta(Application *application){
     cout << "#########################################\n"
          << "   MENU DE PLANEAMENTO +1 ENC -> 1 EST "
@@ -278,6 +382,7 @@ void planeamentoRota(Application *application){
                 break;
             case 3:
                 cout << "\nEntrega de varias Encomendas por varios Estafetas...\n\n";
+                entregaVariasEncomandasVariasEstafeta(application);
                 break;
             case 4:
                 cout << "\nMenu Anterior...\n\n";

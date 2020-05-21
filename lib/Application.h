@@ -28,7 +28,7 @@ class Application {
 
     void visualizacaoTrajetoEspecifico(int option) const;
 
-    Estafeta* selectEstafeta(int dist);
+    Estafeta* selectEstafeta(double dist,int cap);
 
     vector<int> checkSinglePath(int dest);
 public:
@@ -52,6 +52,7 @@ public:
 
     void findPath1(int orig, int dest);
     void findPath2(int orig, vector<int> dests);
+    void findPath3(int orig, vector<int> dests);
 
 };
 

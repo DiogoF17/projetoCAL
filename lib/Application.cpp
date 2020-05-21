@@ -357,9 +357,9 @@ void Application::visualizacaoTodosTrajetos(int todos) const{
     cout << "-------------------------------------------------------------------\n\n";
 }
 
-Estafeta* Application::selectEstafeta(int dist) {
+Estafeta* Application::selectEstafeta(double dist,int cap) {
     for(int i = 0; i < estafetas.size(); i++){
-        if(estafetas.at(i)->getDisponibilidade() == true && estafetas.at(i)->getAlcance() >= dist)
+        if(estafetas.at(i)->getDisponibilidade() && estafetas.at(i)->getAlcance() >= dist && estafetas.at(i)->getCapacidade()>=cap)
             return estafetas.at(i);
     }
     return NULL;
@@ -404,7 +404,7 @@ void Application::findPath1(int orig, int dest) {
     graph->dijkstraShortestPath(Vertice(orig));
     vector<int> path = checkSinglePath(dest);
     double dist = calculateDistAccordingToPath(path);
-    Estafeta* estafeta = selectEstafeta(dist);
+    Estafeta* estafeta = selectEstafeta(dist,1);
     if(estafeta == NULL){
         cout << "Nao ha Estafetas disponiveis!\n\n";
         return;
@@ -545,6 +545,111 @@ void Application::findPath2(int orig, vector<int> dests) {
     cout << "\nO tempo estimado de entrega e de: " << estafeta->getTime() << " segundos numa distancia de: " << totalDist << "!\n\n";
 
    
+}
+
+boolean ordemCrescenteCapacidade( Estafeta* e1,Estafeta* e2){
+    return e1->getCapacidade()<e2->getCapacidade();
+}
+
+
+void Application::findPath3(int orig, vector<int> dests) {
+    for (int i =0;i<dests.size();i++){
+        if(!graph->canReach1(orig, dests.at(i))){
+            cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dests.at(i) << "!\n\n";
+            return;
+        }
+    }
+    /*
+    for (Estafeta* estafeta: this->estafetas){
+        if (estafeta->getCapacidade() >= dests.size() && estafeta->getDisponibilidade()){
+            findPath2(orig,dests);
+            return;
+        }
+    }*/
+
+    double totalDist=0;
+    double time = 0;
+    int pedidosAAtribuir=dests.size()-1;
+    int capacidade;
+    double dist;
+    int closest_client;
+    vector<int> path;
+    vector<int> finalPath;
+    vector<int> destsCopy = dests;
+
+    sort(this->estafetas.begin(),this->estafetas.end(),ordemCrescenteCapacidade);
+
+    graph->dijkstraShortestPath(Vertice(orig));
+
+    while(!destsCopy.empty()){
+        if (pedidosAAtribuir == 0){
+            cout << "Nao ha estafetas disponiveis que consigam transportar " << dests.size() << " encomendas!\n\n";
+            return ;
+        }
+        capacidade=0;
+        closest_client = getClosestClientId(orig, destsCopy);
+        path = checkSinglePath(closest_client);
+        dist = calculateDistAccordingToPath(path);
+        totalDist+=dist;
+        for (int x: path){
+            finalPath.push_back(x);
+        }
+
+        for(auto it = destsCopy.begin(); it != destsCopy.end(); it++ ){
+            if ((*it)== closest_client){
+                destsCopy.erase(it);
+                break;
+            }
+        }
+        pedidosAAtribuir--;
+        capacidade++;
+
+        while (pedidosAAtribuir){
+            graph->dijkstraShortestPath(Vertice(closest_client));
+            closest_client = getClosestClientId(closest_client, dests);
+            for (auto it = destsCopy.begin(); it != destsCopy.end(); it++){
+                if ((*it) == closest_client){
+                    destsCopy.erase(it);
+                    break;
+                }
+            }
+
+            path = checkSinglePath(closest_client);
+            dist = calculateDistAccordingToPath(path);
+            totalDist+=dist;
+            for (int m = 1; m < path.size(); m++){
+                finalPath.push_back(path[m]);
+            }
+            pedidosAAtribuir--;
+            capacidade++;
+        }
+
+        Estafeta * estafeta1 = selectEstafeta(totalDist,capacidade);
+
+        if(estafeta1 != NULL){
+            estafeta1->setDisponibilidade(false);
+            time = totalDist/estafeta1->getVelocidadeMedia();
+            estafeta1->setTime(time);
+            estafeta1->addTrajeto(finalPath);
+            cout << "O estafeta selecionado tem o ID: " << estafeta1->getId()
+                 << "\nO trajeto que tera de fazer e o seguinte: "
+                 << "\n\t" << finalPath.at(0);
+            for(int i = 1; i < finalPath.size(); i++)
+                cout << " -> " << finalPath.at(i);
+            cout << endl;
+            cout << "\nO tempo estimado de entrega e de: " << estafeta1->getTime() << " segundos numa distancia de: " << totalDist << "!\n\n";
+            finalPath.clear();
+            totalDist=0;
+            pedidosAAtribuir =  destsCopy.size();
+        }else{
+            pedidosAAtribuir=capacidade-1;
+            destsCopy =dests;
+            finalPath.clear();
+            totalDist=0;
+        }
+
+    }
+
 }
 
 vector<int> Application::checkSinglePath(int dest) {
