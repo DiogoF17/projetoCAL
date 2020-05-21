@@ -395,7 +395,12 @@ void Application::visualizacaoRestaurantes() const {
 
 //-------------------FUNCOES RELACIONADAS COM OS CAMINHOS--------------
 
-
+/**
+ * Esta funcao tem o objetivo de determinar qual o melhor percurso(percurso minimo)
+ * entre o vertice orig(restaurante) e o dest(cliente).
+ * @param orig 
+ * @param dest
+ */
 void Application::findPath1(int orig, int dest) {
     if(!graph->canReach1(orig, dest)){
         cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dest << "!\n\n";
