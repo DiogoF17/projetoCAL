@@ -7,12 +7,21 @@
 
 #include "Application.h"
 
+/**
+ * Construtor.
+ */
 Application::Application() {
     this->graph = new Graph<Vertice>();
 }
 
 //-------FUNCOES RELACIONADAS COM OS MAPAS-------
 
+/**
+ * Calcula a distância entre dois vértices consecutivos.
+ * @param orig vértice de partida.
+ * @param dest vértice de chegada.
+ * @return distância entre os dois vértices.
+ */
 double Application::calculateDistConsecVertices(Vertice orig, Vertice dest) const {
     int x1 = orig.getX(), x2 = dest.getY();
     int y1 = orig.getY(), y2 = dest.getY();
@@ -20,6 +29,11 @@ double Application::calculateDistConsecVertices(Vertice orig, Vertice dest) cons
     return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
 }
 
+/**
+ * Calcula a distância de um determinado caminho.
+ * @param path caminho a percorrer.
+ * @return distância que se tem de percorrer no caminho.
+ */
 double Application::calculateDistAccordingToPath(vector<int> path) const {
     double dist = 0;
 
@@ -31,12 +45,16 @@ double Application::calculateDistAccordingToPath(vector<int> path) const {
     return dist;
 }
 
+/**
+ * Constrói o mapa para mostrar ao utilizador.
+ */
 void Application::buildGraphViewer() {
     GraphViewer *graphViewer = new GraphViewer(1000, 1000, false);
     graphViewer->createWindow(1000, 1000);
 
     vector<Vertex<Vertice>*> vertices = graph->getVertexSet();
 
+    //adiciona os vertices ao mapa
     for(int i = 0; i < vertices.size(); i++) {
         if(vertices.at(i)->getInfo()->getTipo() == RESTAURANTE) {
             graphViewer->addNode(vertices.at(i)->getInfo()->getId(),
@@ -63,6 +81,7 @@ void Application::buildGraphViewer() {
 
     int id = 0;
 
+    //adiciona as arestas ao mapa
     for(int i = 0; i < vertices.size(); i++){
         vector<Edge<Vertice>> arestas = vertices.at(i)->getEdges();
         for(int j = 0; j < arestas.size(); j++){
@@ -78,6 +97,10 @@ void Application::buildGraphViewer() {
     }
 }
 
+/**
+ * Le o mapa que o utilizador pretende carregar.
+ * @param map mapa que o utilizador quer adicionar.
+ */
 void Application::carregarNovoMapa(string map){
     graph->clearGraph();
 
@@ -100,6 +123,7 @@ void Application::carregarNovoMapa(string map){
 
     cout << "Lendo Vertices...\n";
 
+    //le os vertices
     getline(entrada, aux);
     while(getline(entrada, aux, '(')){
         getline(entrada, aux, ',');
@@ -131,6 +155,7 @@ void Application::carregarNovoMapa(string map){
 
     cout << "Lendo Restaurantes...\n";
 
+    //le os restaurantes atualizando os vertices com tipo respetivo
     while(getline(entrada, aux)){
         int id = stoi(aux);
 
@@ -156,6 +181,7 @@ void Application::carregarNovoMapa(string map){
 
     cout << "Lendo Clientes...\n";
 
+    //le os clientes atualizando os vertices com tipo respetivo
     while(getline(entrada, aux)){
         int id = stoi(aux);
 
@@ -181,6 +207,7 @@ void Application::carregarNovoMapa(string map){
 
     cout << "Lendo Arestas...\n";
 
+    //le as arestas
     getline(entrada, aux);
     while(getline(entrada, aux, '(')){
         getline(entrada, aux, ',');
@@ -206,10 +233,15 @@ void Application::carregarNovoMapa(string map){
 
     cout << "Arestas Lidas: " << numArestasLidas << "!\n\n";
 
+    //constroi um map com os vertices alcancaveis a partir de cada vertice
+    //pré-processamento
     graph->buildReachable();
 
 }
 
+/**
+ * Mostra o mapa ao utilizador.
+ */
 void Application::visualizacaoMapa() {
     cout << "###################################\n"
          << "   MENU DE VISUALIZACAO DE MAPAS "
@@ -228,10 +260,17 @@ void Application::visualizacaoMapa() {
 
 //-------FUNCOES RELACIONADAS COM OS ESTAFETAS----
 
+/**
+ * Lê o ficheiro que contém informação sobre os estafetas.
+ */
 void Application::leEstafetas() {
     cout << "##################################\n"
          << "   MENU DE IMPORTACAO ESTAFETAS "
          << "\n##################################\n";
+
+    /*
+     * Pede-se ao utilizador o nome do ficheiro com a informação.
+     */
     string fileName;
     cin.ignore(1000, '\n');
     cout << "\nIntroduza o nome do ficheiro: ";
@@ -255,22 +294,23 @@ void Application::leEstafetas() {
     cout << "\nLendo Estafetas...\n";
 
     while(getline(entrada, aux)){
-        string veiculo = aux;
+        string veiculo = aux; //le o veiculo
 
         getline(entrada, aux);
-        string nome = aux;
+        string nome = aux;  //le o nome
 
         getline(entrada, aux);
-        double velocidadeMedia = stod(aux);
+        double velocidadeMedia = stod(aux); //le a velocidade media
 
         getline(entrada, aux);
-        double alcance = stod(aux);
+        double alcance = stod(aux); //le o alcance
 
         getline(entrada, aux);
-        int capacidade = stoi(aux);
+        int capacidade = stoi(aux); //le a capacidade
 
         getline(entrada, aux);
 
+        //adiciona o estafeta
         estafetas.push_back(new Estafeta(id, nome, veiculo, alcance, capacidade, velocidadeMedia));
 
         id++;
@@ -278,6 +318,9 @@ void Application::leEstafetas() {
     cout << "Estafetas Lidos: " << id << endl << endl;
 }
 
+/**
+ * Mostra informacao relativa aos estafetas.
+ */
 void Application::visualizacaoEstafetas() const {
     cout << "#######################################\n"
          << "   MENU DE VISUALIZACAO DE ESTAFETAS "
@@ -322,7 +365,10 @@ void Application::visualizacaoEstafetas() const {
     cout << "---------------------------------------------------------------------------------------\n\n";
 }
 
-
+/**
+ * Mostra informacao sobre os trajetos percorridos por um estafeta especifico.
+ * @param option indice do estafeta que se pretende mostrar os percursos.
+ */
 void Application::visualizacaoTrajetoEspecifico(int option) const{
     Estafeta *estafeta = estafetas.at(option);
     vector<Trajeto*> trajetos = estafeta->getTrajetos();
@@ -339,7 +385,12 @@ void Application::visualizacaoTrajetoEspecifico(int option) const{
     cout << endl;
 }
 
-void Application::visualizacaoTodosTrajetos(int todos) const{
+/**
+ * Mostra os trajetos percorridos pelos estfetas desejados.
+ * @param estaf inteiro que nos indica qual e o estafeta que se pretende observar
+ * os trajetos, caso se queiram todos o estaf deve vir a -1.
+ */
+void Application::visualizacaoTodosTrajetos(int estaf) const{
     cout << "######################################\n"
          << "   MENU DE VISUALIZACAO DE TRAJETOS "
          << "\n######################################\n";
@@ -347,16 +398,22 @@ void Application::visualizacaoTodosTrajetos(int todos) const{
          << "                          TRAJETOS INFO      \n"
          << "-------------------------------------------------------------------\n";
 
-    if(todos == -1) {
+    if(estaf == -1) {
         for (int i = 0; i < estafetas.size(); i++)
             visualizacaoTrajetoEspecifico(i);
     }
     else
-        visualizacaoTrajetoEspecifico(todos);
+        visualizacaoTrajetoEspecifico(estaf);
 
     cout << "-------------------------------------------------------------------\n\n";
 }
 
+/**
+ * Seleciona um estafeta de acordo com os seguintes criterios: distância e a capacidade.
+ * @param dist distância que terá de percorrer.
+ * @param cap quantidade de encomendas a transportar.
+ * @return retorna o estafeta disponivel, caso hajam.
+ */
 Estafeta* Application::selectEstafeta(double dist,int cap) {
     for(int i = 0; i < estafetas.size(); i++){
         if(estafetas.at(i)->getDisponibilidade() && estafetas.at(i)->getAlcance() >= dist && estafetas.at(i)->getCapacidade()>=cap)
@@ -365,6 +422,9 @@ Estafeta* Application::selectEstafeta(double dist,int cap) {
     return NULL;
 }
 
+/**
+ * Decrementa um segundo ao tempo de cada estafeta.
+ */
 void Application::decrTimeOfEstafetas(){
     for(int i = 0; i < estafetas.size(); i++)
         estafetas.at(i)->decrTime();
@@ -372,6 +432,9 @@ void Application::decrTimeOfEstafetas(){
 
 //-----FUNCOES RELACIONADAS COM OS RESTAURANTES----
 
+/**
+ * Mostra os ids dos restaurantes registados na aplicação.
+ */
 void Application::visualizacaoRestaurantes() const {
     cout << "##########################################\n"
          << "   MENU DE VISUALIZACAO DE RESTAURANTES "
@@ -398,28 +461,42 @@ void Application::visualizacaoRestaurantes() const {
 /**
  * Esta funcao tem o objetivo de determinar qual o melhor percurso(percurso minimo)
  * entre o vertice orig(restaurante) e o dest(cliente).
- * @param orig 
- * @param dest
+ * @param orig id do vertice inicial(restaurante)
+ * @param dest id do vertice final(cliente)
  */
 void Application::findPath1(int orig, int dest) {
+
+    //tendo em conta os m maps gerados para cada vertice na leitura
+    // com os vertices que conseguimos alcancar a partir de orig
+    //verifica se conseguimos atingir dest a partir de orig
     if(!graph->canReach1(orig, dest)){
         cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dest << "!\n\n";
         return;
     }
+
+    //computa o percurso
     graph->dijkstraShortestPath(Vertice(orig));
+    //da-nos o percurso em formato dos ids dos vertices
     vector<int> path = checkSinglePath(dest);
+    //calcula a distancia a percorrer no caminho
     double dist = calculateDistAccordingToPath(path);
+    //faz a selecao do estafeta para o percurso
     Estafeta* estafeta = selectEstafeta(dist,1);
     if(estafeta == NULL){
         cout << "Nao ha Estafetas disponiveis!\n\n";
         return;
     }
-    estafeta->setDisponibilidade(false);
-    estafeta->addTrajeto(path);
-    double time = dist / estafeta->getVelocidadeMedia();
-    estafeta->setTime(time);
+
+    //Faz as alteracoes necesarias ao estfeta
+    estafeta->setDisponibilidade(false);    //coloca-o indisponivel
+    estafeta->addTrajeto(path);                         //adiciona o trajeto
+    double time = dist / estafeta->getVelocidadeMedia();//calcula o tempo que demora a efetuar a entrega
+    estafeta->setTime(time);                            //coloca o tempo que falta ate voltar a ficar disponivel
 
 
+    /*
+     * Apresenta a informacao ao utilizador.
+     */
     cout << "O estafeta selecionado tem o ID: " << estafeta->getId()
          << "\nO trajeto que tera de fazer e o seguinte: "
          << "\n\t" << path.at(0);
@@ -460,6 +537,7 @@ int Application::getClosestClientId(int orig, vector<int> dests){
     }
     return dests[position_minimum];
 }
+
 int Application::findPath2(int orig, vector<int> dests) {
     if (dests.empty()){
         cout << "Nao foi escolhido nenhum cliente!\n";
@@ -552,7 +630,6 @@ int Application::findPath2(int orig, vector<int> dests) {
 boolean ordemCrescenteCapacidade( Estafeta* e1,Estafeta* e2){
     return e1->getCapacidade()<e2->getCapacidade();
 }
-
 
 void Application::findPath3(int orig, vector<int> dests) {
     if(findPath2(orig,dests)!=-3){
@@ -649,6 +726,11 @@ void Application::findPath3(int orig, vector<int> dests) {
     }
 }
 
+/**
+ *  Constrói o caminho com base no algoritmo corrido anteriormente.
+ * @param dest vertice até ao qual se quer construir o destino.
+ * @return o vetor com o caminho.
+ */
 vector<int> Application::checkSinglePath(int dest) {
     vector<int> ind;
     vector<Vertice> path = graph->getPathTo(dest);

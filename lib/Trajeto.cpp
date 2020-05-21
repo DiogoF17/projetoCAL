@@ -8,10 +8,11 @@
 
 Trajeto::Trajeto() {}
 
-vector<int> Trajeto::getTrajeto() const{return this->trajeto;}
-
 void Trajeto::addVertex(int vertice){trajeto.push_back(vertice);}
 
+/*
+ * Imprime o trajeto.
+ */
 void Trajeto::imprime() const {
     cout << "\n\t" << trajeto.at(0);
 

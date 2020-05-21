@@ -15,7 +15,6 @@ class Trajeto {
 public:
     Trajeto();
 
-    vector<int> getTrajeto() const;
     void addVertex(int vertice);
     void imprime() const;
 };
