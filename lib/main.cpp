@@ -2,6 +2,7 @@
 #include <vector>
 #include <thread>
 #include <zconf.h>
+#include <algorithm>
 
 #include "Application.h"
 
@@ -40,6 +41,64 @@ int getOption(int numOptions){
     }
 
     return option;
+}
+
+/**
+ * Pede ao usuario que selecione um restaurante dos varios possiveis.
+ * @param restaurantes possiveis para seleção.
+ * @return restaurante que o cliente quer selecionar.
+ */
+int selectRestaurante(const map<int, int> &restaurantes){
+    cout << "\nSelecione um Restaurante!\n";
+
+    int i = 0;
+
+    for(; i < restaurantes.size(); i++)
+        cout << endl << i + 1 << ") " << restaurantes.at(i) << ";";
+
+    cout << endl << i + 1 << ") Voltar ao Menu Anterior;"
+         << "\n0) Sair;";
+
+    return getOption(i + 1);
+}
+
+/**
+ * Pede ao usuario que selecione um cliente dos varios possiveis, sendo que é apenas usada no caso 1enc->1est.
+ * @param clientes possiveis para seleção
+ * @return opção escolhida.
+ */
+int selectCliente(const map<int, int> &clientes){
+    cout << "Selecione um Cliente!\n";
+
+    int j = 0;
+
+    for(j; j < clientes.size(); j++)
+        cout << endl << j + 1 << ") " << clientes.at(j) << ";";
+
+    cout << endl << j + 1 << ") Voltar ao Menu Anterior;"
+         << "\n0) Sair;";
+
+    return getOption(j+1);
+}
+
+/**
+ * Pede ao usuario que selecione um cliente dos varios possiveis, sendo que é usado para várias entregas.
+ * @param clientes possiveis para seleção
+ * @return opção escolhida.
+ */
+int selectCliente2(const map<int, int> &clientes){
+    cout << "Selecione um Cliente!\n";
+
+    int j = 0;
+
+    for(j; j < clientes.size(); j++)
+        cout << endl << j + 1 << ") " << clientes.at(j) << ";";
+
+    cout << endl << j + 1 << ") Produzir Rota;\n"
+         << j + 2 << ") Voltar ao Menu Anterior;"
+         << "\n0) Sair;";
+
+    return getOption(j+2);
 }
 
 //-------------------MENUS-------------------
@@ -102,9 +161,13 @@ void entregaVariasEncomandasVariasEstafeta(Application * application){
          << "   MENU DE PLANEAMENTO +1 ENC -> +1 EST "
          << "\n#########################################\n";
 
-
     if(application->getGraphSize() == 0){
         cout << "\nAinda nao foi carregado nenhum Mapa!\n\n";
+        return;
+    }
+
+    if(application->getEstafetasSize() == 0){
+        cout << "\nAinda nao foram carregados estafetas!\n\n";
         return;
     }
 
@@ -113,91 +176,41 @@ void entregaVariasEncomandasVariasEstafeta(Application * application){
 
     int optionRestaurante, optionCliente;
 
-    //Selecting restaurant
-    cout << "\nSelecione um Restaurante!\n";
+    optionRestaurante = selectRestaurante(restaurantes);
 
-    int i = 0;
-
-    for(i; i < restaurantes.size(); i++)
-        cout << endl << i + 1 << ") " << restaurantes.at(i) << ";";
-
-    cout << endl << i + 1 << ") Voltar ao Menu Anterior;"
-         << "\n0) Sair;";
-
-    optionRestaurante = getOption(i+1);
-
-    if(optionRestaurante > 0 && optionRestaurante < (i + 1))
+    if(optionRestaurante > 0 && optionRestaurante < (restaurantes.size() + 1))
         cout << "\n\nRestaurante Selecionado: " << restaurantes.at(optionRestaurante-1) << "\n\n";
-    else if(optionRestaurante == i + 1){
-        cout << "\nMenu Anterior...\n\n";
-        return;
-    }
-    else if(optionRestaurante == 0){
-        cout << "\nSaindo...!\n\n";
-        exit(0);
-    }
+    else if(optionRestaurante == restaurantes.size() + 1) return;
+    else if(optionRestaurante == 0) exit(0);
 
-    //=========================================================
-
-    //Selecting clients
     vector<int> clientesSelecionados;
-    cout << "Selecione um Cliente!\n";
 
     while (true) {
-        int j = 0;
-
-        for (j; j < clientes.size(); j++)
-            cout << endl << j + 1 << ") " << clientes.at(j) << ";";
-
-        cout << endl << j + 1 << ") Voltar ao Menu Anterior;"
-             << "\n" << j+2 << ") Produzir rota com os clientes selecionados"
-             << "\n0) Sair;";
-
-        optionCliente = getOption(j + 2);
-        bool duplicate = false;
-        if (optionCliente > 0 && optionCliente < (j + 1)) {
-            for (int id : clientesSelecionados){
-                if (id == clientes.at(optionCliente-1)){
-                    cout << "Esse cliente ja foi selecionado!\n";
-                    duplicate = true;
-                    break;
-                }
-            }
-            if (!duplicate)
-                clientesSelecionados.push_back(clientes.at(optionCliente-1));
-            else
+        optionCliente = selectCliente2(clientes);
+        if (optionCliente > 0 && optionCliente < (clientes.size() + 1)) {
+            if(find(clientesSelecionados.begin(), clientesSelecionados.end(), clientes.at(optionCliente - 1)) != clientesSelecionados.end()) {
+                cout << "\n\nCliente ja selecionado!\n\n";
                 continue;
+            }
+            clientesSelecionados.push_back(clientes.at(optionCliente-1));
             cout << "\n\nCliente Selecionado: " << clientes.at(optionCliente - 1) << "\n\n";
-
-
-        } else if (optionCliente == j + 1) {
-            cout << "\nMenu Anterior...\n\n";
-            return;
-        } else if (optionCliente == j+2){
-            cout << "Produzindo rota... \n\n";
-            break;
-        } else if (optionCliente == 0) {
-            cout << "\nSaindo...!\n\n";
-            exit(0);
         }
+        else if (optionCliente == clientes.size() + 1){
+            if(clientesSelecionados.size() == 0) cout << "\n\nTem de selecionar pelo menos um cliente!\n\n";
+            else break;
+        }
+        else if (optionCliente == clientes.size() + 2) return;
+        else if (optionCliente == 0) exit(0);
     }
 
     cout << "Clientes Selecionados: ";
     sort(clientesSelecionados.begin(), clientesSelecionados.end());
     cout << clientesSelecionados.at(0);
-    for (int i = 1; i < clientesSelecionados.size(); i++)
-        cout << " / " << clientesSelecionados.at(i);
-
+    for (int i = 1; i < clientesSelecionados.size(); i++) cout << " / " << clientesSelecionados.at(i);
     cout << endl << endl;
 
-    if (clientesSelecionados.empty())
-        cout << "Nenhum cliente foi selecionado!\n\n";
-    else if (clientesSelecionados.size() == 1){
-        application->findPath1(restaurantes.at(optionRestaurante-1), clientesSelecionados.at(0));
-
-    }
-    else
-        application->findPath3(restaurantes.at(optionRestaurante-1), clientesSelecionados);
+    if (clientesSelecionados.size() == 1) application->findPath(restaurantes.at(optionRestaurante-1), clientesSelecionados);
+    else application->findPath3(restaurantes.at(optionRestaurante-1), clientesSelecionados);
 }
 
 /**
@@ -224,86 +237,40 @@ void entregaVariasEncomendasUmEstafeta(Application *application){
 
     int optionRestaurante, optionCliente;
 
-    //Selecting restaurant
-    cout << "\nSelecione um Restaurante!\n";
+    optionRestaurante = selectRestaurante(restaurantes);
 
-    int i = 0;
-
-    for(i; i < restaurantes.size(); i++)
-        cout << endl << i + 1 << ") " << restaurantes.at(i) << ";";
-
-    cout << endl << i + 1 << ") Voltar ao Menu Anterior;"
-         << "\n0) Sair;";
-
-    optionRestaurante = getOption(i+1);
-
-    if(optionRestaurante > 0 && optionRestaurante < (i + 1))
+    if(optionRestaurante > 0 && optionRestaurante < (restaurantes.size() + 1))
         cout << "\n\nRestaurante Selecionado: " << restaurantes.at(optionRestaurante-1) << "\n\n";
-    else if(optionRestaurante == i + 1){
-        cout << "\nMenu Anterior...\n\n";
-        return;
-    }
-    else if(optionRestaurante == 0){
-        cout << "\nSaindo...!\n\n";
-        exit(0);
-    }
-    //=========================================================
+    else if(optionRestaurante == restaurantes.size() + 1) return;
+    else if(optionRestaurante == 0) exit(0);
 
-    //Selecting clients
     vector<int> clientesSelecionados;
-    cout << "Selecione um Cliente!\n";
 
     while (true) {
-        int j = 0;
-
-        for (j; j < clientes.size(); j++)
-            cout << endl << j + 1 << ") " << clientes.at(j) << ";";
-
-        cout << endl << j + 1 << ") Produzir rota;"
-             << "\n" << j+2 << ") Voltar ao Menu Anterior;"
-             << "\n0) Sair;";
-
-        optionCliente = getOption(j + 2);
-        bool duplicate = false;
-        if (optionCliente > 0 && optionCliente < (j + 1)) {
-            for (int id : clientesSelecionados){
-                if (id == clientes.at(optionCliente-1)){
-                    cout << "Esse cliente ja foi selecionado!\n";
-                    duplicate = true;
-                    break;
-                }
-            }
-            if (!duplicate)
-                clientesSelecionados.push_back(clientes.at(optionCliente-1));
-            else
+        optionCliente = selectCliente2(clientes);
+        if (optionCliente > 0 && optionCliente < (clientes.size() + 1)) {
+            if(find(clientesSelecionados.begin(), clientesSelecionados.end(), clientes.at(optionCliente - 1)) != clientesSelecionados.end()) {
+                cout << "\n\nCliente ja selecionado!\n\n";
                 continue;
+            }
+            clientesSelecionados.push_back(clientes.at(optionCliente-1));
             cout << "\n\nCliente Selecionado: " << clientes.at(optionCliente - 1) << "\n\n";
-
-
          }
-         else if (optionCliente == j + 1){
-             cout << "Produzindo rota... \n\n";
-             break;
+         else if (optionCliente == clientes.size() + 1){
+             if(clientesSelecionados.size() == 0) cout << "\n\nTem de selecionar pelo menos um cliente!\n\n";
+             else break;
          }
-         else if (optionCliente == j+2){
-            cout << "\nMenu Anterior...\n\n";
-            return;
-         }
-         else if (optionCliente == 0) {
-            cout << "\nSaindo...!\n\n";
-            exit(0);
-        }
+         else if (optionCliente == clientes.size() + 2) return;
+         else if (optionCliente == 0) exit(0);
     }
 
     cout << "Clientes Selecionados: ";
     sort(clientesSelecionados.begin(), clientesSelecionados.end());
     cout << clientesSelecionados.at(0);
-    for (int i = 1; i < clientesSelecionados.size(); i++)
-        cout << " / " << clientesSelecionados.at(i);
-
+    for (int i = 1; i < clientesSelecionados.size(); i++) cout << " / " << clientesSelecionados.at(i);
     cout << endl << endl;
 
-    application->findPath21(restaurantes.at(optionRestaurante-1), clientesSelecionados);
+    application->findPath(restaurantes.at(optionRestaurante-1), clientesSelecionados);
 }
 
 /**
@@ -321,60 +288,33 @@ void entregaUmaEncomendaUmEstafeta(Application *application){
         return;
     }
 
+    if(application->getEstafetasSize() == 0){
+        cout << "\nAinda nao foram carregados estafetas!\n\n";
+        return;
+    }
+
     map<int, int> restaurantes = application->getRestaurantes();
     map<int, int> clientes = application->getClientes();
 
     int optionRestaurante, optionCliente;
 
-    cout << "\nSelecione um Restaurante!\n";
+    optionRestaurante = selectRestaurante(restaurantes);
 
-    int i = 0;
-
-    for(i; i < restaurantes.size(); i++)
-        cout << endl << i + 1 << ") " << restaurantes.at(i) << ";";
-
-    cout << endl << i + 1 << ") Voltar ao Menu Anterior;"
-         << "\n0) Sair;";
-
-    optionRestaurante = getOption(i+1);
-
-    if(optionRestaurante > 0 && optionRestaurante < (i + 1))
+    if(optionRestaurante > 0 && optionRestaurante < restaurantes.size() + 1)
         cout << "\n\nRestaurante Selecionado: " << restaurantes.at(optionRestaurante-1) << "\n\n";
-    else if(optionRestaurante == i + 1){
-        cout << "\nMenu Anterior...\n\n";
-        return;
-    }
-    else if(optionRestaurante == 0){
-        cout << "\nSaindo...!\n\n";
-        exit(0);
-    }
+    else if(optionRestaurante == restaurantes.size() + 1) return;
+    else if(optionRestaurante == 0) exit(0);
 
-    cout << "Selecione um Cliente!\n";
+    optionCliente = selectCliente(clientes);
 
-    int j = 0;
-
-    for(j; j < clientes.size(); j++)
-        cout << endl << j + 1 << ") " << clientes.at(j) << ";";
-
-    cout << endl << j + 1 << ") Voltar ao Menu Anterior;"
-         << "\n0) Sair;";
-
-    optionCliente = getOption(j+1);
-
-    if(optionCliente > 0 && optionCliente < (j + 1)){
+    if(optionCliente > 0 && optionCliente < (clientes.size() + 1)){
         cout << "\n\nCliente Selecionado: " << clientes.at(optionCliente-1) << "\n\n";
         vector<int> aux;
         aux.push_back(clientes.at(optionCliente-1));
-        application->findPath21(restaurantes.at(optionRestaurante-1), aux);
+        application->findPath(restaurantes.at(optionRestaurante-1), aux);
     }
-    else if(optionCliente == j + 1){
-        cout << "\nMenu Anterior...\n\n";
-        return;
-    }
-    else if(optionCliente == 0){
-        cout << "\nSaindo...!\n\n";
-        exit(0);
-    }
+    else if(optionCliente == clientes.size() + 1) return;
+    else if(optionCliente == 0) exit(0);
 }
 
 /**
@@ -399,22 +339,17 @@ void planeamentoRota(Application *application){
 
         switch(option){
             case 1:
-                cout << "\nEntrega de uma Encomenda por um Estafeta...\n\n";
                 entregaUmaEncomendaUmEstafeta(application);
                 break;
             case 2:
-                cout << "\nEntrega de varias Encomendas por um Estafeta...\n\n";
                 entregaVariasEncomendasUmEstafeta(application);
                 break;
             case 3:
-                cout << "\nEntrega de varias Encomendas por varios Estafetas...\n\n";
                 entregaVariasEncomandasVariasEstafeta(application);
                 break;
             case 4:
-                cout << "\nMenu Anterior...\n\n";
                 return;
             case 0:
-                cout << "\nSaindo...!\n\n";
                 exit(0);
             default:
                 cout << "\nInvalido!\n\n";
@@ -446,14 +381,11 @@ void carregarNovoMapaMenu(Application *application){
             case 1:
             case 2:
             case 3:
-                cout << "\nCarregando Novo Mapa...\n\n";
                 application->carregarNovoMapa(mapas[option-1]);
                 break;
             case 4:
-                cout << "\nMenu Anterior...\n\n";
                 return;
             case 0:
-                cout << "\nSaindo...!\n\n";
                 exit(0);
             default:
                 cout << "\nInvalido!\n\n";
@@ -487,36 +419,28 @@ void menuPrincipal(Application *application){
 
         switch(option){
             case 1:
-                cout << "\nCarregar Mapa...\n\n";
                 carregarNovoMapaMenu(application);
                 break;
             case 2:
-                cout << "\nCarregar Estafetas...\n\n";
                 application->leEstafetas();
                 break;
             case 3:
-                cout << "\nVisualizacao Mapa...\n\n";
                 application->visualizacaoMapa();
                 break;
             case 4:
-                cout << "\nPlaneamento de Rota...\n\n";
                 planeamentoRota(application);
                 break;
             case 5:
-                cout << "\nVisualizacao de Estafetas...\n\n";
                 application->visualizacaoEstafetas();
                 break;
             case 6:
-                cout << "\nVisualizacao de Restaurantes...\n\n";
                 application->visualizacaoRestaurantes();
                 break;
             case 7:
-                cout << "\nVisualizacao de Trajetos dos Estafetas...\n\n";
                 visualizacaoTrajetosEstafetas(application);
                 break;
 
             case 0:
-                cout << "\nSaindo...!\n\n";
                 return;
             default:
                 cout << "\nInvalido!\n\n";

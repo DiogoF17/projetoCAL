@@ -43,6 +43,9 @@ class Application {
     Estafeta* selectEstafeta(double dist,int cap);
 
     vector<int> checkSinglePath(int dest);
+
+    int getClosestClientPath(int orig, vector<int> &dests, vector<int> &path, double &dist);
+    void checkReachableVertices(int orig, vector<int> &dests, vector<int> &unreachable);
 public:
     Application();
 
@@ -62,12 +65,9 @@ public:
     int getEstafetasSize() const;
 
     int getClosestClientId(int orig, vector<int> dests);
-    int getClosestClientPath(int orig, vector<int> &dests, vector<int> &path, double &dist);
-    void checkReachableVertices(int orig, vector<int> &dests, vector<int> &unreachable);
 
-    void findPath1(int orig, int dest);
+    void findPath(int orig, vector<int> dests);
     int findPath2(int orig, vector<int> dests);
-    void findPath21(int orig, vector<int> dests);
     void findPath3(int orig, vector<int> dests);
 
 };
