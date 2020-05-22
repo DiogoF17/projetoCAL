@@ -734,35 +734,53 @@ void Application::findPath21(int orig, vector<int> dests) {
 }
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
-boolean ordemCrescenteCapacidade( Estafeta* e1,Estafeta* e2){
+/**
+ * função utilizada para ordenar um vector de estafetas por ordem crescente de capacidade
+ * @param e1
+ * @param e2
+ * @return retorna se a capacidade de e1 e inferior a e2
+ */
+boolean ordemCrescenteCapacidade(Estafeta* e1,Estafeta* e2){
     return e1->getCapacidade()<e2->getCapacidade();
 }
 
+/**
+ * algoritmo utilizado para gerir a distribuição das encomendas pelos estafestas.
+ * @param orig local do restaurante selecionado
+ * @param dests destinos das encomendas
+ */
 void Application::findPath3(int orig, vector<int> dests) {
     /*if(findPath2(orig,dests)!=-3){
         return;
     }*/
 
-    typename vector<int>::iterator it= dests.begin();
-    for( it ;it != dests.end(); it++){
+    ///Verifica se é possivel chegar do restaurande a cada um dos destinos
+    ///Caso não seja possivel é retirado do vector e escrito no ecrã que é inacessivel
+    for(auto it= dests.begin() ;it != dests.end(); it++){
         if(!graph->canReach1(orig, (*it))){
             cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << (*it) << "!\n\n";
-            dests.erase(it);
+            it = dests.erase(it);
             it--;
         }
     }
 
-    double totalDist=0;
-    double time = 0;
+    double totalDist=0; /// distância total do trajeto que o estafeta precisa de percorrer
+    double time = 0; /// tempo que o estafeta irá demorar a percorrer todo o trajeto
+    /**
+     *  numero de pedidos que faltam processar
+     *  é igual a dests.size()-1 porque se não foi possivel fazer todas as encomendas com apenas 1 estafeta
+     *  quer dizer que ou não há estafetas com capacidade >= dests.size()
+     *  ou não é possivel entregar todas a encomendas de uma vez só
+     */
     int pedidosAAtribuir=dests.size()-1;
-    int capacidade;
-    double dist;
-    int closest_client;
-    vector<int> path;
-    vector<int> finalPath;
-    vector<int> destsCopy = dests;
+    int capacidade; /// guarda a capacidade (numero de encomendas) que será transportada pelo estafeta
+    double dist; /// guarda a distância a percorrer até um dos destinos
+    int closest_client; /// cliente mais próximo do local em processamento
+    vector<int> path; /// guarda o caminho a percorrer até um dos destinos
+    vector<int> finalPath; /// caminho total que o estafeta precisa de percorrer
+    vector<int> destsCopy = dests; /// copia de todos os destinos, vai funcionar como uma variavel auxiliar
 
+    ///Ordena os estafetas por ordem crescente de capacidade
     sort(this->estafetas.begin(),this->estafetas.end(),ordemCrescenteCapacidade);
 
     while(!destsCopy.empty()){
