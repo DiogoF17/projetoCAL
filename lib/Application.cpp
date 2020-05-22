@@ -697,8 +697,7 @@ void Application::findPath(int orig, vector<int> dests) {
     if(finalPath.size() != 0) {
         Estafeta *estafeta = selectEstafeta(totalDist, inicial_cap - unreachable.size());
 
-        if (estafeta == NULL)
-            cout << "Nao ha estafetas disponiveis para tal encomenda!\n";
+        if (estafeta == NULL) cout << "Nao ha estafetas disponiveis para tal encomenda!\n\n";
         else {
             double time = totalDist / estafeta->getVelocidadeMedia();
             estafeta->setDisponibilidade(false);
@@ -718,8 +717,7 @@ void Application::findPath(int orig, vector<int> dests) {
             cout << endl << endl;
         }
     }
-    else
-        cout << "Caminho impossivel de realizar!\nNenhum dos vertices e atingivel!\n";
+    else cout << "Caminho impossivel de realizar!\n\n";
 }
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
