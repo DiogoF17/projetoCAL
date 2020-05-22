@@ -218,7 +218,7 @@ void entregaVariasEncomendasVariasEstafeta(Application * application){
  * @param application aplicação.
  */
 void entregaVariasEncomendasUmEstafeta(Application *application){
-    cout << "#########################################\n"
+    cout << "\n#########################################\n"
          << "   MENU DE PLANEAMENTO +1 ENC -> 1 EST "
          << "\n#########################################\n";
 
@@ -279,7 +279,7 @@ void entregaVariasEncomendasUmEstafeta(Application *application){
  */
 void entregaUmaEncomendaUmEstafeta(Application *application){
 
-    cout << "########################################\n"
+    cout << "\n########################################\n"
          << "   MENU DE PLANEAMENTO 1 ENC -> 1 EST "
          << "\n########################################\n";
 

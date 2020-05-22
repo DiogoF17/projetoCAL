@@ -580,32 +580,30 @@ void Application::findPath(int orig, vector<int> dests) {
      */
     if(finalPath.size() != 0) {
         Estafeta *estafeta = selectEstafeta(totalDist, inicial_cap - unreachable.size());
-        double time = totalDist / estafeta->getVelocidadeMedia();
-        cout << "Capacidade Necessaria: " << inicial_cap - unreachable.size();
 
         if (estafeta == NULL)
-            cout << "\nNao ha estafetas disponiveis que consigam transportar as encomendas necessarias!";
+            cout << "Nao ha estafetas disponiveis para tal encomenda!\n\n";
         else {
             double time = totalDist / estafeta->getVelocidadeMedia();
             estafeta->setDisponibilidade(false);
             estafeta->setTime(time);
             estafeta->addTrajeto(finalPath);
 
-            cout << "\nEstafeta(ID): " << estafeta->getId();
+            cout << "Estafeta(ID): " << estafeta->getId();
+            cout << "\nCapacidade Necessaria: " << inicial_cap - unreachable.size();
             cout << "\nTempo de entrega(segundos): " << estafeta->getTime()
                  << "\nDistancia: " << totalDist;
+            cout << "\nVertices inatingiveis: ";
+            if(unreachable.size() != 0) cout << unreachable.at(0);
+            for (int i = 1; i < unreachable.size(); i++ ) cout << " / " << unreachable.at(i) ;
+            cout << "\nCaminho: \n\t";
+            if(finalPath.size() != 0) cout << finalPath.at(0);
+            for (int i = 1; i < finalPath.size(); i++) cout << " -> " << finalPath.at(i);
+            cout << endl << endl;
         }
     }
     else
-        cout << "Nao foi selecionado qualquer estafeta uma vez que nao ha percurso!\n";
-
-    cout << "\nVertices inatingiveis: ";
-    if(unreachable.size() != 0) cout << unreachable.at(0);
-    for (int i = 1; i < unreachable.size(); i++ ) cout << " / " << unreachable.at(i) ;
-    cout << "\nCaminho: \n\t";
-    if(finalPath.size() != 0) cout << finalPath.at(0);
-    for (int i = 1; i < finalPath.size(); i++) cout << " -> " << finalPath.at(i);
-    cout << endl << endl;
+        cout << "Caminho impossivel de realizar!\n\n";
 }
 
 /**
@@ -691,11 +689,13 @@ void Application::findPath2(int orig, vector<int> dests) {
         /// é retornado null se não for encontrado nehnum
         Estafeta * estafeta1 = selectEstafeta(totalDist,capacidade);
 
-        if(estafeta1 != nullptr){
+        if(estafeta1 != nullptr){ /// se for encontrado um estafeta
             estafeta1->setDisponibilidade(false);
             time = totalDist/estafeta1->getVelocidadeMedia();
             estafeta1->setTime(time);
             estafeta1->addTrajeto(finalPath);
+
+            /// Imprime o trajeto, tempo estimado de entrega e a distancia a percorrer.
             cout << "O estafeta selecionado tem o ID: " << estafeta1->getId()
                  << "\nO trajeto que tera de fazer e o seguinte: "
                  << "\n\t" << finalPath.at(0);
@@ -703,22 +703,37 @@ void Application::findPath2(int orig, vector<int> dests) {
                 cout << " -> " << finalPath.at(i);
             cout << endl;
             cout << "\nO tempo estimado de entrega e de: " << estafeta1->getTime() << " segundos numa distancia de: " << totalDist << "!\n\n";
+
+            /// Resetar as variáveis utilizadas
             finalPath.clear();
             totalDist=0;
+
+            /// é atualizado os pedidos a entregar com o numero de destinos que faltam
             pedidosAAtribuir =  destsCopy.size();
+
+            /// Atualiza o vetor original dos destinos com os destinos que ainda não têm estafeta
             dests = destsCopy;
-        }else{
+
+        }else{ /// se não for encontrado um estafeta
+
+            /// é diminuido em 1 unidade o tamanho da entrega a efectuar pelo estafeta
             pedidosAAtribuir=capacidade-1;
+
+            /// Repor os destinos que ainda não foram atingidos no vector copia dos destinos
             destsCopy =dests;
+
+            /// Resetar as variáveis utilizadas
             finalPath.clear();
             totalDist=0;
         }
     }
 
     /// Imprimir os destinos que não são alcançaveis
-    cout << "\nVertices inatingiveis: ";
-    if(unreachable.size() != 0) cout << unreachable.at(0);
-    for (int i = 1; i < unreachable.size(); i++ ) cout << " / " << unreachable.at(i) ;
+    if (!unreachable.empty()){
+        cout << "\nVertices inatingiveis: ";
+        for (int i : unreachable) cout << " / " << i ;
+    }
+
 }
 
 /**
