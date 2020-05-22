@@ -643,19 +643,34 @@ int Application::findPath2(int orig, vector<int> dests) {
 //       2ª Versão
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
-
-int Application::getClosestClientPath(int orig, vector<int> &dests, vector<int> &path){
-    vector<double> distances;
-    vector<vector<int>> paths;
+/**
+ * O objetivo desta função é determinar qual o cliente
+ * que se encontra mias próximo de orig.
+ * @param orig id do vértice inicial.
+ * @param dests destinos alcançáveis pretendidos pelo utilizador.
+ * @param path caminho que vai ser colocado posteriormente para atingir o vértice mais perto.
+ * @return retorna o id do cliente mais próximo.
+ */
+int Application::getClosestClientPath(int orig, vector<int> &dests, vector<int> &path, double &dist){
+    vector<double> distances; //guarda as distancias de cada percurso.
+    vector<vector<int>> paths;//guarda os caminhos desde orig ate a cada um dos destinos.
     int indice = -1;
     double minDist = INF;
 
+    /*
+     * Dos destinos desejados pelo utilizadr faz o caminho de
+     * cada um adiciona ao vetor que guarda os caminhos paths
+     * e adiciona a outro as distancias de cada percurso.
+     */
     for (int dest : dests){
         path = checkSinglePath(dest);
         paths.push_back(path);
         distances.push_back(calculateDistAccordingToPath(path));
     }
 
+    /*
+     * Vai procurar o indice do caminho mais curto.
+     */
     for (int i = 0; i < distances.size(); i++){
         if (distances.at(i) < minDist){
             indice = i;
@@ -663,74 +678,100 @@ int Application::getClosestClientPath(int orig, vector<int> &dests, vector<int> 
         }
     }
 
-    int id = dests.at(indice);
-    dests.erase(dests.begin() + indice);
-    path = paths.at(indice);
+    int id = dests.at(indice);              //id do cliente mais próximo de orig.
+    dests.erase(dests.begin() + indice);    //apaga do vetor dos destinos que queremos alcançar uma vez que ja alcançámos.
+    path = paths.at(indice);                //caminho até ao vértice mais próximo.
+    dist = distances.at(indice);
 
     return id;
 }
 
+/**
+ * De um conjunto de destinos desejados ve quais os atingiveis apartir do vértice orig.
+ * @param orig id do vértice inicial.
+ * @param dests destinos que se pretende alcançar.
+ * @param unreachable serve para colocar os vértices que não conseguimos alcançar.
+ */
+void Application::checkReachableVertices(int orig, vector<int> &dests, vector<int> &unreachable){
+    for (auto it = dests.begin(); it != dests.end(); it++) {
+        if (!graph->canReach1(orig, (*it))) {   //verifica se o vértice (*it) é alcançável a partir de orig.
+            unreachable.push_back((*it)); //vetices nao alcancaevis.
+            it = dests.erase(it); //apagar o cliente não alcançável.
+            it--;
+        }
+    }
+}
+
+/**
+ * Tenta encontrar o caminho minimo através de um algoritmo greedy, conhecido como
+ * "Nearest Neighbour" em que tenta ter uma boa aproximação do caminho mínimo.
+ * À medida que vamos avançando vamos descobrir o vértice mais próximo se por ventura com
+ * a nova decisão de adicionar o vértice mais próximo depois não conseguimos alcançar
+ * algum vértice eles são adicionados a um vetor para depois no final dar a informação ao utilizador
+ * que não foram atingiveis aqueles vértices. Pois neste algoritmo tentamos sempre fazer o caminho mínimo.
+ * @param orig id do vértice inicial.
+ * @param dests destinos que o utilizaor quer que alcanssemos.
+ */
 void Application::findPath21(int orig, vector<int> dests) {
 
-    vector<int> unreachable, path;
-    int inicial_cap = dests.size();
-    double totalDist = 0;
-    vector<int> finalPath;
-    int primeiro = true;
+    vector<int> unreachable, path; //unreachable -> nao alcancaveis; path -> a cada iteracao o caminho a percorrer.
+    int inicial_cap = dests.size(); //capacidade que o esfeta tem de ter para levar todas estas encomendas.
+    double totalDist = 0, dist;  //totalDist -> distância que o estfeta tem de percorrer, dist -> distância a cada iteração em cada percurso.
+    vector<int> finalPath; //caminho que o estafetas terá de percorrer.
+    int primeiro = true; //variavel usada apenas para identificar que foi a primeira iteração
+                         //que nos indica que temos de adicionar o vértice inicial.
 
     do {
 
-        /*
-         * Para cada novo vertice origem efetua a verificação
-         * se todos os vértices são alcançáveis.
-         */
-        for (auto it = dests.begin(); it != dests.end(); it++) {
-            if (!graph->canReach1(orig, (*it))) {
-                unreachable.push_back((*it)); //vetices nao alcancaevis.
-                it = dests.erase(it); //apagar o cliente não alcançável.
-                it--;
-            }
-        }
+        //retira os vértices não alcançáveis a partir de orig.
+        checkReachableVertices(orig, dests, unreachable);
 
-        if (dests.size() == 0) break;
+        if (dests.size() == 0) break; //se não tem mais caminho para percorrer.
 
-        graph->dijkstraShortestPath(Vertice(orig));
-        orig = getClosestClientPath(orig, dests, path);
+        graph->dijkstraShortestPath(Vertice(orig));             //computa o percurso.
+        orig = getClosestClientPath(orig, dests, path, dist);   //obtém o id, e o caminho que se tem de percorrer para o cliente mais próximo.
 
-        totalDist += calculateDistAccordingToPath(path);
+        totalDist += dist;        //adiciona a distância do percuro path.
 
-        if(primeiro){
+        if(primeiro){ //se for a primeira iteração adiciona o ponto inicial de todo o percurso ao final path.
             finalPath.push_back(path.at(0));
             primeiro = false;
         }
         for (int i = 1; i < path.size(); i++) finalPath.push_back(path.at(i)); //adiciona o caminho.
 
-    }while(dests.size() != 0);
+    } while(dests.size() != 0); //enquanto houver destinos por percorrer.
 
+    /*
+     * Imprime a informação.
+     */
     if(finalPath.size() != 0) {
         Estafeta *estafeta = selectEstafeta(totalDist, inicial_cap - unreachable.size());
         double time = totalDist / estafeta->getVelocidadeMedia();
+        cout << "Capacidade Necessaria: " << inicial_cap - unreachable.size();
 
-        if (estafeta == NULL) cout << "Nao ha Estafetas disponiveis que consigam transportar as encomendas necessarias!";
+        if (estafeta == NULL)
+            cout << "\nNao ha estafetas disponiveis que consigam transportar as encomendas necessarias!";
         else {
             double time = totalDist / estafeta->getVelocidadeMedia();
             estafeta->setDisponibilidade(false);
             estafeta->setTime(time);
             estafeta->addTrajeto(finalPath);
 
-            cout << "O estafeta selecionado tem o ID: " << estafeta->getId();
-            cout << "\nO tempo estimado de entrega e de: " << estafeta->getTime() << " segundos numa distancia de: "
-                 << totalDist << "!";
+            cout << "\nEstafeta(ID): " << estafeta->getId();
+            cout << "\nTempo de entrega(segundos): " << estafeta->getTime()
+                 << "\nDistancia: " << totalDist;
         }
-        cout << "\nVertices inatingiveis: ";
-        if(unreachable.size() != 0) cout << unreachable.at(0);
-        for (int i = 1; i < unreachable.size(); i++ ) cout << " -> " << unreachable.at(i) ;
-        cout << "\nCaminho: \n\t" << finalPath.at(0);
-        for (int i = 1; i < finalPath.size(); i++) cout << " -> " << finalPath.at(i);
-        cout << endl << endl;
     }
     else
-        cout << "Nao foi possivel estabelecer caminho algum, uma vez que nao e possivel atingir nenhum dos destinos a partir desse restaurante!\n\n";
+        cout << "Nao foi selecionado qualquer estafeta uma vez que nao ha percurso!\n";
+
+    cout << "\nVertices inatingiveis: ";
+    if(unreachable.size() != 0) cout << unreachable.at(0);
+    for (int i = 1; i < unreachable.size(); i++ ) cout << " / " << unreachable.at(i) ;
+    cout << "\nCaminho: \n\t";
+    if(finalPath.size() != 0) cout << finalPath.at(0);
+    for (int i = 1; i < finalPath.size(); i++) cout << " -> " << finalPath.at(i);
+    cout << endl << endl;
 }
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -790,20 +831,24 @@ void Application::findPath3(int orig, vector<int> dests) {
         }
         capacidade=0;
         graph->dijkstraShortestPath(Vertice(orig));
+        //pode desaparecer
         closest_client = getClosestClientId(orig, destsCopy);
+        //pode desaparecer
         path = checkSinglePath(closest_client);
         dist = calculateDistAccordingToPath(path);
         totalDist+=dist;
-        for (int x: path){
-            finalPath.push_back(x);
-        }
+        for (int x: path) finalPath.push_back(x);
 
+        /*
+         * Pode desaparecer.
+         */
         for(auto it = destsCopy.begin(); it != destsCopy.end(); it++ ){
             if ((*it)== closest_client){
                 destsCopy.erase(it);
                 break;
             }
         }
+
         pedidosAAtribuir--;
         capacidade++;
 
