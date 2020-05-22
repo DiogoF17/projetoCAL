@@ -44,8 +44,10 @@ class Application {
 
     vector<int> checkSinglePath(int dest);
 
-    int getClosestClientPath(int orig, vector<int> &dests, vector<int> &path, double &dist);
+    int getClosestClientPath(vector<int> &dests, vector<int> &path, double &dist);
     void checkReachableVertices(int orig, vector<int> &dests, vector<int> &unreachable);
+    int getClosestClientId(int orig, vector<int> dests,vector<int> &path,double &dist);
+
 public:
     Application();
 
@@ -64,11 +66,8 @@ public:
     void decrTimeOfEstafetas();
     int getEstafetasSize() const;
 
-    int getClosestClientId(int orig, vector<int> dests);
-
     void findPath(int orig, vector<int> dests);
-    int findPath2(int orig, vector<int> dests);
-    void findPath3(int orig, vector<int> dests);
+    void findPath2(int orig, vector<int> dests);
 
 };
 

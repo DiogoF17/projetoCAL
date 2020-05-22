@@ -156,8 +156,8 @@ void visualizacaoTrajetosEstafetas(Application *application){
  * Menu de +1 enc -> +1 est.
  * @param application aplicação.
  */
-void entregaVariasEncomandasVariasEstafeta(Application * application){
-    cout << "\n#########################################\n"
+void entregaVariasEncomendasVariasEstafeta(Application * application){
+    cout << "#########################################\n"
          << "   MENU DE PLANEAMENTO +1 ENC -> +1 EST "
          << "\n#########################################\n";
 
@@ -210,7 +210,7 @@ void entregaVariasEncomandasVariasEstafeta(Application * application){
     cout << endl << endl;
 
     if (clientesSelecionados.size() == 1) application->findPath(restaurantes.at(optionRestaurante-1), clientesSelecionados);
-    else application->findPath3(restaurantes.at(optionRestaurante-1), clientesSelecionados);
+    else application->findPath2(restaurantes.at(optionRestaurante-1), clientesSelecionados);
 }
 
 /**
@@ -345,7 +345,7 @@ void planeamentoRota(Application *application){
                 entregaVariasEncomendasUmEstafeta(application);
                 break;
             case 3:
-                entregaVariasEncomandasVariasEstafeta(application);
+                entregaVariasEncomendasVariasEstafeta(application);
                 break;
             case 4:
                 return;
