@@ -62,7 +62,8 @@ public:
     int getEstafetasSize() const;
 
     int getClosestClientId(int orig, vector<int> dests);
-    int getClosestClientPath(int orig, vector<int> &dests, vector<int> &path);
+    int getClosestClientPath(int orig, vector<int> &dests, vector<int> &path, double &dist);
+    void checkReachableVertices(int orig, vector<int> &dests, vector<int> &unreachable);
 
     void findPath1(int orig, int dest);
     int findPath2(int orig, vector<int> dests);
