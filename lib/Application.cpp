@@ -696,32 +696,30 @@ void Application::findPath(int orig, vector<int> dests) {
      */
     if(finalPath.size() != 0) {
         Estafeta *estafeta = selectEstafeta(totalDist, inicial_cap - unreachable.size());
-        double time = totalDist / estafeta->getVelocidadeMedia();
-        cout << "Capacidade Necessaria: " << inicial_cap - unreachable.size();
 
         if (estafeta == NULL)
-            cout << "\nNao ha estafetas disponiveis que consigam transportar as encomendas necessarias!";
+            cout << "Nao ha estafetas disponiveis para tal encomenda!\n";
         else {
             double time = totalDist / estafeta->getVelocidadeMedia();
             estafeta->setDisponibilidade(false);
             estafeta->setTime(time);
             estafeta->addTrajeto(finalPath);
 
-            cout << "\nEstafeta(ID): " << estafeta->getId();
+            cout << "Estafeta(ID): " << estafeta->getId();
+            cout << "\nCapacidade Necessaria: " << inicial_cap - unreachable.size();
             cout << "\nTempo de entrega(segundos): " << estafeta->getTime()
                  << "\nDistancia: " << totalDist;
+            cout << "\nVertices inatingiveis: ";
+            if(unreachable.size() != 0) cout << unreachable.at(0);
+            for (int i = 1; i < unreachable.size(); i++ ) cout << " / " << unreachable.at(i) ;
+            cout << "\nCaminho: \n\t";
+            if(finalPath.size() != 0) cout << finalPath.at(0);
+            for (int i = 1; i < finalPath.size(); i++) cout << " -> " << finalPath.at(i);
+            cout << endl << endl;
         }
     }
     else
-        cout << "Nao foi selecionado qualquer estafeta uma vez que nao ha percurso!\n";
-
-    cout << "\nVertices inatingiveis: ";
-    if(unreachable.size() != 0) cout << unreachable.at(0);
-    for (int i = 1; i < unreachable.size(); i++ ) cout << " / " << unreachable.at(i) ;
-    cout << "\nCaminho: \n\t";
-    if(finalPath.size() != 0) cout << finalPath.at(0);
-    for (int i = 1; i < finalPath.size(); i++) cout << " -> " << finalPath.at(i);
-    cout << endl << endl;
+        cout << "Caminho impossivel de realizar!\nNenhum dos vertices e atingivel!\n";
 }
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
