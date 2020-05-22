@@ -461,56 +461,6 @@ void Application::visualizacaoRestaurantes() const {
 }
 
 //-------------------FUNCOES RELACIONADAS COM OS CAMINHOS--------------
-
-/**
- * Esta funcao tem o objetivo de determinar qual o melhor percurso(percurso minimo)
- * entre o vertice orig(restaurante) e o dest(cliente).
- * @param orig id do vertice inicial(restaurante)
- * @param dest id do vertice final(cliente)
- */
-void Application::findPath1(int orig, int dest) {
-
-    //tendo em conta os m maps gerados para cada vertice na leitura
-    // com os vertices que conseguimos alcancar a partir de orig
-    //verifica se conseguimos atingir dest a partir de orig
-    if(!graph->canReach1(orig, dest)){
-        cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dest << "!\n\n";
-        return;
-    }
-
-    //computa o percurso
-    graph->dijkstraShortestPath(Vertice(orig));
-    //da-nos o percurso em formato dos ids dos vertices
-    vector<int> path = checkSinglePath(dest);
-    //calcula a distancia a percorrer no caminho
-    double dist = calculateDistAccordingToPath(path);
-    //faz a selecao do estafeta para o percurso
-    Estafeta* estafeta = selectEstafeta(dist,1);
-    if(estafeta == NULL){
-        cout << "Nao ha Estafetas disponiveis!\n\n";
-        return;
-    }
-
-    //Faz as alteracoes necesarias ao estfeta
-    estafeta->setDisponibilidade(false);    //coloca-o indisponivel
-    estafeta->addTrajeto(path);                         //adiciona o trajeto
-    double time = dist / estafeta->getVelocidadeMedia();//calcula o tempo que demora a efetuar a entrega
-    estafeta->setTime(time);                            //coloca o tempo que falta ate voltar a ficar disponivel
-
-
-    /*
-     * Apresenta a informacao ao utilizador.
-     */
-    cout << "O estafeta selecionado tem o ID: " << estafeta->getId()
-         << "\nO trajeto que tera de fazer e o seguinte: "
-         << "\n\t" << path.at(0);
-    for(int i = 1; i < path.size(); i++)
-        cout << " -> " << path.at(i);
-
-    cout << "\nO tempo estimado de entrega e de: " << time << " segundos numa distancia de: " << dist << "!\n\n";
-
-}
-
 /**
  * Function to get the id of the client that's closest to the restaurant
  * @param orig -> id of the restaurant
@@ -712,7 +662,7 @@ void Application::checkReachableVertices(int orig, vector<int> &dests, vector<in
  * @param orig id do vértice inicial.
  * @param dests destinos que o utilizaor quer que alcanssemos.
  */
-void Application::findPath21(int orig, vector<int> dests) {
+void Application::findPath(int orig, vector<int> dests) {
 
     vector<int> unreachable, path; //unreachable -> nao alcancaveis; path -> a cada iteracao o caminho a percorrer.
     int inicial_cap = dests.size(); //capacidade que o esfeta tem de ter para levar todas estas encomendas.
@@ -781,9 +731,9 @@ boolean ordemCrescenteCapacidade( Estafeta* e1,Estafeta* e2){
 }
 
 void Application::findPath3(int orig, vector<int> dests) {
-    /*if(findPath2(orig,dests)!=-3){
+    if(findPath2(orig,dests)!=-3){
         return;
-    }*/
+    }
 
     typename vector<int>::iterator it= dests.begin();
     for( it ;it != dests.end(); it++){
