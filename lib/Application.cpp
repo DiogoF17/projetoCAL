@@ -23,7 +23,7 @@ Application::Application() {
  * @return distância entre os dois vértices.
  */
 double Application::calculateDistConsecVertices(Vertice orig, Vertice dest) const {
-    int x1 = orig.getX(), x2 = dest.getY();
+    int x1 = orig.getX(), x2 = dest.getX();
     int y1 = orig.getY(), y2 = dest.getY();
 
     return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
@@ -715,7 +715,8 @@ void Application::findPath21(int orig, vector<int> dests) {
             cout << "\nO tempo estimado de entrega e de: " << estafeta->getTime() << " segundos numa distancia de: "
                  << totalDist << "!";
         }
-        cout << "\nVertices inatingiveis: " << unreachable.at(0);
+        cout << "\nVertices inatingiveis: ";
+        if(unreachable.size() != 0) cout << unreachable.at(0);
         for (int i = 1; i < unreachable.size(); i++ ) cout << " -> " << unreachable.at(i) ;
         cout << "\nCaminho: \n\t" << finalPath.at(0);
         for (int i = 1; i < finalPath.size(); i++) cout << " -> " << finalPath.at(i);
