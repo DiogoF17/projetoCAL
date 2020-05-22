@@ -4,7 +4,7 @@
 
 #include <fstream>
 #include <iomanip>
-
+#include <algorithm>
 #include "Application.h"
 
 /**
@@ -101,7 +101,7 @@ void Application::buildGraphViewer() {
  * Le o mapa que o utilizador pretende carregar.
  * @param map mapa que o utilizador quer adicionar.
  */
-void Application::carregarNovoMapa(string map){
+void Application::carregarNovoMapa(string map) {
     graph->clearGraph();
 
     cout << "\nCarregando Novo Mapa " << map << "...\n\n";
@@ -113,7 +113,7 @@ void Application::carregarNovoMapa(string map){
     ifstream entrada;
     entrada.open(fileName);
 
-    if(!entrada.is_open()){
+    if (!entrada.is_open()) {
         cout << "Erro na Abertura do Ficheiro!\n\n";
         return;
     }
@@ -125,7 +125,7 @@ void Application::carregarNovoMapa(string map){
 
     //le os vertices
     getline(entrada, aux);
-    while(getline(entrada, aux, '(')){
+    while (getline(entrada, aux, '(')) {
         getline(entrada, aux, ',');
         int id = stoi(aux);
 
@@ -148,7 +148,7 @@ void Application::carregarNovoMapa(string map){
 
     entrada.open(fileName);
 
-    if(!entrada.is_open()){
+    if (!entrada.is_open()) {
         cout << "Erro na Abertura do Ficheiro!\n\n";
         return;
     }
@@ -156,7 +156,7 @@ void Application::carregarNovoMapa(string map){
     cout << "Lendo Restaurantes...\n";
 
     //le os restaurantes atualizando os vertices com tipo respetivo
-    while(getline(entrada, aux)){
+    while (getline(entrada, aux)) {
         int id = stoi(aux);
 
         Vertex<Vertice> *vertice = graph->findVertex(Vertice(id));
@@ -174,7 +174,7 @@ void Application::carregarNovoMapa(string map){
 
     entrada.open(fileName);
 
-    if(!entrada.is_open()){
+    if (!entrada.is_open()) {
         cout << "Erro na Abertura do Ficheiro!\n\n";
         return;
     }
@@ -182,7 +182,7 @@ void Application::carregarNovoMapa(string map){
     cout << "Lendo Clientes...\n";
 
     //le os clientes atualizando os vertices com tipo respetivo
-    while(getline(entrada, aux)){
+    while (getline(entrada, aux)) {
         int id = stoi(aux);
 
         Vertex<Vertice> *vertice = graph->findVertex(Vertice(id));
@@ -200,7 +200,7 @@ void Application::carregarNovoMapa(string map){
 
     entrada.open(fileName);
 
-    if(!entrada.is_open()){
+    if (!entrada.is_open()) {
         cout << "Erro na Abertura do Ficheiro!\n\n";
         return;
     }
@@ -209,7 +209,7 @@ void Application::carregarNovoMapa(string map){
 
     //le as arestas
     getline(entrada, aux);
-    while(getline(entrada, aux, '(')){
+    while (getline(entrada, aux, '(')) {
         getline(entrada, aux, ',');
         int id1 = stoi(aux);
 
@@ -219,7 +219,7 @@ void Application::carregarNovoMapa(string map){
         Vertex<Vertice> *orig = graph->findVertex(Vertice(id1));
         Vertex<Vertice> *dest = graph->findVertex(Vertice(id2));
 
-        if(orig == NULL || dest == NULL)
+        if (orig == NULL || dest == NULL)
             continue;
 
         double weight = calculateDistConsecVertices(*(orig->getInfo()), *(dest->getInfo()));
@@ -467,131 +467,15 @@ void Application::visualizacaoRestaurantes() const {
  * @param dests -> vector of ids of the clients
  * @return the id of the closest client. -1 if error
  */
-int Application::getClosestClientId(int orig, vector<int> dests){
-    typename vector<int>::iterator it= dests.begin();
-    for( it ;it != dests.end(); it++){
+int Application::getClosestClientId(int orig, vector<int> dests,vector<int> &path,double &dist){
+    for(auto it=dests.begin() ;it != dests.end(); it++){
         if(!graph->canReach1(orig, (*it))){
-            dests.erase(it);
+            it = dests.erase(it);
             it--;
         }
     }
-    if (dests.empty()) return -1;
-    if (dests.size() == 1) return dests[0];
-    vector<double> distances;
-    //graph->dijkstraShortestPath(Vertice(orig));
-    vector<int> path;
-    double dist;
-    for (int dest : dests){
-        path = checkSinglePath(dest);
-        distances.push_back(calculateDistAccordingToPath(path));
-        //distances.push_back(path.size());
-    }
-    int position_minimum = -1;
-    double minimum =INF;
-    for (int i = 0 ; i < distances.size(); i++){
-        if (distances[i] < minimum){
-            position_minimum = i;
-            minimum = distances[i];
-        }
-    }
-    return dests[position_minimum];
+    return getClosestClientPath(orig,dests,path,dist);
 }
-
-int Application::findPath2(int orig, vector<int> dests) {
-    if (dests.empty()){
-        cout << "Nao foi escolhido nenhum cliente!\n";
-        return -1;
-    }
-    double totalDist = 0;
-    //double totalTime = 0;
-    graph->dijkstraShortestPath(Vertice(orig));
-    int closest_client = getClosestClientId(orig, dests);
-    //cout << dests.size() << endl;
-    //cout << "The closest client has id " << closest_client << endl;
-    //remove the processed client from the destinations
-    /*
-     * Passar para funcao.
-     */
-    for(auto it = dests.begin(); it != dests.end(); it++ ){
-        if ((*it)== closest_client){
-            dests.erase(it);
-            break;
-        }
-    }
-
-    //Ignore this
-    /*vector<int> path = checkSinglePath(dests[dests.size()-1]);
-    Get estafeta that can go that far
-    double dist = calculateDistAccordingToPath(path);*/
-
-    vector<int> finalPath;
-
-    //==============================================================
-    //Get the path from the restaurant to the first client
-    if(!graph->canReach1(orig, closest_client)){
-        cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << dests.at(0) << "!\n\n";
-        return -2;
-    }
-
-    graph->dijkstraShortestPath(Vertice(orig));
-    vector<int> path;
-    path = checkSinglePath(closest_client);
-    double dist;
-
-    dist = calculateDistAccordingToPath(path);
-    totalDist+=dist;
-
-    for (int x: path) finalPath.push_back(x);
-
-    while (!dests.empty()){
-        /*
-         * Adicionar canReach.
-         */
-        //the current client becomes the origin for the next client to have a delivery
-        graph->dijkstraShortestPath(Vertice(closest_client));
-        closest_client = getClosestClientId(closest_client, dests);
-        for (auto it = dests.begin(); it != dests.end(); it++){
-            if ((*it) == closest_client){
-                dests.erase(it);
-                break;
-            }
-        }
-        path = checkSinglePath(closest_client);
-        dist = calculateDistAccordingToPath(path);
-        totalDist+=dist;
-
-        for (int m = 1; m < path.size(); m++){
-            finalPath.push_back(path[m]);
-        }
-    }
-
-    Estafeta* estafeta = selectEstafeta(totalDist, dests.size()+1);
-    if(estafeta == NULL){
-        cout << "Nao ha Estafetas disponiveis que consigam transportar as encomendas necessarias!\n\n";
-        return -3;
-    }
-    estafeta->setDisponibilidade(false);
-
-    double time = totalDist / estafeta->getVelocidadeMedia();
-    estafeta->setTime(time);
-
-    cout << "O estafeta selecionado tem o ID: " << estafeta->getId()
-         << "\nO trajeto que tera de fazer e o seguinte: "
-         << "\n\t" << finalPath.at(0);
-    for(int i = 1; i < finalPath.size(); i++)
-        cout << " -> " << finalPath.at(i);
-    cout << endl;
-
-    estafeta->addTrajeto(finalPath);
-
-    cout << "\nO tempo estimado de entrega e de: " << estafeta->getTime() << " segundos numa distancia de: " << totalDist << "!\n\n";
-
-   return 0;
-}
-
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-//       2ª Versão
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 /**
  * O objetivo desta função é determinar qual o cliente
@@ -724,7 +608,6 @@ void Application::findPath(int orig, vector<int> dests) {
     cout << endl << endl;
 }
 
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 /**
  * função utilizada para ordenar um vector de estafetas por ordem crescente de capacidade
  * @param e1
@@ -740,38 +623,23 @@ boolean ordemCrescenteCapacidade(Estafeta* e1,Estafeta* e2){
  * @param orig local do restaurante selecionado
  * @param dests destinos das encomendas
  */
-void Application::findPath3(int orig, vector<int> dests) {
-    if(findPath2(orig,dests)!=-3){
-        return;
-    }
-
-    ///Verifica se é possivel chegar do restaurande a cada um dos destinos
-    ///Caso não seja possivel é retirado do vector e escrito no ecrã que é inacessivel
-    for(auto it= dests.begin() ;it != dests.end(); it++){
-        if(!graph->canReach1(orig, (*it))){
-            cout << "Nao e possivel estabelecer um caminho entre esses dois pontos: " << orig << " e " << (*it) << "!\n\n";
-            it = dests.erase(it);
-            it--;
-        }
-    }
+void Application::findPath2(int orig, vector<int> dests) {
 
     double totalDist=0; /// distância total do trajeto que o estafeta precisa de percorrer
     double time = 0; /// tempo que o estafeta irá demorar a percorrer todo o trajeto
-    /**
-     *  numero de pedidos que faltam processar
-     *  é igual a dests.size()-1 porque se não foi possivel fazer todas as encomendas com apenas 1 estafeta
-     *  quer dizer que ou não há estafetas com capacidade >= dests.size()
-     *  ou não é possivel entregar todas a encomendas de uma vez só
-     */
-    int pedidosAAtribuir=dests.size()-1;
+    int pedidosAAtribuir=dests.size(); /// numero de pedidos a entregar
     int capacidade; /// guarda a capacidade (numero de encomendas) que será transportada pelo estafeta
     double dist; /// guarda a distância a percorrer até um dos destinos
     int closest_client; /// cliente mais próximo do local em processamento
     vector<int> path; /// guarda o caminho a percorrer até um dos destinos
     vector<int> finalPath; /// caminho total que o estafeta precisa de percorrer
     vector<int> destsCopy = dests; /// copia de todos os destinos, vai funcionar como uma variavel auxiliar
+    vector<int> unreachable;
 
-    ///Ordena os estafetas por ordem crescente de capacidade
+    ///Verifica se é possivel chegar do restaurande a cada um dos destinos
+    ///Caso não seja possivel é retirado do vector e escrito no ecrã que é inacessivel
+    checkReachableVertices(orig,dests,unreachable);
+
     sort(this->estafetas.begin(),this->estafetas.end(),ordemCrescenteCapacidade);
 
     while(!destsCopy.empty()){
@@ -781,17 +649,12 @@ void Application::findPath3(int orig, vector<int> dests) {
         }
         capacidade=0;
         graph->dijkstraShortestPath(Vertice(orig));
-        //pode desaparecer
-        closest_client = getClosestClientId(orig, destsCopy);
-        //pode desaparecer
-        path = checkSinglePath(closest_client);
-        dist = calculateDistAccordingToPath(path);
+        /// obtem o destino mais próximo da orig (restaurante)
+        closest_client = getClosestClientId(orig, destsCopy,path,dist);
         totalDist+=dist;
         for (int x: path) finalPath.push_back(x);
 
-        /*
-         * Pode desaparecer.
-         */
+        /// elimina do vector copia de destinos o destino mais próximo da origem
         for(auto it = destsCopy.begin(); it != destsCopy.end(); it++ ){
             if ((*it)== closest_client){
                 destsCopy.erase(it);
@@ -804,17 +667,18 @@ void Application::findPath3(int orig, vector<int> dests) {
 
         while (pedidosAAtribuir){
             graph->dijkstraShortestPath(Vertice(closest_client));
-            if((closest_client = getClosestClientId(closest_client, destsCopy))==-1)
+            /// obtem o destino mais próximo do cliente em processamento
+            /// é retornado -1 se não existirem  clientes acessiveis
+            if((closest_client = getClosestClientId(closest_client, destsCopy,path,dist))==-1)
                 break;
+
+            /// elimina do vector copia de destinos o destino mais próximo do cliente em processamento
             for (auto it = destsCopy.begin(); it != destsCopy.end(); it++){
                 if ((*it) == closest_client){
                     destsCopy.erase(it);
                     break;
                 }
             }
-
-            path = checkSinglePath(closest_client);
-            dist = calculateDistAccordingToPath(path);
             totalDist+=dist;
             for (int m = 1; m < path.size(); m++){
                 finalPath.push_back(path[m]);
@@ -823,6 +687,8 @@ void Application::findPath3(int orig, vector<int> dests) {
             capacidade++;
         }
 
+        /// seleciona o melhor estafeta para a entrega tendo em conta a distancia total e a capacidade
+        /// é retornado null se não for encontrado nehnum
         Estafeta * estafeta1 = selectEstafeta(totalDist,capacidade);
 
         if(estafeta1 != nullptr){
@@ -848,6 +714,11 @@ void Application::findPath3(int orig, vector<int> dests) {
             totalDist=0;
         }
     }
+
+    /// Imprimir os destinos que não são alcançaveis
+    cout << "\nVertices inatingiveis: ";
+    if(unreachable.size() != 0) cout << unreachable.at(0);
+    for (int i = 1; i < unreachable.size(); i++ ) cout << " / " << unreachable.at(i) ;
 }
 
 /**
