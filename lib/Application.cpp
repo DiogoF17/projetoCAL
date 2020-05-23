@@ -476,7 +476,7 @@ int Application::getClosestClientId(int orig, vector<int> dests,vector<int> &pat
     }
     if (dests.empty())
         return -1;
-    return getClosestClientPath(orig,dests,path,dist);
+    return getClosestClientPath(dests,path,dist);
 }
 
 /**
@@ -487,7 +487,7 @@ int Application::getClosestClientId(int orig, vector<int> dests,vector<int> &pat
  * @param path caminho que vai ser colocado posteriormente para atingir o vértice mais perto.
  * @return retorna o id do cliente mais próximo.
  */
-int Application::getClosestClientPath(int orig, vector<int> &dests, vector<int> &path, double &dist){
+int Application::getClosestClientPath(vector<int> &dests, vector<int> &path, double &dist){
     vector<double> distances; //guarda as distancias de cada percurso.
     vector<vector<int>> paths;//guarda os caminhos desde orig ate a cada um dos destinos.
     int indice = -1;
@@ -552,7 +552,7 @@ void Application::findPath(int orig, vector<int> dests) {
 
     vector<int> unreachable, path; //unreachable -> nao alcancaveis; path -> a cada iteracao o caminho a percorrer.
     int inicial_cap = dests.size(); //capacidade que o esfeta tem de ter para levar todas estas encomendas.
-    double totalDist = 0, dist;  //totalDist -> distância que o estfeta tem de percorrer, dist -> distância a cada iteração em cada percurso.
+    double totalDist = 0, dist = 0;  //totalDist -> distância que o estfeta tem de percorrer, dist -> distância a cada iteração em cada percurso.
     vector<int> finalPath; //caminho que o estafetas terá de percorrer.
     int primeiro = true; //variavel usada apenas para identificar que foi a primeira iteração
                          //que nos indica que temos de adicionar o vértice inicial.
@@ -565,7 +565,7 @@ void Application::findPath(int orig, vector<int> dests) {
         if (dests.size() == 0) break; //se não tem mais caminho para percorrer.
 
         graph->dijkstraShortestPath(Vertice(orig));             //computa o percurso.
-        orig = getClosestClientPath(orig, dests, path, dist);   //obtém o id, e o caminho que se tem de percorrer para o cliente mais próximo.
+        orig = getClosestClientPath(dests, path, dist);   //obtém o id, e o caminho que se tem de percorrer para o cliente mais próximo.
 
         totalDist += dist;        //adiciona a distância do percuro path.
 
@@ -583,8 +583,7 @@ void Application::findPath(int orig, vector<int> dests) {
     if(finalPath.size() != 0) {
         Estafeta *estafeta = selectEstafeta(totalDist, inicial_cap - unreachable.size());
 
-        if (estafeta == NULL)
-            cout << "Nao ha estafetas disponiveis para tal encomenda!\n\n";
+        if (estafeta == NULL) cout << "Nao ha estafetas disponiveis para tal encomenda!\n\n";
         else {
             double time = totalDist / estafeta->getVelocidadeMedia();
             estafeta->setDisponibilidade(false);
@@ -604,8 +603,7 @@ void Application::findPath(int orig, vector<int> dests) {
             cout << endl << endl;
         }
     }
-    else
-        cout << "Caminho impossivel de realizar!\n\n";
+    else cout << "Caminho impossivel de realizar!\n\n";
 }
 
 /**

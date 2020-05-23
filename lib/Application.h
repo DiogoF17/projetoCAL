@@ -44,7 +44,7 @@ class Application {
 
     vector<int> checkSinglePath(int dest);
 
-    int getClosestClientPath(int orig, vector<int> &dests, vector<int> &path, double &dist);
+    int getClosestClientPath(vector<int> &dests, vector<int> &path, double &dist);
     void checkReachableVertices(int orig, vector<int> &dests, vector<int> &unreachable);
     int getClosestClientId(int orig, vector<int> dests,vector<int> &path,double &dist);
 
