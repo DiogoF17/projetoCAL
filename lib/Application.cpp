@@ -474,6 +474,8 @@ int Application::getClosestClientId(int orig, vector<int> dests,vector<int> &pat
             it--;
         }
     }
+    if (dests.empty())
+        return -1;
     return getClosestClientPath(orig,dests,path,dist);
 }
 
