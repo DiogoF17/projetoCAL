@@ -631,12 +631,14 @@ void Application::findPath2(int orig, vector<int> dests) {
     int closest_client; /// cliente mais próximo do local em processamento
     vector<int> path; /// guarda o caminho a percorrer até um dos destinos
     vector<int> finalPath; /// caminho total que o estafeta precisa de percorrer
-    vector<int> destsCopy = dests; /// copia de todos os destinos, vai funcionar como uma variavel auxiliar
+    vector<int> destsCopy; /// copia de todos os destinos, vai funcionar como uma variavel auxiliar
     vector<int> unreachable;
 
     ///Verifica se é possivel chegar do restaurande a cada um dos destinos
     ///Caso não seja possivel é retirado do vector e escrito no ecrã que é inacessivel
     checkReachableVertices(orig,dests,unreachable);
+
+    destsCopy = dests;
 
     sort(this->estafetas.begin(),this->estafetas.end(),ordemCrescenteCapacidade);
 
@@ -731,7 +733,9 @@ void Application::findPath2(int orig, vector<int> dests) {
     /// Imprimir os destinos que não são alcançaveis
     if (!unreachable.empty()){
         cout << "\nVertices inatingiveis: ";
-        for (int i : unreachable) cout << " / " << i ;
+        cout << unreachable.at(0);
+        for (int i = 1; i < unreachable.size(); i++ ) cout << " / " << unreachable.at(i) ;
+        cout << "\n\n";
     }
 
 }
